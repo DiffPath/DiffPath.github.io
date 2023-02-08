@@ -925,9 +925,9 @@
                   <div id='pbTable' style="display: none" class='left'>
                     <table class='padleft' style="width:425px">
                       <tr>
-                        <td style="width:50%" id="pbTableCountHeader"></td>
-                        <td style="width:17%"><b>Result</b></td>
-                        <td style="width:33%"><b>Reference Range</b></td>
+                        <th style="width:50%" id="pbTableCountHeader"></th>
+                        <th style="width:17%">Result</th>
+                        <th style="width:33%">Reference Range</th>
                       </tr>
                       <tr id="pbBlastsRow" style="display: none">
                         <td>Blasts</td>
@@ -998,9 +998,9 @@
                   <div id='aspTable' style="display: none" class='left'>
                     <table class='padleft' style="width:425px">
                       <tr>
-                        <td style="width:50%" id="aspTableCountHeader"></td>
-                        <td style="width:17%"><b>Result</b></td>
-                        <td style="width:33%"><b>Reference Range</b></td>
+                        <th style="width:50%" id="aspTableCountHeader"></th>
+                        <th style="width:17%"><b>Result</b></th>
+                        <th style="width:33%"><b>Reference Range</b></th>
                       </tr>
                       <tr>
                         <td>Blasts</td>
@@ -2197,7 +2197,7 @@
           } else {
             var desiredCount = $('#pbDCount').val()
           }
-          $('#pbTableCountHeader').html('<b>Peripheral blood (' + desiredCount + ' cells)</b>');
+          $('#pbTableCountHeader').html('Peripheral blood (' + desiredCount + ' cells)');
           pbCounter('pb', pbTypeList, pbDuplicateAlert);
         })
 
@@ -2482,7 +2482,7 @@
               $('#' + x + 'TableCountHeader').html('Peripheral blood (' + desiredCount + ' cells)');
               
             } else if (x == 'asp') {
-              $('#aspTableCountHeader').html('<b>Aspirate Smear (' + desiredCount + ' cells)</b>')
+              $('#aspTableCountHeader').html('Aspirate Smear (' + desiredCount + ' cells)')
               $('#aspMETable').html($('#meRatio').val());
             }
             
