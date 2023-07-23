@@ -979,9 +979,9 @@
                   <div id='pbTable' style="display: none" class='left'>
                     <table class='padleft' style="width:425px">
                       <tr>
-                        <th style="width:50%" id="pbTableCountHeader"></th>
-                        <th style="width:17%">Result</th>
-                        <th style="width:33%">Reference Range</th>
+                        <th id="pbTableCountHeader"></th>
+                        <th>Result</th>
+                        <th>Reference Range</th>
                       </tr>
                       <tr id="pbBlastsRow" style="display: none">
                         <td>Blasts</td>
@@ -1052,9 +1052,9 @@
                   <div id='aspTable' style="display: none" class='left'>
                     <table class='padleft' style="width:425px">
                       <tr>
-                        <th style="width:50%" id="aspTableCountHeader"></th>
-                        <th style="width:17%">Result</th>
-                        <th style="width:33%">Reference Range</th>
+                        <th id="aspTableCountHeader"></th>
+                        <th>Result</th>
+                        <th>Reference Range</th>
                       </tr>
                       <tr>
                         <td>Blasts</td>
@@ -2689,7 +2689,7 @@
 
             } else if (x == 'asp') {
               $('#aspTableCountHeader').html('Aspirate Smear (' + desiredCount + ' cells)')
-              $('#aspMETable').html($('#meRatio').val());
+              $('#aspMETable').html($('#meRatio').val()+":1");
               fillAsp();
             }
 
