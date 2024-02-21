@@ -1479,9 +1479,6 @@
               cbcFinal.push(cbcLines[i].split("\t"));
             }
             for (var i = 0; i < cbcFinal.length; i++) {
-              if (cbcFinal[i][0].includes("Manual Differential")) {
-                break;
-              }
               if (cbcFinal[i].includes("Component")) {
                 componentIndex = cbcFinal[i].indexOf("Component");
                 if (cbcFinal[i].indexOf("Value") != -1) {
