@@ -16,9 +16,9 @@
                 <i class="fas fa-bars titleIcon icon"></i>
             </div>
             <div>
-                    <div class="navItem" style="padding-top: 15px"><i class="fas fa-bone headerIcon"></i><b>Bone Marrow</b></div>
-                    <div class="navItem"><i class="fas fa-tint headerIcon"></i><b>Peripheral Blood</b></div>
-                    <div class="navItem"><a href="c:\Users\mikem\Documents\Diffpath\Counter\counter.html"><i class="fas fa-calculator headerIcon"></i><b>Cell Counter</b></a></div>
+                    <div class="navItem" style="padding-top: 15px"><a href="https://diffpath.github.io/pages/bonemarrow.html"><i class="fas fa-bone headerIcon"></i><b>Bone Marrow</b></a></div>
+                    <div class="navItem"><a href="https://diffpath.github.io/pages/peripheralblood.html"><i class="fas fa-tint headerIcon"></i><b>Peripheral Blood</b></a></div>
+                    <div class="navItem"><a href="https://diffpath.github.io/pages/counter.html"><i class="fas fa-calculator headerIcon"></i><b>Cell Counter</b></a></div>
             </div>
         </nav>  
         <div class="header"> 
@@ -192,6 +192,10 @@
                             <label><b>Count on touch preparation: </b>
                                 <input type="checkbox" id="tpCheck"></label>
                         </div>
+                        <div>
+                            <label><b>Include blasts in M:E ratio: </b>
+                                <input type="checkbox" id="blastCheck"></label>
+                        </div>
                
                     </div>
                 </div>
@@ -215,9 +219,19 @@
                                   <th style="width:17%">Result</th>
                                   <th style="width:33%">Reference Range</th>
                                 </tr>
+                                <tr id="pb_atypical_row" style="display: none">
+                                    <td style="width:50%">Atypical Cells</td>
+                                    <td style="width:17%" id="pbTable10"></td>
+                                    <td style="width:33%">0</td>
+                                </tr>
+                                <tr id="pb_other_row" style="display: none">
+                                    <td style="width:50%">Other Cells</td>
+                                    <td style="width:17%" id="pbTable11"></td>
+                                    <td style="width:33%">0</td>
+                                </tr>
                                 <tr id="pb_blasts_row" style="display: none">
                                   <td style="width:50%">Blasts</td>
-                                  <td style="width:17%" id="pbTable10"></td>
+                                  <td style="width:17%" id="pbTable0"></td>
                                   <td style="width:33%">0</td>
                                 </tr>
                                 <tr id="pb_promyelocytes_row" style="display: none">
@@ -260,9 +274,14 @@
                                   <td style="width:17%" id="pbTable8"></td>
                                   <td style="width:33%">0 - 2%</td>
                                 </tr>
+                                <tr id="pb_plasma_row" style="display: none">
+                                    <td style="width:50%">Plasma Cells</td>
+                                    <td style="width:17%" id="pbTable9"></td>
+                                    <td style="width:33%">0</td>
+                                </tr>
                                 <tr id="pb_nrbcs_row" style="display: none">
                                   <td style="width:50%">NRBCs/100 WBC</td>
-                                  <td style="width:17%" id="pbTable9"></td>
+                                  <td style="width:17%" id="pbTable12"></td>
                                   <td style="width:33%">0</td>
                                 </tr>
                             </table>
@@ -276,6 +295,16 @@
                                   <th style="width:50%" id="aspTableCountHeader">Aspirate Smear (500 cells)</td>
                                   <th style="width:17%">Result</td>
                                   <th style="width:33%">Reference Range</td>
+                                </tr>
+                                <tr id="pb_atypical_row" style="display: none">
+                                    <td style="width:50%">Atypical Cells</td>
+                                    <td style="width:17%" id="pbTable11"></td>
+                                    <td style="width:33%">0</td>
+                                </tr>
+                                <tr id="pb_other_row" style="display: none">
+                                    <td style="width:50%">Other Cells</td>
+                                    <td style="width:17%" id="pbTable12"></td>
+                                    <td style="width:33%">0</td>
                                 </tr>
                                 <tr>
                                   <td style="width:50%">Blasts</td>
@@ -354,8 +383,18 @@
             <div class="panel" id="helpPanel" style="display: none; margin-left: 5px">
                 <div class="panelBody">
                     <h3 style="margin-top: 0px">
-                        Help:
+                        Changelog:
                       </h3>
+                    <b>Version 0.2 Major update (6/24/2024)</b>
+                    <ul>
+                       <li>Created standalone differential counter</li>
+                       <li>Updated backend</li>
+                       <li>Updated user interface</li>
+                       <li>Added checkbox to change from aspirate smear to touch preparation</li>
+                       <li>Added checkbox to include blasts in M:E ratio calculation</li>
+                       <li>Added rounding calculation settings</li> 
+                    </ul>
+                    <b>Version 0.1 Initial version</b>
                 </div>
             </div>
             <div class="panel" id="infoPanel" style="display: none; margin-left: 5px">
