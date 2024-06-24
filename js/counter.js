@@ -28,17 +28,19 @@ $(document).ready(function() {
   };
 
   let pbCountTable = {
-    Blasts: {name: 'Blasts', character: 0, tableID: 10, cellType: 5, count: 0, percent: 0, hidden: true},
+    Blasts: {name: 'Blasts', character: 0, tableID: 0, cellType: 5, count: 0, percent: 0, hidden: true},
     Neuts: {name: 'Neuts', character: 4, tableID: 4, cellType: 1, count: 0, percent: 0, hidden: false},
-    NRBCs: {name: 'NRBCs', character: 1, tableID: 9, cellType: 4, count: 0, percent: 0, hidden: true},
+    NRBCs: {name: 'NRBCs', character: 1, tableID: 12, cellType: 4, count: 0, percent: 0, hidden: true},
     Lymphs: {name: 'Lymphs', character: 5, tableID: 5, cellType: 0, count: 0, percent: 0, hidden: false},
     Monos: {name: 'Monos', character: 6, tableID: 6, cellType: 2, count: 0, percent: 0, hidden: false},
     Metas: {name: 'Metas', character: 7, tableID: 3, cellType: 1, count: 0, percent: 0, hidden: true},
     Myelo: {name: 'Myelo', character: 8, tableID: 2, cellType: 1, count: 0, percent: 0, hidden: true},
     Promyelo: {name: 'Promyelo', character: -1, tableID: 1, cellType: 1, count: 0, percent: 0, hidden: true},
-    Plasma: {name: 'Plasma', character: 9, tableID: 0, cellType: 0, count: 0, percent: 0, hidden: true},
+    Plasma: {name: 'Plasma', character: 9, tableID: 9, cellType: 0, count: 0, percent: 0, hidden: true},
     Eos: {name: 'Eos', character: 2, tableID: 7, cellType: 2, count: 0, percent: 0, hidden: false},
     Basos: {name: 'Basos', character: 3, tableID: 8, cellType: 2, count: 0, percent: 0, hidden: false},
+    Atypical: {name: 'Atypical', character: -1, tableID: 10, cellType: 0, count: 0, percent: 0, hidden: true},
+    Other: {name: 'Other', character: -1, tableID: 11, cellType: 0, count: 0, percent: 0, hidden: true},
   }
 
   let aspCountTable = {
@@ -53,6 +55,8 @@ $(document).ready(function() {
     Plasma: {name: 'Plasma', character: 9, tableID: 0, cellType: 0, count: 0, percent: 0, hidden: false},
     Eos: {name: 'Eos', character: 2, tableID: 7, cellType: 2, count: 0, percent: 0, hidden: false},
     Basos: {name: 'Basos', character: 3, tableID: 8, cellType: 2, count: 0, percent: 0, hidden: false},
+    Atypical: {name: 'Atypical', character: -1, tableID: 11, cellType: 0, count: 0, percent: 0, hidden: true},
+    Other: {name: 'Other', character: -1, tableID: 12, cellType: 0, count: 0, percent: 0, hidden: true},
   }
 
   let objectType = {
@@ -134,8 +138,8 @@ $(document).ready(function() {
     let b = new Audio('https://diffpath.github.io/media/Count-Click-Med.mp3');
     let c = new Audio('https://diffpath.github.io/media/Count-Click-Low.mp3');
     let d = new Audio('https://diffpath.github.io/media/Count-Click-Blast.mp3');
-    let e = new Audio('https://diffpath.github.io/media/Count-Click-Low.mp3');
-    let f = new Audio('https://diffpath.github.io/media/Count-Click-Blast.mp3');
+    let e = new Audio('https://diffpath.github.io/media/Complete-Nice.mp3');
+    let f = new Audio('https://diffpath.github.io/media/100-Soothing.mp3');
     a.volume = 0;
     b.volume = 0;
     c.volume = 0;
@@ -224,7 +228,7 @@ $(document).ready(function() {
     if($("#countExtra").prop('checked') == false && ccount == dcount){
       return;
     }
-    let totalCount = cellCounter(table, id, dcount);
+    let totalCount = cellCounter(table, id);
     let countSum = 0, myeloidSum = 0, erythroidSum = 0, neutSum = 0;
     if (totalCount != 0) {
       $(typeObject[id]["tableDivID"]).show();
@@ -278,6 +282,9 @@ $(document).ready(function() {
     $(typeObject[id]["tcountID"]).val(countSum.toFixed(1)+"%")
     for (const i in table){
       if (id == "asp" && table[i]["percent"]>0){
+        if (table[i]['cellType'] == 5 && $('#blastCheck').prop('checked')){
+          myeloidSum += parseFloat(table[i]["percent"]);
+        }
         if (table[i]['cellType'] == 1 || table[i]['cellType'] == 2){
           myeloidSum += parseFloat(table[i]["percent"]);
           if (table[i]['cellType'] == 1){
@@ -319,10 +326,10 @@ $(document).ready(function() {
     if (id == "asp"){
       if (erythroidSum != 0){
         $('#meRatio').val((myeloidSum/erythroidSum).toFixed(1) + ":1");
-        $('#aspTable11').html((myeloidSum/erythroidSum).toFixed(1) + ":1");
+        $('#aspTable99').html((myeloidSum/erythroidSum).toFixed(1) + ":1");
       } else if (erythroidSum == 0){
         $('#meRatio').val("N/A");
-        $('#aspTable11').html("N/A");
+        $('#aspTable99').html("N/A");
       }
       $('#aspTable4').html((neutSum).toFixed(1) + "%");
     }
@@ -332,13 +339,19 @@ $(document).ready(function() {
 
   $('.pbCounterTemplate').change(function(){
     checkDuplicate(this.className,this.id,$(this).val());
+    countCells("pb");
   }
   );
 
   $('.aspCounterTemplate').change(function(){
     checkDuplicate(this.className,this.id,$(this).val());
+    countCells("asp");
   }
   );
+
+  $('#blastCheck').change(function(){
+    countCells("asp");
+  })
     
   function checkDuplicate(thisClass,id,val){
     let type = objectType[thisClass];
@@ -425,7 +438,7 @@ $(document).ready(function() {
       }
   })
 
-  function cellCounter(x, y, z) {
+  function cellCounter(x, y) {
     let totalCount = 0;
     for (var i in x){
       x[i]["count"] = ($(typeObject[y]["counterID"]).val().match(new RegExp(x[i]["character"], "g")) || []).length;
