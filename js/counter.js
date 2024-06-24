@@ -27,37 +27,8 @@ $(document).ready(function() {
     aspTab: 'aspPanel',    
   };
 
-  let pbCountTable = {
-    Blasts: {name: 'Blasts', character: 0, tableID: 0, cellType: 5, count: 0, percent: 0, hidden: true},
-    Neuts: {name: 'Neuts', character: 4, tableID: 4, cellType: 1, count: 0, percent: 0, hidden: false},
-    NRBCs: {name: 'NRBCs', character: 1, tableID: 12, cellType: 4, count: 0, percent: 0, hidden: true},
-    Lymphs: {name: 'Lymphs', character: 5, tableID: 5, cellType: 0, count: 0, percent: 0, hidden: false},
-    Monos: {name: 'Monos', character: 6, tableID: 6, cellType: 2, count: 0, percent: 0, hidden: false},
-    Metas: {name: 'Metas', character: 7, tableID: 3, cellType: 1, count: 0, percent: 0, hidden: true},
-    Myelo: {name: 'Myelo', character: 8, tableID: 2, cellType: 1, count: 0, percent: 0, hidden: true},
-    Promyelo: {name: 'Promyelo', character: -1, tableID: 1, cellType: 1, count: 0, percent: 0, hidden: true},
-    Plasma: {name: 'Plasma', character: 9, tableID: 9, cellType: 0, count: 0, percent: 0, hidden: true},
-    Eos: {name: 'Eos', character: 2, tableID: 7, cellType: 2, count: 0, percent: 0, hidden: false},
-    Basos: {name: 'Basos', character: 3, tableID: 8, cellType: 2, count: 0, percent: 0, hidden: false},
-    Atypical: {name: 'Atypical', character: -1, tableID: 10, cellType: 0, count: 0, percent: 0, hidden: true},
-    Other: {name: 'Other', character: -1, tableID: 11, cellType: 0, count: 0, percent: 0, hidden: true},
-  }
-
-  let aspCountTable = {
-    Blasts: {name: 'Blasts', character: 0, tableID: 10, cellType: 5, count: 0, percent: 0, hidden: false},
-    Neuts: {name: 'Neuts', character: 4, tableID: 4, cellType: 1, count: 0, percent: 0, hidden: false},
-    NRBCs: {name: 'NRBCs', character: 1, tableID: 9, cellType: 3, count: 0, percent: 0, hidden: false},
-    Lymphs: {name: 'Lymphs', character: 5, tableID: 5, cellType: 0, count: 0, percent: 0, hidden: false},
-    Monos: {name: 'Monos', character: 6, tableID: 6, cellType: 2, count: 0, percent: 0, hidden: false},
-    Metas: {name: 'Metas', character: 7, tableID: 3, cellType: 1, count: 0, percent: 0, hidden: false},
-    Promyelo: {name: 'Promyelo', character: -1, tableID: 1, cellType: 1, count: 0, percent: 0, hidden: true},
-    Myelo: {name: 'Myelo', character: 8, tableID: 2, cellType: 1, count: 0, percent: 0, hidden: false},
-    Plasma: {name: 'Plasma', character: 9, tableID: 0, cellType: 0, count: 0, percent: 0, hidden: false},
-    Eos: {name: 'Eos', character: 2, tableID: 7, cellType: 2, count: 0, percent: 0, hidden: false},
-    Basos: {name: 'Basos', character: 3, tableID: 8, cellType: 2, count: 0, percent: 0, hidden: false},
-    Atypical: {name: 'Atypical', character: -1, tableID: 11, cellType: 0, count: 0, percent: 0, hidden: true},
-    Other: {name: 'Other', character: -1, tableID: 12, cellType: 0, count: 0, percent: 0, hidden: true},
-  }
+  let pbCountTable = getSavedItems()[0];
+  let aspCountTable = getSavedItems()[1];
 
   let objectType = {
     pbCounter: 'pb',
@@ -71,27 +42,63 @@ $(document).ready(function() {
     'asp': {counterID: "#aspCounter", characterID: "#aspCount", tableID: "#aspTable", dcountID: "#aspDCount", ccountID: "#aspCCount", tcountID: "#aspTCount", tableDivID: "#asp_table_div", table: aspCountTable}
   }
 
+
   window.keypressed = {};
 
-  let counterSaveFile = JSON.parse(localStorage.getItem("counterSaveFile"));
-  if (counterSaveFile != null) {
-    if (counterSaveFile.settingArray != null){
-      for (let i = 0; i < counterSaveFile.settingArray.length; i++){
-        $("#" + counterSaveFile.settingArray[i][0]).val(counterSaveFile.settingArray[i][1])
-        }
+  function getSavedItems(){
+    let pbCountTable = {
+      Blasts: {name: 'Blasts', character: 0, tableID: 0, cellType: 5, count: 0, percent: 0, hidden: true},
+      Neuts: {name: 'Neuts', character: 4, tableID: 4, cellType: 1, count: 0, percent: 0, hidden: false},
+      NRBCs: {name: 'NRBCs', character: 1, tableID: 12, cellType: 4, count: 0, percent: 0, hidden: true},
+      Lymphs: {name: 'Lymphs', character: 5, tableID: 5, cellType: 0, count: 0, percent: 0, hidden: false},
+      Monos: {name: 'Monos', character: 6, tableID: 6, cellType: 2, count: 0, percent: 0, hidden: false},
+      Metas: {name: 'Metas', character: 7, tableID: 3, cellType: 1, count: 0, percent: 0, hidden: true},
+      Myelo: {name: 'Myelo', character: 8, tableID: 2, cellType: 1, count: 0, percent: 0, hidden: true},
+      Promyelo: {name: 'Promyelo', character: -1, tableID: 1, cellType: 1, count: 0, percent: 0, hidden: true},
+      Plasma: {name: 'Plasma', character: 9, tableID: 9, cellType: 0, count: 0, percent: 0, hidden: true},
+      Eos: {name: 'Eos', character: 2, tableID: 7, cellType: 2, count: 0, percent: 0, hidden: false},
+      Basos: {name: 'Basos', character: 3, tableID: 8, cellType: 2, count: 0, percent: 0, hidden: false},
+      Atypical: {name: 'Atypical', character: -1, tableID: 10, cellType: 0, count: 0, percent: 0, hidden: true},
+      Other: {name: 'Other', character: -1, tableID: 11, cellType: 0, count: 0, percent: 0, hidden: true},
     }
-    if (counterSaveFile.cpbCountTable != null){
-      pbCountTable = counterSaveFile.cpbCountTable;
-    }    
-    if (counterSaveFile.caspCountTable != null){
-      aspCountTable = counterSaveFile.caspCountTable;
-    } 
-    if (counterSaveFile.settingObject != null) {
-      $.each(counterSaveFile.settingObject,function(x,y){
-        $('#'+x).prop('checked',y);
-      });
-    }
-  };
+    let aspCountTable = {
+      Blasts: {name: 'Blasts', character: 0, tableID: 10, cellType: 5, count: 0, percent: 0, hidden: false},
+      Neuts: {name: 'Neuts', character: 4, tableID: 4, cellType: 1, count: 0, percent: 0, hidden: false},
+      NRBCs: {name: 'NRBCs', character: 1, tableID: 9, cellType: 3, count: 0, percent: 0, hidden: false},
+      Lymphs: {name: 'Lymphs', character: 5, tableID: 5, cellType: 0, count: 0, percent: 0, hidden: false},
+      Monos: {name: 'Monos', character: 6, tableID: 6, cellType: 2, count: 0, percent: 0, hidden: false},
+      Metas: {name: 'Metas', character: 7, tableID: 3, cellType: 1, count: 0, percent: 0, hidden: false},
+      Promyelo: {name: 'Promyelo', character: -1, tableID: 1, cellType: 1, count: 0, percent: 0, hidden: true},
+      Myelo: {name: 'Myelo', character: 8, tableID: 2, cellType: 1, count: 0, percent: 0, hidden: false},
+      Plasma: {name: 'Plasma', character: 9, tableID: 0, cellType: 0, count: 0, percent: 0, hidden: false},
+      Eos: {name: 'Eos', character: 2, tableID: 7, cellType: 2, count: 0, percent: 0, hidden: false},
+      Basos: {name: 'Basos', character: 3, tableID: 8, cellType: 2, count: 0, percent: 0, hidden: false},
+      Atypical: {name: 'Atypical', character: -1, tableID: 11, cellType: 0, count: 0, percent: 0, hidden: true},
+      Other: {name: 'Other', character: -1, tableID: 12, cellType: 0, count: 0, percent: 0, hidden: true},
+    };
+    let counterSaveFile = JSON.parse(localStorage.getItem("counterSaveFile"));
+    if (counterSaveFile != null) {
+      if (counterSaveFile.settingArray != null){
+        for (let i = 0; i < counterSaveFile.settingArray.length; i++){
+          $("#" + counterSaveFile.settingArray[i][0]).val(counterSaveFile.settingArray[i][1])
+          }
+      }
+      if (counterSaveFile.cpbCountTable != null){
+        pbCountTable = counterSaveFile.cpbCountTable;
+      }  
+      if (counterSaveFile.caspCountTable != undefined){
+        aspCountTable = counterSaveFile.caspCountTable;
+      } else {
+        
+      }
+      if (counterSaveFile.settingObject != null) {
+        $.each(counterSaveFile.settingObject,function(x,y){
+          $('#'+x).prop('checked',y);
+        });
+      }
+    };
+    return [pbCountTable,aspCountTable];
+  }
 
   fillCounterLabels();
   fillSelects();
@@ -255,7 +262,7 @@ $(document).ready(function() {
     }   
     $(typeObject[id]["ccountID"]).val(totalCount);
     if($("#roundHundred").prop('checked')){
-      if(countSum.toFixed(1) != 100 && ccount != dcount){
+      if(countSum.toFixed(1) != 100 && ccount != dcount && totalCount > 0){
         while (countSum.toFixed(1) != 100){
           let x;
           if (countSum.toFixed(1) < 100){
@@ -339,13 +346,11 @@ $(document).ready(function() {
 
   $('.pbCounterTemplate').change(function(){
     checkDuplicate(this.className,this.id,$(this).val());
-    countCells("pb");
   }
   );
 
   $('.aspCounterTemplate').change(function(){
     checkDuplicate(this.className,this.id,$(this).val());
-    countCells("asp");
   }
   );
 
@@ -362,11 +367,10 @@ $(document).ready(function() {
         $("#"+type+"Template"+idNum).css("background-color","white");
         if (table[val]["character"] != -1){
           $("#"+type+"Template"+this.character).val(" ");
-          $("#"+type+"Template"+this.character).css("background-color","red");
-          
+          $("#"+type+"Template"+this.character).css("background-color","rgb(255, 95, 95)");
         } else {
-          
-        }
+          countCells(type);
+        } 
         this.character = idNum;
       } else if (this.character == idNum){
         this.character = -1;
@@ -422,7 +426,7 @@ $(document).ready(function() {
         document.getElementById('copyDiv').removeChild(temp);
         if($('#copyAlert').is(":hidden")){
           $('#copyAlert').html('Text copied.');
-          $('#copyAlert').css("background-color", "#64ff5f")
+          $('#copyAlert').css("background-color", "rgb(100, 255, 95)")
           $('#copyAlert').show().animate({bottom: '20px'},700).animate({bottom: '20px'},1000).animate({bottom: '-5%'},1000,function(){
           $('#copyAlert').hide();
           });
@@ -430,7 +434,7 @@ $(document).ready(function() {
       } else {
         if($('#copyAlert').is(":hidden")){
           $('#copyAlert').html('No text to copy.');
-          $('#copyAlert').css("background-color", "#ff5f5f")
+          $('#copyAlert').css("background-color", "rgb(255, 95, 95)")
           $('#copyAlert').show().animate({bottom: '20px'},700).animate({bottom: '20px'},1000).animate({bottom: '-5%'},1000,function(){
           $('#copyAlert').hide();
           });
@@ -456,13 +460,13 @@ $(document).ready(function() {
     let errorDescriptor = "";
     let settingObject = {};
     $('.pbCounterTemplate').each(function(){
-      if ($(this).css("background-color") == "#ff5f5f"){
+      if ($(this).css("background-color") == "rgb(255, 95, 95)"){
         pbToggle = true;
         errorDescriptor = "peripheral blood layout.";
       }
     })
     $('.aspCounterTemplate').each(function(){
-      if ($(this).css("background-color") == "#ff5f5f"){
+      if ($(this).css("background-color") == "rgb(255, 95, 95)"){
         aspToggle = true;
         if (pbToggle){
           errorDescriptor = "peripheral blood and aspirate layouts.";
@@ -478,7 +482,7 @@ $(document).ready(function() {
     if (aspToggle || pbToggle){
       if($('#copyAlert').is(":hidden")){
         $('#copyAlert').html('Could not save. Incompatible '+ errorDescriptor);
-        $('#copyAlert').css("background-color", "#ff5f5f")
+        $('#copyAlert').css("background-color", "rgb(255, 95, 95)")
         $('#copyAlert').show().animate({bottom: '20px'},700).animate({bottom: '20px'},1000).animate({bottom: '-5%'},1000,function(){
         $('#copyAlert').hide();
         })
@@ -490,7 +494,7 @@ $(document).ready(function() {
       localStorage.setItem("counterSaveFile", JSON.stringify(saveFile));
       if($('#copyAlert').is(":hidden")){
         $('#copyAlert').html('Settings have been saved.');
-        $('#copyAlert').css("background-color", "#64ff5f")
+        $('#copyAlert').css("background-color", "rgb(100, 255, 95)")
         $('#copyAlert').show().animate({bottom: '20px'},700).animate({bottom: '20px'},1000).animate({bottom: '-5%'},1000,function(){
         $('#copyAlert').hide();
         })
