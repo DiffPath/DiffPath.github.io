@@ -2,10 +2,10 @@
 <html>
     <head>
         <title>Differential Counter</title>
-        <link rel="stylesheet" href="pathstyle.css">
+        <link rel="stylesheet" href="/css/counter.css">
         <script src="https://kit.fontawesome.com/f6f9c2cc49.js" crossorigin="anonymous"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-        <script src="counter.js"></script>
+        <script src="/js/counter.js"></script>
     </head>
     <body>
         <div id="copyDiv"></div> 
@@ -375,7 +375,7 @@
                             Settings:
                         </h3>
                         <div class="grid2">
-                            <div>
+                            <div class="gridTitle">
                                 <b>Peripheral blood layout</b>
                             </div>
                             <div>
@@ -422,11 +422,9 @@
                         </div>
                         <br>
                         <div class="grid2">
-                            <div></div>
-                            <div>
+                            <div class="gridTitle">
                                 <b>Aspirate layout</b>
                             </div>
-                            <div></div>
                             <div>
                                 <b>7.</b>
                                 <select class="aspCounterTemplate" id="aspTemplate7"></select>
@@ -473,21 +471,21 @@
                         <div>
                             <table class="settingsTable">
                                 <tr>
-                                    <td>Minimize rounding error when current count does not equal desired count</td>
+                                    <td style="font-size:11pt">Minimize rounding error when current count does not equal desired count</td>
                                     <td><label class="switch">
                                         <input type="checkbox" class="diffSetting" id="roundHundred" checked>
                                         <span class="slider round"></span>
                                       </label></td>
                                 </tr>
                                 <tr>
-                                    <td>Round counts based on desired count total</td>
+                                    <td style="font-size:11pt">Round counts based on desired count total</td>
                                     <td><label class="switch">
                                         <input type="checkbox" class="diffSetting" id="roundDesired" checked>
                                         <span class="slider round"></span>
                                       </label></td>
                                 </tr>
                                 <tr>
-                                    <td>Allow counting past desired count total</td>
+                                    <td style="font-size:11pt">Allow counting past desired count total</td>
                                     <td><label class="switch">
                                         <input type="checkbox" class="diffSetting" id="countExtra" checked>
                                         <span class="slider round"></span>
