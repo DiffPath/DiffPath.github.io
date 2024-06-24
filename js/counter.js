@@ -466,7 +466,7 @@ $(document).ready(function() {
       if($('#copyAlert').is(":hidden")){
         $('#copyAlert').html('Could not save. Incompatible '+ errorDescriptor);
         $('#copyAlert').css("background-color", "#ff5f5f")
-        $('#copyAlert').show().animate({bottom: '20px'},7000).animate({bottom: '20px'},1000).animate({bottom: '-5%'},1000,function(){
+        $('#copyAlert').show().animate({bottom: '20px'},700).animate({bottom: '20px'},1000).animate({bottom: '-5%'},1000,function(){
         $('#copyAlert').hide();
         })
       };
@@ -478,7 +478,7 @@ $(document).ready(function() {
       if($('#copyAlert').is(":hidden")){
         $('#copyAlert').html('Settings have been saved.');
         $('#copyAlert').css("background-color", "#64ff5f")
-        $('#copyAlert').show().animate({bottom: '20px'},7000).animate({bottom: '20px'},1000).animate({bottom: '-5%'},1000,function(){
+        $('#copyAlert').show().animate({bottom: '20px'},700).animate({bottom: '20px'},1000).animate({bottom: '-5%'},1000,function(){
         $('#copyAlert').hide();
         })
       };
