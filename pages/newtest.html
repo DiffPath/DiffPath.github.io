@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Differential Counter</title>
+        <link rel="stylesheet" href="counter.css">
+        <script src="https://kit.fontawesome.com/f6f9c2cc49.js" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="newtest.js"></script>
+        <audio id="med" preload="auto" src="./media/Count-Click-Med.mp3"></audio>
+    </head>
+    <body>
+        <button id="play">play</button>
+        <div id="copyDiv"></div> 
+        <div id="overlay"></div>
+        <div id="copyAlert"></div>  
+        <nav id="navbar">
+            <div id="navbarIcon" class="navbarIcon">
+                <i class="fas fa-bars titleIcon icon"></i>
+            </div>
+            <div>
+                    <div class="navItem" style="padding-top: 15px"><a href="https://diffpath.github.io/pages/bonemarrow.html"><i class="fas fa-bone headerIcon"></i><b>Bone Marrow</b></a></div>
+                    <div class="navItem"><a href="https://diffpath.github.io/pages/peripheralblood.html"><i class="fas fa-tint headerIcon"></i><b>Peripheral Blood</b></a></div>
+                    <div class="navItem"><a href="https://diffpath.github.io/pages/counter.html"><i class="fas fa-calculator headerIcon"></i><b>Cell Counter</b></a></div>
+            </div>
+        </nav>  
+        <div class="header"> 
+            <div id="navbarIcon" class="navbarIcon">
+                <i class="fas fa-bars titleIcon icon"></i>
+            </div>
+            <div class="title">Differential Counter</div>
+            <div class="pagebar">
+                <i class="titleIcon headerTab fas fa-list clicked" id="templateTab"></i>
+                <i class="titleIcon headerTab fas fa-book unclicked" id="helpTab"></i>
+                <i class="titleIcon headerTab far fa-question-circle unclicked" id="infoTab"></i>
+                <i class="titleIcon headerTab fas fa-cog unclicked" id="settingTab"></i>
+            </div>
+        </div>
+        <div class="content single">
+            <div class="panel" style="margin-right: 5px">   
+                <div>
+                    <div class="panelBody" id="pbPanel">
+                        <div class="title">Peripheral Blood</div>
+                        <hr>
+                        <div class="counterGrid">
+                            <div class="grid">
+                            <div class="grid_cell">
+                                <b id="pbLabel7"></b>
+                                <input class="pb_counter" id="pbCount7" size="2">
+                            </div>
+                            <div class="grid_cell">
+                                <b id="pbLabel8"></b>
+                                <input class="pb_counter" id="pbCount8" size="2">
+                            </div>
+                            <div class="grid_cell">
+                                <b id="pbLabel9"></b>
+                                <input class="pb_counter" id="pbCount9" size="2">
+                            </div>
+                            <div class="grid_cell">
+                                <b id="pbLabel4"></b>
+                                <input class="pb_counter" id="pbCount4" size="2">
+                            </div>
+                            <div class="grid_cell">
+                                <b id="pbLabel5"></b>
+                                <input class="pb_counter" id="pbCount5" size="2">
+                            </div>
+                            <div class="grid_cell">
+                                <b id="pbLabel6"></b>
+                                <input class="pb_counter" id="pbCount6" size="2">
+                            </div>
+                            <div class="grid_cell">
+                                <b id="pbLabel1"></b>
+                                <input class="pb_counter" id="pbCount1" size="2">
+                            </div>
+                            <div class="grid_cell">
+                                <b id="pbLabel2"></b>
+                                <input class="pb_counter" id="pbCount2" size="2">
+                            </div>
+                            <div class="grid_cell">
+                                <b id="pbLabel3"></b>
+                                <input class="pb_counter" id="pbCount3" size="2">
+                            </div>
+                            <div></div>
+                            <div class="grid_cell">
+                                <b id="pbLabel0"></b>
+                                <input class="pb_counter" id="pbCount0" size="2">
+                            </div>
+                            </div>
+                            <div>
+                            <div class="grid_cell">
+                                <b>Current Count</b>
+                                <input class="pb_counter" id="pbCCount" size="2">
+                            </div>
+                            <div class="grid_cell">
+                                <b>Desired Count</b>
+                                <input id="pbDCount" list="pbDList" size="2" placeholder="200">
+                                <datalist id="pbDList">
+                                    <option value="100"></option>
+                                    <option value="200"></option>
+                                    <option value="300"></option>
+                                    <option value="400"></option>
+                                    <option value="500"></option>
+                                    <option value="1000"></option>
+                                </datalist>
+                            </div>
+                            <div class="grid_cell">
+                                <b>Total %</b>
+                                <input class="pb_counter" id="pbTCount" size="2">
+                            </div>
+                        </div>
+                    </div>
+                        <div>
+                            <b>Count Here:</b>
+                            <textarea class="counter" id="pbCounter" rows="4"></textarea>
+                        </div>
+                        <div class="title">Aspirate Smear/Touch Preparation</div>
+                        <hr>
+                        <div class="counterGrid">
+                            <div class="grid">
+                                <div class="grid_cell">
+                                    <b id="aspLabel7"></b>
+                                    <input class="aspCounter" id="aspCount7" size="2">
+                                </div>
+                                <div class="grid_cell">
+                                    <b id="aspLabel8"></b>
+                                    <input class="aspCounter" id="aspCount8" size="2">
+                                </div>
+                                <div class="grid_cell">
+                                    <b id="aspLabel9"></b>
+                                    <input class="aspCounter" id="aspCount9" size="2">
+                                </div>
+                                <div class="grid_cell">
+                                    <b id="aspLabel4"></b>
+                                    <input class="aspCounter" id="aspCount4" size="2">
+                                </div>
+                                <div class="grid_cell">
+                                    <b id="aspLabel5"></b>
+                                    <input class="aspCounter" id="aspCount5" size="2">
+                                </div>
+                                <div class="grid_cell">
+                                    <b id="aspLabel6"></b>
+                                    <input class="aspCounter" id="aspCount6" size="2">
+                                </div>
+                                <div class="grid_cell">
+                                    <b id="aspLabel1"></b>
+                                    <input class="aspCounter" id="aspCount1" size="2">
+                                </div>
+                                <div class="grid_cell">
+                                    <b id="aspLabel2"></b>
+                                    <input class="aspCounter" id="aspCount2" size="2">
+                                </div>
+                                <div class="grid_cell">
+                                    <b id="aspLabel3"></b>
+                                    <input class="aspCounter" id="aspCount3" size="2">
+                                </div>
+                                <div></div>
+                                <div class="grid_cell">
+                                    <b id="aspLabel0"></b>
+                                    <input class="aspCounter" id="aspCount0" size="2">
+                                </div>
+                                <div></div>
+                            </div>
+                            <div>
+                                <div class="grid_cell">
+                                    <b>Current Count</b>
+                                    <input id="aspCCount" size="2">
+                                </div>
+                                <div class="grid_cell">
+                                    <b>Desired Count</b>
+                                    <input id="aspDCount" list="aspDList" maxlength="4" size="3" placeholder="500">
+                                    <datalist id="aspDList">
+                                        <option value="100"></option>
+                                        <option value="200"></option>
+                                        <option value="300"></option>
+                                        <option value="400"></option>
+                                        <option value="500"></option>
+                                        <option value="1000"></option>
+                                    </datalist>
+                                </div>
+                                <div class="grid_cell">
+                                    <b>M:E Ratio</b>
+                                    <input id="meRatio" size="2">
+                                </div>
+                                <div class="grid_cell">
+                                    <b>Total %</b>
+                                    <input id="aspTCount" size="2">
+                                </div>
+                            </div>
+                        </div>                   
+                        <div>
+                            <b>Count Here:</b>
+                            <textarea class="counter" id="aspCounter" rows="4"></textarea>
+                        </div>
+                        <div>
+                            <label><b>Count on touch preparation: </b>
+                                <input type="checkbox" id="tpCheck"></label>
+                        </div>
+                        <div>
+                            <label><b>Include blasts in M:E ratio calculation: </b>
+                                <input type="checkbox" id="blastCheck"></label>
+                        </div>
+               
+                    </div>
+                </div>
+            </div>
+            <div class="panel" id="templatePanel" style="margin-left: 5px">
+                <div class="panelHeader">
+                    <div class="copyButton" id="microscopic"><i class="fas fa-copy headerIcon"></i><b></b>Copy All</div>
+                    <div class="copyButton" id="pb_table"><i class="fas fa-copy headerIcon"></i><b></b>Copy PB</div>
+                    <div class="copyButton" id="asp_table"><i class="fas fa-copy headerIcon"></i>Copy Asp</div>
+                </div>
+                <div class="panelBody" id="right_panel_final" style="display: none">
+                    <div id="microscopic_div">
+                    <div id="pb_table_div" style="display: none">
+                        <div class="panelFormat">
+                            <div>
+                                <b>Differential Count</b>
+                            </div>
+                            <table class="templateTable" style="width:460px; font-size:11pt">
+                                <tr>
+                                  <th style="width:50%" id="pbTableCountHeader">Peripheral Blood (200 cells)</th>
+                                  <th style="width:17%">Result</th>
+                                  <th style="width:33%">Reference Range</th>
+                                </tr>
+                                <tr id="pb_atypical_row" style="display: none">
+                                    <td style="width:50%">Atypical Cells</td>
+                                    <td style="width:17%" id="pbTable10"></td>
+                                    <td style="width:33%">0</td>
+                                </tr>
+                                <tr id="pb_other_row" style="display: none">
+                                    <td style="width:50%">Other Cells</td>
+                                    <td style="width:17%" id="pbTable11"></td>
+                                    <td style="width:33%">0</td>
+                                </tr>
+                                <tr id="pb_blasts_row" style="display: none">
+                                  <td style="width:50%">Blasts</td>
+                                  <td style="width:17%" id="pbTable0"></td>
+                                  <td style="width:33%">0</td>
+                                </tr>
+                                <tr id="pb_promyelocytes_row" style="display: none">
+                                  <td style="width:50%">Promyelocytes</td>
+                                  <td style="width:17%" id="pbTable1"></td>
+                                  <td style="width:33%">0</td>
+                                </tr>
+                                <tr id="pb_myelo_row" style="display: none">
+                                  <td style="width:50%">Myelocytes</td>
+                                  <td style="width:17%" id="pbTable2"></td>
+                                  <td style="width:33%">0</td>
+                                </tr>
+                                <tr id="pb_metas_row" style="display: none">
+                                  <td style="width:50%">Metamyelocytes</td>
+                                  <td style="width:17%" id="pbTable3"></td>
+                                  <td style="width:33%">0</td>
+                                </tr>
+                                <tr>
+                                  <td style="width:50%">Neutrophils</td>
+                                  <td style="width:17%" id="pbTable4"></td>
+                                  <td style="width:33%">34 - 73%</td>
+                                </tr>
+                                <tr>
+                                  <td style="width:50%">Lymphocytes</td>
+                                  <td style="width:17%" id="pbTable5"></td>
+                                  <td style="width:33%">15 - 50%</td>
+                                </tr>
+                                <tr>
+                                  <td style="width:50%">Monocytes</td>
+                                  <td style="width:17%" id="pbTable6"></td>
+                                  <td style="width:33%">1 - 15%</td>
+                                </tr>
+                                <tr>
+                                  <td style="width:50%">Eosinophils</td>
+                                  <td style="width:17%" id="pbTable7"></td>
+                                  <td style="width:33%">0 - 8%</td>
+                                </tr>
+                                <tr>
+                                  <td style="width:50%">Basophils</td>
+                                  <td style="width:17%" id="pbTable8"></td>
+                                  <td style="width:33%">0 - 2%</td>
+                                </tr>
+                                <tr id="pb_plasma_row" style="display: none">
+                                    <td style="width:50%">Plasma Cells</td>
+                                    <td style="width:17%" id="pbTable9"></td>
+                                    <td style="width:33%">0</td>
+                                </tr>
+                                <tr id="pb_nrbcs_row" style="display: none">
+                                  <td style="width:50%">NRBCs/100 WBC</td>
+                                  <td style="width:17%" id="pbTable12"></td>
+                                  <td style="width:33%">0</td>
+                                </tr>
+                            </table>
+                            <br>
+                        </div>
+                    </div>
+                    <div id="asp_table_div" style="display: none">
+                        <div class="panelFormat">
+                            <table class="templateTable" style="width:460px">
+                                <tr>
+                                  <th style="width:50%" id="aspTableCountHeader">Aspirate Smear (500 cells)</td>
+                                  <th style="width:17%">Result</td>
+                                  <th style="width:33%">Reference Range</td>
+                                </tr>
+                                <tr id="asp_atypical_row" style="display: none">
+                                    <td style="width:50%">Atypical Cells</td>
+                                    <td style="width:17%" id="aspTable11"></td>
+                                    <td style="width:33%">0</td>
+                                </tr>
+                                <tr id="asp_other_row" style="display: none">
+                                    <td style="width:50%">Other Cells</td>
+                                    <td style="width:17%" id="aspTable12"></td>
+                                    <td style="width:33%">0</td>
+                                </tr>
+                                <tr>
+                                  <td style="width:50%">Blasts</td>
+                                  <td style="width:17%" id="aspTable10"></td>
+                                  <td style="width:33%">0 - 3%</td>
+                                </tr>
+                                <tr>
+                                  <td style="width:50%">Neutrophils & Precursors</td>
+                                  <td style="width:17%" id="aspTable4"></td>
+                                  <td style="width:33%">33 - 63%</td>
+                                </tr>
+                                <tr>
+                                  <td style="width:50%">Lymphocytes</td>
+                                  <td style="width:17%" id="aspTable5"></td>
+                                  <td style="width:33%">10 - 15%</td>
+                                </tr>
+                                <tr>
+                                  <td style="width:50%">Monocytes</td>
+                                  <td style="width:17%" id="aspTable6"></td>
+                                  <td style="width:33%">0 - 2%</td>
+                                </tr>
+                                <tr>
+                                  <td style="width:50%">Eosinophils & Precursors</td>
+                                  <td style="width:17%" id="aspTable7"></td>
+                                  <td style="width:33%">1 - 5%</td>
+                                </tr>
+                                <tr>
+                                  <td style="width:50%">Basophils & Precursors</td>
+                                  <td style="width:17%" id="aspTable8"></td>
+                                  <td style="width:33%">0 - 1%</td>
+                                </tr>
+                                <tr>
+                                    <td style="width:50%">Plasma Cells</td>
+                                    <td style="width:17%" id="aspTable0"></td>
+                                    <td style="width:33%">0 - 1%</td>
+                                </tr>
+                                <tr>
+                                  <td style="width:50%">Erythroid Precursors</td>
+                                  <td style="width:17%" id="aspTable9"></td>
+                                  <td style="width:33%">15 - 27%</td>
+                                </tr>
+                                <tr>
+                                    <td style="width:50%">M:E Ratio</td>
+                                    <td style="width:17%" id="aspTable99"></td>
+                                    <td style="width:33%">1.5 - 3.3</td>
+                                </tr>
+                              </table>
+                              <br>
+                        </div>
+                    </div>
+                    <div id="atyp_table_div" style="display: none">
+                        <div class="panelFormat">
+                            <table style="width:460px">
+                                <tr>
+                                  <th style="width:50%" id="aspTableCountHeader">Aspirate Smear (500 cells)</td>
+                                  <th style="width:17%">Result</td>
+                                  <th style="width:33%">Reference Range</td>
+                                </tr>
+                                <tr>
+                                  <td style="width:50%">Blasts</td>
+                                  <td style="width:17%" id="asp_table_10"></td>
+                                  <td style="width:33%">0</td>
+                                </tr>
+                                <tr>
+                                    <td style="width:50%">Blasts</td>
+                                    <td style="width:17%" id="asp_table_10"></td>
+                                    <td style="width:33%">0</td>
+                                  </tr>
+                              </table>
+                              <br>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel" id="helpPanel" style="display: none; margin-left: 5px">
+                <div class="panelBody">
+                    <h3 style="margin-top: 0px">
+                        Changelog:
+                      </h3>
+                    <b>Version 0.2 Major update (6/24/2024)</b>
+                    <ul>
+                       <li>Created standalone differential counter</li>
+                       <li>Updated backend</li>
+                       <li>Updated user interface</li>
+                       <li>Added checkbox to change from aspirate smear to touch preparation</li>
+                       <li>Added checkbox to include blasts in M:E ratio calculation</li>
+                       <li>Improved rounding calculations</li> 
+                       <li>Added rounding calculation settings</li>
+                    </ul>
+                    <b>Version 0.1 Initial version</b>
+                </div>
+            </div>
+            <div class="panel" id="infoPanel" style="display: none; margin-left: 5px">
+                    <div class="panelBody">
+                        <h3 style="margin-top: 0px">
+                            About:
+                          </h3>
+                          This application was entirely coded by myself, Michael Moravek, MD, and is currently under construction. The project is not intended for clinical use in its current state.<br><br>
+                          If you have any questions or feedback, feel free to contact me:<br><br>
+                          <a href="mailto: MichaelMoravekMD@gmail.com" style="color: rgb(0,172,238); text-decoration: none;"><i class="fas fa-envelope-square" style="color: rgb(0,172,238); font-size: 12pt"></i> MichaelMoravekMD@gmail.com</a><br>
+                          <a href="https://twitter.com/moravekmd" style="color: rgb(0,172,238); text-decoration: none;"><i class="fab fa-twitter-square" style="color: rgb(0,172,238); font-size: 12pt" target="_blank"></i> @MoravekMD</a>
+                    </div>
+            </div>
+            <div class="panel" id="settingPanel" style="display: none; margin-left: 5px">
+                    <div class="panelBody" id="diffPanel">
+                        <h3 style="margin-top: 0px">
+                            Settings:
+                        </h3>
+                        <div class="grid2">
+                            <div class="gridTitle">
+                                <b>Peripheral blood layout</b>
+                            </div>
+                            <div>
+                                <b>7.</b>
+                                <select class="pbCounterTemplate" id="pbTemplate7"></select>
+                            </div>
+                            <div>
+                                <b>8.</b>
+                                <select class="pbCounterTemplate" id="pbTemplate8"></select>
+                            </div>
+                            <div>
+                                <b>9.</b>
+                                <select class="pbCounterTemplate" id="pbTemplate9"></select>
+                            </div>
+                            <div>
+                                <b>4.</b>
+                                <select class="pbCounterTemplate" id="pbTemplate4"></select>
+                            </div>
+                            <div>
+                                <b>5.</b>
+                                <select class="pbCounterTemplate" id="pbTemplate5"></select>
+                            </div>
+                            <div>
+                                <b>6.</b>
+                                <select class="pbCounterTemplate" id="pbTemplate6"></select>
+                            </div>
+                            <div>
+                                <b>1.</b>
+                                <select class="pbCounterTemplate" id="pbTemplate1"></select>
+                            </div>
+                            <div>
+                                <b>2.</b>
+                                <select class="pbCounterTemplate" id="pbTemplate2"></select>
+                            </div>
+                            <div>
+                                <b>3.</b>
+                                <select class="pbCounterTemplate" id="pbTemplate3"></select>
+                            </div>
+                            <div></div>
+                            <div>
+                                <b>0.</b>
+                                <select class="pbCounterTemplate" id="pbTemplate0"></select>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="grid2">
+                            <div class="gridTitle">
+                                <b>Aspirate layout</b>
+                            </div>
+                            <div>
+                                <b>7.</b>
+                                <select class="aspCounterTemplate" id="aspTemplate7"></select>
+                            </div>
+                            <div>
+                                <b>8.</b>
+                                <select class="aspCounterTemplate" id="aspTemplate8"></select>
+                            </div>
+                            <div>
+                                <b>9.</b>
+                                <select class="aspCounterTemplate" id="aspTemplate9"></select>
+                            </div>
+                            <div>
+                                <b>4.</b>
+                                <select class="aspCounterTemplate" id="aspTemplate4"></select>
+                            </div>
+                            <div>
+                                <b>5.</b>
+                                <select class="aspCounterTemplate" id="aspTemplate5"></select>
+                            </div>
+                            <div>
+                                <b>6.</b>
+                                <select class="aspCounterTemplate" id="aspTemplate6"></select>
+                            </div>
+                            <div>
+                                <b>1.</b>
+                                <select class="aspCounterTemplate" id="aspTemplate1"></select>
+                            </div>
+                            <div>
+                                <b>2.</b>
+                                <select class="aspCounterTemplate" id="aspTemplate2"></select>
+                            </div>
+                            <div>
+                                <b>3.</b>
+                                <select class="aspCounterTemplate" id="aspTemplate3"></select>
+                            </div>
+                            <div></div>
+                            <div>
+                                <b>0.</b>
+                                <select class="aspCounterTemplate" id="aspTemplate0"></select>
+                            </div>
+                        </div>
+                        <br>
+                        <div>
+                            <table class="settingsTable">
+                                <tr>
+                                    <td style="font-size:11pt">Minimize rounding error when current count does not equal desired count</td>
+                                    <td><label class="switch">
+                                        <input type="checkbox" class="diffSetting" id="roundHundred" checked>
+                                        <span class="slider round"></span>
+                                      </label></td>
+                                </tr>
+                                <tr>
+                                    <td style="font-size:11pt">Round counts based on desired count total</td>
+                                    <td><label class="switch">
+                                        <input type="checkbox" class="diffSetting" id="roundDesired" checked>
+                                        <span class="slider round"></span>
+                                      </label></td>
+                                </tr>
+                                <tr>
+                                    <td style="font-size:11pt">Allow counting past desired count total</td>
+                                    <td><label class="switch">
+                                        <input type="checkbox" class="diffSetting" id="countExtra" checked>
+                                        <span class="slider round"></span>
+                                      </label></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <br>
+                        <button type="button" class="saveButton">Save</button>
+                    </div>       
+            </div>
+        </div>
+    </body>
+</html>
