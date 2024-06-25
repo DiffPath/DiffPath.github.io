@@ -42,10 +42,6 @@ $(document).ready(function() {
     'asp': {counterID: "#aspCounter", characterID: "#aspCount", tableID: "#aspTable", dcountID: "#aspDCount", ccountID: "#aspCCount", tcountID: "#aspTCount", tableDivID: "#asp_table_div", table: aspCountTable}
   }
 
-  const audioContext = new AudioContext();
-  const audioElement = document.querySelector("audio");
-  console.log(audioElement)
-  const track = audioContext.createMediaElementSource(audioElement);
   window.keypressed = {};
 
   function getSavedItems(){
@@ -148,12 +144,17 @@ $(document).ready(function() {
   })
 
   $('.counter').click(function(){
-    let a = new Audio('./media/Count-Click-High2.mp3');
-    let b = new Audio('./media/Count-Click-Med.mp3');
-    let c = new Audio('./media/Count-Click-Low.mp3');
-    let d = new Audio('./media/Count-Click-Blast.mp3');
-    let e = new Audio('./media/Complete-Nice.mp3');
-    let f = new Audio('./media/100-Soothing.mp3');
+    const audioContext = new AudioContext();
+    const audioElement = $("#med");
+    const track = audioContext.createMediaElementSource(audioElement);
+    track.connect(audioContext.destination);
+    audioElement.play();
+    let a = new Audio('https://diffpath.github.io/media/Count-Click-High2.mp3');
+    let b = new Audio('https://diffpath.github.io/media/Count-Click-Med.mp3');
+    let c = new Audio('https://diffpath.github.io/media/Count-Click-Low.mp3');
+    let d = new Audio('https://diffpath.github.io/media/Count-Click-Blast.mp3');
+    let e = new Audio('https://diffpath.github.io/media/Complete-Nice.mp3');
+    let f = new Audio('https://diffpath.github.io/media/100-Soothing.mp3');
     a.volume = 0;
     b.volume = 0;
     c.volume = 0;
@@ -217,6 +218,10 @@ $(document).ready(function() {
         new Audio('https://diffpath.github.io/media/Count-Click-High2.mp3').play();
       } else if (e.which == 52 || e.which == 53 || e.which == 54 || e.which == 100 || e.which == 101 || e.which == 102) {
         window.keypressed[e.which] = true;
+        const audioContext = new AudioContext();
+        const audioElement = $("#med");
+        const track = audioContext.createMediaElementSource(audioElement);
+        track.connect(audioContext.destination);
         audioElement.play();
       } else if (e.which == 49 || e.which == 50 || e.which == 51 || e.which == 97 || e.which == 98 || e.which == 99) {
         window.keypressed[e.which] = true;
