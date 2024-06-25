@@ -27,10 +27,7 @@ $(document).ready(function() {
     aspTab: 'aspPanel',    
   };
 
-  const audioContext = new AudioContext();
-  const audioElement = document.getElementById("med");
-  const track = audioContext.createMediaElementSource(audioElement);
-  track.connect(audioContext.destination);
+  let audioElement;
 
   let pbCountTable = getSavedItems()[0];
   let aspCountTable = getSavedItems()[1];
@@ -149,6 +146,10 @@ $(document).ready(function() {
   })
 
   $('.counter').click(function(){
+    const audioContext = new AudioContext();
+    audioElement = document.getElementById("med");
+    const track = audioContext.createMediaElementSource(audioElement);
+    track.connect(audioContext.destination);
     let a = new Audio('https://diffpath.github.io/media/Count-Click-High2.mp3');
     let b = new Audio('https://diffpath.github.io/media/Count-Click-Med.mp3');
     let c = new Audio('https://diffpath.github.io/media/Count-Click-Low.mp3');
