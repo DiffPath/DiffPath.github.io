@@ -219,7 +219,8 @@ $(document).ready(function() {
       } else if (e.which == 52 || e.which == 53 || e.which == 54 || e.which == 100 || e.which == 101 || e.which == 102) {
         window.keypressed[e.which] = true;
         const audioContext = new AudioContext();
-        const audioElement = document.querySelector("audio");
+        const audioElement = document.querySelector("#med");
+        console.log(audioElement)
         const track = audioContext.createMediaElementSource(audioElement);
         track.connect(audioContext.destination);
         audioElement.play();
