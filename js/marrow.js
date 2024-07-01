@@ -213,19 +213,24 @@ $(document).ready(function() {
       Atypical: {name: 'Atypical', character: -1, tableID: 11, cellType: 0, count: 0, percent: 0, hidden: true},
       Other: {name: 'Other', character: -1, tableID: 12, cellType: 0, count: 0, percent: 0, hidden: true},
     };
-    let bmSaveFile = JSON.parse(localStorage.getItem("bmSaveFile"));
+    let saveFileBM = JSON.parse(localStorage.getItem("saveFileBM"));
   
-  if (bmSaveFile != null) {
-    if (bmSaveFile.settingArray != null){
-      for (let i = 0; i < bmSaveFile.settingArray.length; i++){
-        $("#" + bmSaveFile.settingArray[i][0]).val(bmSaveFile.settingArray[i][1])
+  if (saveFileBM != null) {
+    if (saveFileBM.settingArray != null){
+      for (let i = 0; i < saveFileBM.settingArray.length; i++){
+        $("#" + saveFileBM.settingArray[i][0]).val(saveFileBM.settingArray[i][1])
         }
     }
-    if (bmSaveFile.pbCountTable != null){
-      pbCount_table = bmSaveFile.pbCountTableBM;
+    if (saveFileBM.pbCountTable != null){
+      pbCount_table = saveFileBM.pbCountTableBM;
     }    
-    if (bmSaveFile.bm_count_table != null){
-      aspCountTable = bmSaveFile.aspCountTableBM;
+    if (saveFileBM.aspCountTableBM != null){
+      aspCountTable = saveFileBM.aspCountTableBM;
+    }
+    if (saveFileBM.settingObjectBM != null) {
+      $.each(saveFileBM.settingObjectBM,function(x,y){
+        $('#'+x).prop('checked',y);
+      });
     }  
   };
   return [pbCountTable,aspCountTable];
@@ -1453,15 +1458,53 @@ $(document).ready(function() {
     }
   }
 
+
   $(".saveButton").click(function() {
-    let saveFile = {};
-    let settingArray = [];
-    $(".saveInput").each(function() {
-      settingArray.push([this.id, $(this).val()])
-    });
-    saveFile.settingArray = settingArray;
-    saveFile.pbCountTableBM = pbCountTable;
-    saveFile.aspCountTableBM = aspCountTable;
-    localStorage.setItem("bmSaveFile", JSON.stringify(saveFile));
+    let saveFileBM = {};
+    let aspToggle = false;
+    let pbToggle = false;
+    let errorDescriptor = "";
+    let settingObject = {};
+    $('.pbCounterTemplate').each(function(){
+      if ($(this).css("background-color") == "rgb(255, 95, 95)"){
+        pbToggle = true;
+        errorDescriptor = "peripheral blood layout.";
+      }
+    })
+    $('.aspCounterTemplate').each(function(){
+      if ($(this).css("background-color") == "rgb(255, 95, 95)"){
+        aspToggle = true;
+        if (pbToggle){
+          errorDescriptor = "peripheral blood and aspirate layouts.";
+        } else {
+          errorDescriptor = "aspirate layout.";
+        }
+      }
+    })
+    $('.diffSetting').each(function(){
+      settingObject[this.id] = $(this).prop('checked');
+    })
+
+    if (aspToggle || pbToggle){
+      if($('#copyAlert').is(":hidden")){
+        $('#copyAlert').html('Could not save. Incompatible '+ errorDescriptor);
+        $('#copyAlert').css("background-color", "rgb(255, 95, 95)")
+        $('#copyAlert').show().animate({bottom: '20px'},700).animate({bottom: '20px'},1000).animate({bottom: '-5%'},1000,function(){
+        $('#copyAlert').hide();
+        })
+      };
+    } else {
+      saveFileBM.pbCountTableBM = pbCountTable;
+      saveFileBM.aspCountTableBM = aspCountTable;
+      saveFileBM.settingObjectBM = settingObject;
+      localStorage.setItem("saveFileBM", JSON.stringify(saveFileBM));
+      if($('#copyAlert').is(":hidden")){
+        $('#copyAlert').html('Settings have been saved.');
+        $('#copyAlert').css("background-color", "rgb(100, 255, 95)")
+        $('#copyAlert').show().animate({bottom: '20px'},700).animate({bottom: '20px'},1000).animate({bottom: '-5%'},1000,function(){
+        $('#copyAlert').hide();
+        })
+      };
+    }    
   })
 });
