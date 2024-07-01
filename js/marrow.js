@@ -214,7 +214,6 @@ $(document).ready(function() {
       Other: {name: 'Other', character: -1, tableID: 12, cellType: 0, count: 0, percent: 0, hidden: true},
     };
     let saveFileBM = JSON.parse(localStorage.getItem("saveFileBM"));
-  
   if (saveFileBM != null) {
     if (saveFileBM.settingArray != null){
       for (let i = 0; i < saveFileBM.settingArray.length; i++){
@@ -222,7 +221,7 @@ $(document).ready(function() {
         }
     }
     if (saveFileBM.pbCountTableBM != null){
-      pbCount_table = saveFileBM.pbCountTableBM;
+      pbCountTable = saveFileBM.pbCountTableBM;
     }    
     if (saveFileBM.aspCountTableBM != null){
       aspCountTable = saveFileBM.aspCountTableBM;
