@@ -221,7 +221,7 @@ $(document).ready(function() {
         $("#" + saveFileBM.settingArray[i][0]).val(saveFileBM.settingArray[i][1])
         }
     }
-    if (saveFileBM.pbCountTable != null){
+    if (saveFileBM.pbCountTableBM != null){
       pbCount_table = saveFileBM.pbCountTableBM;
     }    
     if (saveFileBM.aspCountTableBM != null){
@@ -319,9 +319,7 @@ $(document).ready(function() {
   });
 
   $(".headerTab").click(function() {
-    console.log(this.className.split(" ")[0])
     $("."+this.className.split(" ")[0]).each(function() {
-      console.log(this.id)
       $(this).removeClass("clicked");
       $(this).addClass("unclicked");
       $("#"+headerObject[this.id]).hide();
