@@ -16,9 +16,9 @@
                 <i class="fas fa-bars titleIcon icon"></i>
             </div>
             <div>
-                    <div class="navItem" style="padding-top: 15px"><i class="fas fa-bone headerIcon"></i><b>Bone Marrow</b></div>
-                    <div class="navItem"><i class="fas fa-tint headerIcon"></i><b>Peripheral Blood</b></div>
-                    <div class="navItem"><a href="c:\Users\mikem\Documents\Diffpath\Counter\counter.html"><i class="fas fa-calculator headerIcon"></i><b>Cell Counter</b></a></div>
+                    <div class="navItem" style="padding-top: 15px"><a href="https://diffpath.github.io/pages/marrow.html"></a><i class="fas fa-bone headerIcon"></i><b>Bone Marrow</b></div>
+                    <div class="navItem"><a href="https://diffpath.github.io/pages/peripheralblood.html"></a><i class="fas fa-tint headerIcon"></i><b>Peripheral Blood</b></div>
+                    <div class="navItem"><a href="https://diffpath.github.io/pages/counter.html"><i class="fas fa-calculator headerIcon"></i><b>Cell Counter</b></a></div>
             </div>
         </nav>  
         <div class="header"> 
@@ -163,8 +163,8 @@
                                     <b>Hemoglobin:</b>
                             </div>
                             <div>
-                                    <div class="flex" style="gap: 10px">
                                     <div class="flex">
+                                    <div class="flex" style="padding-right: 10px">
                                         <div>
                                             <input type="radio" class="form" id="hgbLow" name="hgb"><label for="hgbLow">Anemia</label>
                                         </div>
@@ -203,30 +203,40 @@
                             </div>
                             <div id="rbc_select_div" class="dropdown_div">
                                         <select id="rbc_select_0" class="select"></select>
-                            </div>  
+                            </div>
                             <div id="aniso_div" style ="display: none">
                                 <b>Anisopoikilocytosis Descriptors:</b>
                             </div>
                             <div id="aniso_select_div" class="dropdown_div" style ="display: none">
                                 <select id='aniso_select_0' class="select"></select>
                             </div>
+                            <div style="padding-bottom: 10px">
+                                <b>Nucleated RBCs</b>
+                            </div>
+                            <div>
+                                <input type="radio" class="form" id="nrbcRare" name="nrbc"><label for="nrbcRare">Rare</label>
+                                <input type="radio" class="form" id="nrbcOccasional" name="nrbc"><label for="nrbcOccasional">Occasional</label>
+                                <input type="radio" class="form" id="nrbcFrequent" name="nrbc"><label for="nrbcFrequent">Frequent</label>  
+                            </div> 
                             <div>
                                 <b>Absolute Neutrophils:</b>
                             </div>
                             <div>
                                 <div class="flex">
+                                <div class="flex" style="padding-right: 10px">
                                     <div>
                                         <input type="radio" class="form" id="neutLow" name="neut"><label for="neutLow">Low</label>
                                         <input type="radio" class="form" id="neutNormal" name="neut"><label for="neutNormal">Normal</label>
                                         <input type="radio" class="form" id="neutHigh" name="neut"><label for="neutHigh">High</label>  
                                     </div>
-                                    <div id="neutMildMarked" style ="display: none">
-                                        <input type="checkbox" class="form" id="neutMild" name="neut"><label for="neutMild">Mild</label>
-                                        <input type="checkbox" class="form" id="neutMarked" name="neut"><label for="neutMarked">Marked</label>
-                                    </div>
+                                </div>
+                                <div id="neutMildMarked" style ="display: none">
+                                    <input type="checkbox" class="form" id="neutMild" name="neut"><label for="neutMild">Mild</label>
+                                    <input type="checkbox" class="form" id="neutMarked" name="neut"><label for="neutMarked">Marked</label>
+                                </div>
                                 </div>
                             </div>                                
-                            <div>
+                            <div style="padding-bottom: 10px">
                                 <b>Neutrophil Descriptors:</b>
                             </div>
                             <div id="neutrophil_select_div" class="dropdown_div">
@@ -237,18 +247,20 @@
                             </div>
                             <div>
                                 <div class="flex">
+                                <div class="flex" style="padding-right: 10px">
                                     <div>
                                         <input type="radio" class="form" id="lymphLow" name="lymph"><label for="lymphLow">Low</label>
                                         <input type="radio" class="form" id="lymphNormal" name="lymph"><label for="lymphNormal">Normal</label>
                                         <input type="radio" class="form" id="lymphHigh" name="lymph"><label for="lymphHigh">High</label>  
                                     </div>
+                                </div>
                                     <div id="lymphMildMarked" style ="display: none">
                                         <input type="checkbox" class="form" id="lymphMild" name="lymph"><label for="lymphMild">Mild</label>
                                         <input type="checkbox" class="form" id="lymphMarked" name="lymph"><label for="lymphMarked">Marked</label>
                                     </div>
                                 </div>
                             </div>                                
-                            <div>
+                            <div style="padding-bottom: 10px">
                                 <b>Lymphocyte Descriptors:</b>
                             </div>
                             <div id="lymphocyte_select_div">
@@ -260,15 +272,13 @@
                                     <option value="monotypic">Monotypic</option>
                                 </select>
                             </div>
-                            <div>
+                            <div style="padding-bottom: 10px">
                                 <b>Absolute Eosinophils:</b>
                             </div>
                             <div>
                                 <div class="flex">
                                     <div>
-                                        <input type="radio" class="form" id="eosLow" name="eos"><label for="eosLow">Low</label>
-                                        <input type="radio" class="form" id="eosNormal" name="eos"><label for="eosNormal">Normal</label>
-                                        <input type="radio" class="form" id="eosHigh" name="eos"><label for="eosHigh">High</label>  
+                                        <input type="checkbox" class="form" id="eosHigh" name="eos"><label for="eosHigh">High</label>  
                                     </div>
                                     <div id="eosMildMarked" style ="display: none">
                                         <input type="checkbox" class="form" id="eosMild" name="eos"><label for="eosMild">Mild</label>
@@ -276,15 +286,13 @@
                                     </div>
                                 </div>
                             </div>
-                            <div>
+                            <div style="padding-bottom: 10px">
                                 <b>Absolute Basophils:</b>
                             </div>
                             <div>
                                 <div class="flex">
                                     <div>
-                                        <input type="radio" class="form" id="basoLow" name="baso"><label for="basoLow">Low</label>
-                                        <input type="radio" class="form" id="basoNormal" name="baso"><label for="basoNormal">Normal</label>
-                                        <input type="radio" class="form" id="basoHigh" name="baso"><label for="basoHigh">High</label>  
+                                        <input type="checkbox" class="form" id="basoHigh" name="baso"><label for="basoHigh">High</label>  
                                     </div>
                                     <div id="basoMildMarked" style ="display: none">
                                         <input type="checkbox" class="form" id="basoMild" name="baso"><label for="basoMild">Mild</label>
@@ -297,14 +305,12 @@
                             </div>
                             <div>
                                 <div class="flex"> 
+                                    <div class="flex" style="padding-right: 10px">
                                     <div>
                                         <input type="radio" class="form" id="pltLow" name="platelet"><label for="pltLow">Decreased</label>
-                                    </div>
-                                    <div>
                                         <input type="radio" class="form" id="pltNormal" name="platelet"><label for="pltNormal">Adequate</label>
-                                    </div>
-                                    <div>
                                         <input type="radio" class="form" id="pltHigh" name="platelet"><label for="pltHigh">Increased</label>
+                                    </div>
                                     </div>                              
                                     <div id="pltMildMarked" style ="display: none">
                                         <input type="checkbox" class="form" id="pltMild" name="platelet"><label for="pltMild">Mild</label>
@@ -312,11 +318,17 @@
                                     </div>   
                                 </div>
                             </div>
-                            <div>
+                            <div style="padding-bottom: 10px">
                                 <b>Platelet descriptors: </b>
                             </div>                            
                             <div id="platelet_select_div" class="dropdown_div">
                                 <select id="platelet_select_0" class="select"></select>
+                            </div>
+                            <div>
+                                <b>Plasma cells:</b>
+                            </div>
+                            <div>
+                                <input type="checkbox" class="form" id="circulatingPlasma" name="plasma"><label for="circulatingPlasma">None</label>  
                             </div>                            
                         </div>
 
@@ -421,6 +433,19 @@
                                 </div>
                             </div>
                             <div>
+                                <b>Predominance:</b>
+                            </div>
+                            <div>
+                                <div>
+                                    <input type="checkbox" id="erythroidPredominance" class="form"><label for="erythroidPredominance">Erythroid predominance</label>
+                                    <input type="checkbox" id="myeloidPredominance" class="form"><label for="myeloidPredominance">Myeloid predominance</label>
+                                </div>
+                                <div id="predominanceSlightMarked" style ="display: none">                          
+                                    <input type="checkbox" class="form singleCheck" id="predominanceSlight" name="predominance"><label for="predominanceSlight">Slight</label>                   
+                                    <input type="checkbox" class="form singleCheck" id="predominanceMarked" name="predominance"><label for="predominanceMarked">Marked</label>
+                                </div>
+                            </div>
+                            <div>
                                 <b>Erythroids:</b>
                             </div>
                             <div>
@@ -472,6 +497,22 @@
                             </div>
                         </div>                        
                     </div>
+                    <div class="panelBody" id="bonePanel" style="display: none">
+                        <div class="boneGrid">
+                            <div>
+                                <b>Adequacy:</b>
+                            </div>
+                            <div>
+                                <input type="radio" class="form" id="boneAdequate" name="boneAdequacy"><label for="boneAdequate">Adequate</label>
+                                <input type="radio" class="form" id="boneInadequate" name="boneAdequacy"><label for="boneInadequate">Inadequate</label>
+                                <div id="boneAdequacy_select_div" class="dropdown_div">
+                                    <select id="boneAdequacy_select_1" class="select"></select>
+                                </div>
+                            </div>
+                        </div>     
+                    </div>
+                    <div class="panelBody" id="stainPanel" style="display: none">
+                    </div>       
                 </div>
             </div>
             <div class="panel" id="templatePanel" style="margin-left: 5px">
@@ -592,16 +633,6 @@
                                       <td style="width:33%">33 - 63%</td>
                                     </tr>
                                     <tr>
-                                      <td style="width:50%">Lymphocytes</td>
-                                      <td style="width:17%" id="aspTable5"></td>
-                                      <td style="width:33%">10 - 15%</td>
-                                    </tr>
-                                    <tr>
-                                      <td style="width:50%">Monocytes</td>
-                                      <td style="width:17%" id="aspTable6"></td>
-                                      <td style="width:33%">0 - 2%</td>
-                                    </tr>
-                                    <tr>
                                       <td style="width:50%">Eosinophils & Precursors</td>
                                       <td style="width:17%" id="aspTable7"></td>
                                       <td style="width:33%">1 - 5%</td>
@@ -611,6 +642,16 @@
                                       <td style="width:17%" id="aspTable8"></td>
                                       <td style="width:33%">0 - 1%</td>
                                     </tr>
+                                    <tr>
+                                        <td style="width:50%">Monocytes</td>
+                                        <td style="width:17%" id="aspTable6"></td>
+                                        <td style="width:33%">0 - 2%</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:50%">Lymphocytes</td>
+                                        <td style="width:17%" id="aspTable5"></td>
+                                        <td style="width:33%">10 - 15%</td>
+                                      </tr>
                                     <tr>
                                         <td style="width:50%">Plasma Cells</td>
                                         <td style="width:17%" id="aspTable0"></td>
@@ -633,6 +674,8 @@
                         <div class="pb panelFormat" id="pb_div" style="font-size:11pt">
                         </div>
                         <div class="asp panelFormat" id="asp_div" style="font-size:11pt">
+                        </div>
+                        <div class="bone panelFormat" id="boneDiv" style="font-size:11pt">
                         </div>
                         </div>
                     </div>
@@ -743,12 +786,12 @@
                             <br>
                             <div>
                                 <b>Frequent NRBCs ></b>
-                                <input type="number" class="saveInput" id="nrbcFrequent" size="2">
+                                <input type="number" class="saveInput" id="nrbcFrequentLimit" size="2">
                                 <b>K/uL</b>
                             </div>
                             <div>
                                 <b>Occasional NRBCs ></b>
-                                <input type="number" class="saveInput" id="nrbcOccasional" size="2">
+                                <input type="number" class="saveInput" id="nrbcOccasionalLimit" size="2">
                                 <b>K/uL</b>
                             </div>
                             <button type="button" class="saveButton">Save</button>
