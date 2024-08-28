@@ -24,10 +24,12 @@ $(document).ready(function() {
     diffTab: 'diffPanel',
     specTab: 'specPanel',
     pbTab: 'pbPanel',
-    aspTab: 'aspPanel',    
+    aspTab: 'aspPanel',
+    boneTab: 'bonePanel',
+    stainTab: 'stainPanel'    
   };
 
-  let cbc_object = {}, radioObject = {};
+  let cbcObject = {}, radioObject = {};
   let pbCountTable = getSavedItems()[0];
   let aspCountTable = getSavedItems()[1];
 
@@ -45,23 +47,17 @@ $(document).ready(function() {
 
   window.keypressed = {};
 
-  let cbc_variables = ["WBC", "RBC", "HGB", "MCV", "MCHC", "PLT", "NRBC", "Absolute Neutrophils", "Absolute Lymphocytes", "Absolute Monocytes", "Absolute Eosinophils", "Absolute Basophils", "Absolute NRBCs"];
-  let cbc_header = ["Component", "Value", "Units", "Ref. Range", "Ref Range & Units"]
-  var header_code = {
-    "Component": -1,
-    "Value": -1,
-    "Units": -1,
-    "Ref. Range": -1,
-    "Ref Range & Units": -1,
-  }
+  let patientAge = -1;
+
+  let cbcVariables = ["WBC", "RBC", "HGB", "MCV", "MCHC", "PLT", "NRBC", "Absolute Neutrophils", "Absolute Lymphocytes", "Absolute Monocytes", "Absolute Eosinophils", "Absolute Basophils", "Absolute NRBCs"];
+
   var rbc_list = [
     ["", 0],
     ["Unremarkable", 0],
     ["Predominantly unremarkable", 0],
     ["Anisopoikilocytosis", 2],
     ["Hypochromasia", 4],
-    ["Polychromasia", 2],
-    ["Nucleated RBCs", 1]    
+    ["Polychromasia", 2]
   ];
   var aniso_list = [
     ["", 0],
@@ -114,6 +110,15 @@ $(document).ready(function() {
     ["Paucispicular", 0],
     ["Aspicular", 0]
   ];
+  var boneAdequacy_list = [
+    ["", 0],
+    ["Fragmented", 0],
+    ["Crush artifact", 0],
+    ["Aspiration artifact", 0],
+    ["Subcortical", 0],
+    ["Predominantly subcortical", 0],
+    ["Small", 0],
+  ];
   var erythroid_list = [
     ["", 0],
     ["Nuclear budding", 1],
@@ -162,6 +167,8 @@ $(document).ready(function() {
     "platelet_strings": [],
     "adequacy": adequacy_list,
     "adequacy_strings": [],
+    "boneAdequacy": boneAdequacy_list,
+    "boneAdequacy_strings": [],
     "erythroid": erythroid_list,
     "erythroid_strings": [],
     "myeloid": myeloid_list,
@@ -180,6 +187,8 @@ $(document).ready(function() {
   add_dropdowns("erythroid");
   add_dropdowns("myeloid");
   add_dropdowns("megakaryocyte");
+  add_dropdowns("boneAdequacy");
+
   fillCounterLabels();
 
   function getSavedItems(){
@@ -343,47 +352,40 @@ $(document).ready(function() {
         $(this).prop("checked", false);
       });
     }
-    fill_specimen();
+    fillSpecimen();
   });
 
   $('#pb_cbc').bind('input', function() {
-    var cbc_final = [];
-    var cbc_var = [...cbc_variables];
-    var cbc_lines = $('#pb_cbc').val().split("\n");
-    var toggle = 0;
-    for (let i = 0; i < cbc_lines.length; i++) {
-      cbc_final.push(cbc_lines[i].split("\t"))
+    let cbcFinal = [];
+    let cbcVar = [...cbcVariables];
+    const cbcLines = $('#pb_cbc').val().split("\n");
+    let toggle = true;
+    for (let i = 0; i < cbcLines.length; i++) {
+      cbcFinal.push(cbcLines[i].split("\t"))
     }
-    for (let i = 0; i < cbc_final.length; i++) {
-      for (let j = 0; j < cbc_final[i].length; j++) {
-        for (let k = 0; k < cbc_header.length; k++) {
-          if (cbc_final[i][j].replace(/\s+/g, '') == cbc_header[k].replace(/\s+/g, '')) {
-            header_code[cbc_header[k]] = j;
-            toggle = 1;
-          }
+    for (let i = 0; i < cbcFinal.length; i++) {
+      for (let j = 0; j < cbcVar.length; j++){
+        if (cbcFinal[i][0] == cbcVar[j]){
+          cbcObject[cbcVar[j]] = {};
+          cbcObject[cbcVar[j]]["min"] = parseFloat(cbcFinal[i+1][0].replace(/[^0-9.\-]/g, '').split("-")[0]);
+          cbcObject[cbcVar[j]]["max"] = parseFloat(cbcFinal[i+1][0].replace('10ˆ3','').replace('10ˆ6','').replace(/[^0-9.\-]/g, '').split("-")[1]);
+          cbcObject[cbcVar[j]]["value"] = parseFloat(cbcFinal[i+1][1]);
         }
-        if (toggle == 1) {
-          for (let k = 0; k < cbc_var.length; k++) {
-            if (cbc_final[i][j].replace(/\s+/g, '') == cbc_var[k].replace(/\s+/g, '')) {
-              cbc_object[cbc_var[k]] = {};
-              if (header_code["Value"] != -1) {
-                cbc_object[cbc_var[k]]["value"] = parseFloat(cbc_final[i][header_code["Value"]].replace(/[^\d.-]/g, ''));
-              }
-              if (header_code["Ref. Range"] != -1) {
-                cbc_object[cbc_var[k]]["min"] = parseFloat(cbc_final[i][header_code["Ref. Range"]].replace(/[^0-9.\-]/g, '').split("-")[0]);
-                cbc_object[cbc_var[k]]["max"] = parseFloat(cbc_final[i][header_code["Ref. Range"]].replace('10ˆ3','').replace('10ˆ6','').replace(/[^0-9.\-]/g, '').split("-")[1]);
-              } else if (header_code["Ref Range & Units"] != -1) {
-                cbc_object[cbc_var[k]]["min"] = parseFloat(cbc_final[i][header_code["Ref Range & Units"]].replace(/[^0-9.\-]/g, '').split("-")[0]);
-                cbc_object[cbc_var[k]]["max"] = parseFloat(cbc_final[i][header_code["Ref Range & Units"]].replace('10ˆ3','').replace('10ˆ6','').replace(/[^0-9.\-]/g, '').split("-")[1]);
-                cbc_object[cbc_var[k]]["value"] = parseFloat(cbc_final[i][header_code["Ref Range & Units"]+1].replace(/[^\d.-]/g, ''));
-              }
-              cbc_var.shift();
-            }
+      }
+      if (toggle){
+        for (let j = 0; j < cbcFinal[i].length; j++){
+          if (cbcFinal[i][j].indexOf("DOB:")!= -1){
+            let dob = new Date(cbcFinal[i][j].slice(cbcFinal[i][j].indexOf("DOB:")).slice(5,cbcFinal[i][j].slice(cbcFinal[i][j].indexOf("DOB:")).indexOf(",")));
+            let month = Date.now() - dob.getTime();
+            let age_dt = new Date(month);
+            let year = age_dt.getUTCFullYear();    
+            patientAge = Math.abs(year - 1970);
+            toggle = false;
           }
         }
       }
     }
-    fill_inputs();
+    fillInputs();
   });
 
   $('.counter').keydown(function(e) {
@@ -617,7 +619,7 @@ $(document).ready(function() {
   });
 
   $('#lymphocyte_select').change(function(){
-    fill_pb();
+    fillPB();
   });
 
   $('.sub_checked').change(function() {
@@ -631,11 +633,6 @@ $(document).ready(function() {
 
   $('.dropdown_div').on('change', '.select', function() {
     add_dropdowns(this.id.split("_")[0]);
-    fillReport();
-  });
-
-  $('.dropdown_div').on('change', '.descriptor', function() {
-    find_selected(this.id.split("_")[0]);
     fillReport();
   });
 
@@ -659,7 +656,6 @@ $(document).ready(function() {
     var currentButton = this.id
     $("[name='"+this.name+"']").each(function() {
       if (this.id != currentButton) {
-        console.log(this.id)
         radioObject[this.id] = 0;
       }
     });
@@ -669,6 +665,7 @@ $(document).ready(function() {
     } else {
       radioObject[this.id] = 1;
     }
+    find_selected(this.id.split("_")[0]);
     fillReport();
   });
 
@@ -717,9 +714,10 @@ $(document).ready(function() {
     }
 })
   function fillReport(){
-    fill_specimen();
-    fill_pb();
-    fill_asp();
+    fillSpecimen();
+    fillPB();
+    fillAsp();
+    fillBone();
   }
 
   function add_dropdowns(id) {
@@ -818,30 +816,30 @@ $(document).ready(function() {
     $(a).append(x)
   }
 
-  function fill_inputs() {
-    if (cbc_object["HGB"] !== undefined) {
-      if (cbc_object["HGB"]["value"] > cbc_object["HGB"]["min"] && cbc_object["HGB"]["value"] < cbc_object["HGB"]["max"]) {
+  function fillInputs() {
+    if (cbcObject["HGB"] !== undefined) {
+      if (cbcObject["HGB"]["value"] > cbcObject["HGB"]["min"] && cbcObject["HGB"]["value"] < cbcObject["HGB"]["max"]) {
         $('#hgbNormal').prop("checked", true);
         $('#hgbMild').prop("checked", false);
         $('#hgbMarked').prop("checked", false);
-      } else if (cbc_object["HGB"]["value"] < cbc_object["HGB"]["min"]) {
+      } else if (cbcObject["HGB"]["value"] < cbcObject["HGB"]["min"]) {
         $('#hgbLow').prop("checked", true);
-        if (cbc_object["HGB"]["value"] < $("#cbcHgbLowMarked").val()) {
+        if (cbcObject["HGB"]["value"] < $("#cbcHgbLowMarked").val()) {
           $('#hgbMarked').prop("checked", true);
           $('#hgbMild').prop("checked", false);
-        } else if (cbc_object["HGB"]["value"] > $("#cbcHgbLowMild").val()) {
+        } else if (cbcObject["HGB"]["value"] > $("#cbcHgbLowMild").val()) {
           $('#hgbMild').prop("checked", true);
           $('#hgbMarked').prop("checked", false);
         } else {
           $('#hgbMild').prop("checked", false);
           $('#hgbMarked').prop("checked", false);
         }
-      } else if (cbc_object["HGB"]["value"] > cbc_object["HGB"]["max"]) {
+      } else if (cbcObject["HGB"]["value"] > cbcObject["HGB"]["max"]) {
         $('#hgbHigh').prop("checked", true);
-        if (cbc_object["HGB"]["value"] > $("#cbcHgbHighMarked").val()) {
+        if (cbcObject["HGB"]["value"] > $("#cbcHgbHighMarked").val()) {
           $('#hgbMarked').prop("checked", true);
           $('#hgbMild').prop("checked", false);
-        } else if (cbc_object["HGB"]["value"] < $("#cbcHgbHighMild").val()) {
+        } else if (cbcObject["HGB"]["value"] < $("#cbcHgbHighMild").val()) {
           $('#hgbMild').prop("checked", true);
           $('#hgbMarked').prop("checked", false);
         } else {
@@ -850,38 +848,38 @@ $(document).ready(function() {
         }
       }
     }
-    if (cbc_object["MCV"] !== undefined) {
-      if (cbc_object["MCV"]["value"] > cbc_object["MCV"]["min"] && cbc_object["MCV"]["value"] < cbc_object["MCV"]["max"]) {
+    if (cbcObject["MCV"] !== undefined) {
+      if (cbcObject["MCV"]["value"] > cbcObject["MCV"]["min"] && cbcObject["MCV"]["value"] < cbcObject["MCV"]["max"]) {
         $('#mcvNormal').prop("checked", true);
-      } else if (cbc_object["MCV"]["value"] < cbc_object["MCV"]["min"]) {
+      } else if (cbcObject["MCV"]["value"] < cbcObject["MCV"]["min"]) {
         $('#mcvLow').prop("checked", true);
-      } else if (cbc_object["MCV"]["value"] > cbc_object["MCV"]["max"]) {
+      } else if (cbcObject["MCV"]["value"] > cbcObject["MCV"]["max"]) {
         $('#mcvHigh').prop("checked", true);
       }
     }
-    if (cbc_object["Absolute Neutrophils"] !== undefined) {
-      if (cbc_object["Absolute Neutrophils"]["value"] > cbc_object["Absolute Neutrophils"]["min"] && cbc_object["Absolute Neutrophils"]["value"] < cbc_object["Absolute Neutrophils"]["max"]) {
+    if (cbcObject["Absolute Neutrophils"] !== undefined) {
+      if (cbcObject["Absolute Neutrophils"]["value"] > cbcObject["Absolute Neutrophils"]["min"] && cbcObject["Absolute Neutrophils"]["value"] < cbcObject["Absolute Neutrophils"]["max"]) {
         $('#neutNormal').prop("checked", true);
         $('#neutMild').prop("checked", false);
         $('#neutMarked').prop("checked", false);
-      } else if (cbc_object["Absolute Neutrophils"]["value"] < cbc_object["Absolute Neutrophils"]["min"]) {
+      } else if (cbcObject["Absolute Neutrophils"]["value"] < cbcObject["Absolute Neutrophils"]["min"]) {
         $('#neutLow').prop("checked", true);
-        if (cbc_object["Absolute Neutrophils"]["value"] > $("#cbcNeutHighMarked").val()) {
+        if (cbcObject["Absolute Neutrophils"]["value"] > $("#cbcNeutHighMarked").val()) {
           $('#neutMarked').prop("checked", true);
           $('#neutMild').prop("checked", false);
-        } else if (cbc_object["Absolute Neutrophils"]["value"] < $("#cbcNeutHighMild").val()) {
+        } else if (cbcObject["Absolute Neutrophils"]["value"] < $("#cbcNeutHighMild").val()) {
           $('#neutMild').prop("checked", true);
           $('#neutMarked').prop("checked", false);
         } else {
           $('#neutMild').prop("checked", false);
           $('#neutMarked').prop("checked", false);
         }
-      } else if (cbc_object["Absolute Neutrophils"]["value"] > cbc_object["Absolute Neutrophils"]["max"]) {
+      } else if (cbcObject["Absolute Neutrophils"]["value"] > cbcObject["Absolute Neutrophils"]["max"]) {
         $('#neutHigh').prop("checked", true);
-        if (cbc_object["Absolute Neutrophils"]["value"] > $("#cbcNeutHighMarked").val()) {
+        if (cbcObject["Absolute Neutrophils"]["value"] > $("#cbcNeutHighMarked").val()) {
           $('#neutMarked').prop("checked", true);
           $('#neutMild').prop("checked", false);
-        } else if (cbc_object["Absolute Neutrophils"]["value"] < $("#cbcNeutHighMild").val()) {
+        } else if (cbcObject["Absolute Neutrophils"]["value"] < $("#cbcNeutHighMild").val()) {
           $('#neutMild').prop("checked", true);
           $('#neutMarked').prop("checked", false);
         } else {
@@ -890,29 +888,29 @@ $(document).ready(function() {
         }
       }
     }
-    if (cbc_object["Absolute Lymphocytes"] !== undefined) {
-      if (cbc_object["Absolute Lymphocytes"]["value"] >= cbc_object["Absolute Lymphocytes"]["min"] && cbc_object["Absolute Lymphocytes"]["value"] <= cbc_object["Absolute Lymphocytes"]["max"]) {
+    if (cbcObject["Absolute Lymphocytes"] !== undefined) {
+      if (cbcObject["Absolute Lymphocytes"]["value"] >= cbcObject["Absolute Lymphocytes"]["min"] && cbcObject["Absolute Lymphocytes"]["value"] <= cbcObject["Absolute Lymphocytes"]["max"]) {
         $('#lymphNormal').prop("checked", true);
         $('#lymphMild').prop("checked", false);
         $('#lymphMarked').prop("checked", false);
-      } else if (cbc_object["Absolute Lymphocytes"]["value"] < cbc_object["Absolute Lymphocytes"]["min"]) {
+      } else if (cbcObject["Absolute Lymphocytes"]["value"] < cbcObject["Absolute Lymphocytes"]["min"]) {
         $('#lymphLow').prop("checked", true);
-        if (cbc_object["Absolute Lymphocytes"]["value"] > $("#cbcLymphHighMarked").val()) {
+        if (cbcObject["Absolute Lymphocytes"]["value"] > $("#cbcLymphHighMarked").val()) {
           $('#lymphMarked').prop("checked", true);
           $('#lymphMild').prop("checked", false);
-        } else if (cbc_object["Absolute Lymphocytes"]["value"] < $("#cbcLymphHighMild").val()) {
+        } else if (cbcObject["Absolute Lymphocytes"]["value"] < $("#cbcLymphHighMild").val()) {
           $('#lymphMild').prop("checked", true);
           $('#lymphMarked').prop("checked", false);
         } else {
           $('#lymphMild').prop("checked", false);
           $('#lymphMarked').prop("checked", false);
         }
-      } else if (cbc_object["Absolute Lymphocytes"]["value"] > cbc_object["Absolute Lymphocytes"]["max"]) {
+      } else if (cbcObject["Absolute Lymphocytes"]["value"] > cbcObject["Absolute Lymphocytes"]["max"]) {
         $('#lymphHigh').prop("checked", true);
-        if (cbc_object["Absolute Lymphocytes"]["value"] > $("#cbcLymphHighMarked").val()) {
+        if (cbcObject["Absolute Lymphocytes"]["value"] > $("#cbcLymphHighMarked").val()) {
           $('#lymphMarked').prop("checked", true);
           $('#lymphMild').prop("checked", false);
-        } else if (cbc_object["Absolute Lymphocyte"]["value"] < $("#cbcLymphHighMild").val()) {
+        } else if (cbcObject["Absolute Lymphocyte"]["value"] < $("#cbcLymphHighMild").val()) {
           $('#lymphMild').prop("checked", true);
           $('#lymphMarked').prop("checked", false);
         } else {
@@ -921,29 +919,29 @@ $(document).ready(function() {
         }
       }
     }
-    if (cbc_object["Absolute Eosinophils"] !== undefined) {
-      if (cbc_object["Absolute Eosinophils"]["value"] >= cbc_object["Absolute Eosinophils"]["min"] && cbc_object["Absolute Eosinophils"]["value"] <= cbc_object["Absolute Eosinophils"]["max"]) {
+    if (cbcObject["Absolute Eosinophils"] !== undefined) {
+      if (cbcObject["Absolute Eosinophils"]["value"] >= cbcObject["Absolute Eosinophils"]["min"] && cbcObject["Absolute Eosinophils"]["value"] <= cbcObject["Absolute Eosinophils"]["max"]) {
         $('#eosNormal').prop("checked", true);
         $('#eosMild').prop("checked", false);
         $('#eosMarked').prop("checked", false);
-      } else if (cbc_object["Absolute Eosinophils"]["value"] < cbc_object["Absolute Eosinophils"]["min"]) {
+      } else if (cbcObject["Absolute Eosinophils"]["value"] < cbcObject["Absolute Eosinophils"]["min"]) {
         $('#eosLow').prop("checked", true);
-        if (cbc_object["Absolute Eosinophils"]["value"] > $("#cbcEosHighMarked").val()) {
+        if (cbcObject["Absolute Eosinophils"]["value"] > $("#cbcEosHighMarked").val()) {
           $('#eosMarked').prop("checked", true);
           $('#eosMild').prop("checked", false);
-        } else if (cbc_object["Absolute Eosinophils"]["value"] < $("#cbcEosHighMild").val()) {
+        } else if (cbcObject["Absolute Eosinophils"]["value"] < $("#cbcEosHighMild").val()) {
           $('#eosMild').prop("checked", true);
           $('#eosMarked').prop("checked", false);
         } else {
           $('#eosMild').prop("checked", false);
           $('#eosMarked').prop("checked", false);
         }
-      } else if (cbc_object["Absolute Eosinophils"]["value"] > cbc_object["Absolute Eosinophils"]["max"]) {
+      } else if (cbcObject["Absolute Eosinophils"]["value"] > cbcObject["Absolute Eosinophils"]["max"]) {
         $('#eosHigh').prop("checked", true);
-        if (cbc_object["Absolute Eosinophils"]["value"] > $("#cbcEosHighMarked").val()) {
+        if (cbcObject["Absolute Eosinophils"]["value"] > $("#cbcEosHighMarked").val()) {
           $('#eosMarked').prop("checked", true);
           $('#eosMild').prop("checked", false);
-        } else if (cbc_object["Absolute Eosinophils"]["value"] < $("#cbcEosHighMild").val()) {
+        } else if (cbcObject["Absolute Eosinophils"]["value"] < $("#cbcEosHighMild").val()) {
           $('#eosMild').prop("checked", true);
           $('#eosMarked').prop("checked", false);
         } else {
@@ -952,29 +950,29 @@ $(document).ready(function() {
         }
       }
     }
-    if (cbc_object["Absolute Basophils"] !== undefined) {
-      if (cbc_object["Absolute Basophils"]["value"] >= cbc_object["Absolute Basophils"]["min"] && cbc_object["Absolute Basophils"]["value"] <= cbc_object["Absolute Basophils"]["max"]) {
+    if (cbcObject["Absolute Basophils"] !== undefined) {
+      if (cbcObject["Absolute Basophils"]["value"] >= cbcObject["Absolute Basophils"]["min"] && cbcObject["Absolute Basophils"]["value"] <= cbcObject["Absolute Basophils"]["max"]) {
         $('#basoNormal').prop("checked", true);
         $('#basoMild').prop("checked", false);
         $('#basoMarked').prop("checked", false);
-      } else if (cbc_object["Absolute Basophils"]["value"] < cbc_object["Absolute Basophils"]["min"]) {
+      } else if (cbcObject["Absolute Basophils"]["value"] < cbcObject["Absolute Basophils"]["min"]) {
         $('#basoLow').prop("checked", true);
-        if (cbc_object["Absolute Basophils"]["value"] > $("#cbcBasoHighMarked").val()) {
+        if (cbcObject["Absolute Basophils"]["value"] > $("#cbcBasoHighMarked").val()) {
           $('#basoMarked').prop("checked", true);
           $('#basoMild').prop("checked", false);
-        } else if (cbc_object["Absolute Basophils"]["value"] < $("#cbcBasoHighMild").val()) {
+        } else if (cbcObject["Absolute Basophils"]["value"] < $("#cbcBasoHighMild").val()) {
           $('#basoMild').prop("checked", true);
           $('#basoMarked').prop("checked", false);
         } else {
           $('#basoMild').prop("checked", false);
           $('#basoMarked').prop("checked", false);
         }
-      } else if (cbc_object["Absolute Basophils"]["value"] > cbc_object["Absolute Basophils"]["max"]) {
+      } else if (cbcObject["Absolute Basophils"]["value"] > cbcObject["Absolute Basophils"]["max"]) {
         $('#basoHigh').prop("checked", true);
-        if (cbc_object["Absolute Basophils"]["value"] > $("#cbcBasoHighMarked").val()) {
+        if (cbcObject["Absolute Basophils"]["value"] > $("#cbcBasoHighMarked").val()) {
           $('#basoMarked').prop("checked", true);
           $('#basoMild').prop("checked", false);
-        } else if (cbc_object["Absolute Basophils"]["value"] < $("#cbcBasoHighMild").val()) {
+        } else if (cbcObject["Absolute Basophils"]["value"] < $("#cbcBasoHighMild").val()) {
           $('#basoMild').prop("checked", true);
           $('#basoMarked').prop("checked", false);
         } else {
@@ -984,7 +982,7 @@ $(document).ready(function() {
       }
     }
 
-    if (cbc_object["Absolute NRBCs"]["value"] > 0) {
+    if (cbcObject["Absolute NRBCs"]["value"] > 0) {
       let toggle = false;
       let counter = -1;
       ($(".rbc_item").each(function(){
@@ -998,12 +996,11 @@ $(document).ready(function() {
         $('#rbc_'+counter).val('Nucleated RBCs')
         add_dropdowns('rbc');
       }
-      console.log([cbc_object["Absolute NRBCs"]["value"], $("#nrbcFrequent").val()])
-      if (cbc_object["Absolute NRBCs"]["value"] > $("#nrbcFrequent").val()){
+      if (cbcObject["Absolute NRBCs"]["value"] > $("#nrbcFrequent").val()){
         $('#rbc_Nucleated_RBCs_Frequent').prop("checked", true);
         $('#rbc_Nucleated_RBCs_Occasional').prop("checked", false);
         $('#rbc_Nucleated_RBCs_Rare').prop("checked", false);
-      } else if (cbc_object["Absolute NRBCs"]["value"] > $("#nrbcOccasional").val()){
+      } else if (cbcObject["Absolute NRBCs"]["value"] > $("#nrbcOccasional").val()){
         $('#rbc_Nucleated_RBCs_Frequent').prop("checked", false);
         $('#rbc_Nucleated_RBCs_Occasional').prop("checked", true);
         $('#rbc_Nucleated_RBCs_Rare').prop("checked", false);
@@ -1014,30 +1011,29 @@ $(document).ready(function() {
       }
     }
     
-
-    if (cbc_object.PLT !== undefined) {
-      if (cbc_object["PLT"]["value"] > cbc_object["PLT"]["min"] && cbc_object["PLT"]["value"] < cbc_object["PLT"]["max"]) {
+    if (cbcObject.PLT !== undefined) {
+      if (cbcObject["PLT"]["value"] > cbcObject["PLT"]["min"] && cbcObject["PLT"]["value"] < cbcObject["PLT"]["max"]) {
         $('#pltNormal').prop("checked", true);
         $('#pltMild').prop("checked", false);
         $('#pltMarked').prop("checked", false);
-      } else if (cbc_object["PLT"]["value"] < cbc_object["PLT"]["min"]) {
+      } else if (cbcObject["PLT"]["value"] < cbcObject["PLT"]["min"]) {
         $('#pltLow').prop("checked", true);
-        if (cbc_object["PLT"]["value"] < parseFloat($("#cbcPltLowMarked").val())) {
+        if (cbcObject["PLT"]["value"] < parseFloat($("#cbcPltLowMarked").val())) {
           $('#pltMarked').prop("checked", true);
           $('#pltMild').prop("checked", false);
-        } else if (cbc_object["PLT"]["value"] > parseFloat($("#cbcPltLowMild").val())) {
+        } else if (cbcObject["PLT"]["value"] > parseFloat($("#cbcPltLowMild").val())) {
           $('#pltMild').prop("checked", true);
           $('#pltMarked').prop("checked", false);
         } else {
           $('#pltMild').prop("checked", false);
           $('#pltMarked').prop("checked", false);
         }
-      } else if (cbc_object["PLT"]["value"] > cbc_object["PLT"]["max"]) {
+      } else if (cbcObject["PLT"]["value"] > cbcObject["PLT"]["max"]) {
         $('#pltHigh').prop("checked", true);
-        if (cbc_object["PLT"]["value"] > parseFloat($("#cbcPltHighMarked").val())) {
+        if (cbcObject["PLT"]["value"] > parseFloat($("#cbcPltHighMarked").val())) {
           $('#pltMarked').prop("checked", true);
           $('#pltMild').prop("checked", false);
-        } else if (cbc_object["PLT"]["value"] < parseFloat($("#cbcPltHighMild").val())) {
+        } else if (cbcObject["PLT"]["value"] < parseFloat($("#cbcPltHighMild").val())) {
           $('#pltMild').prop("checked", true);
           $('#pltMarked').prop("checked", false);
         } else {
@@ -1046,7 +1042,7 @@ $(document).ready(function() {
         }
       }
     }
-    fill_pb();
+    fillPB();
   }
 
   function rbc_list_adjust(a) {
@@ -1130,7 +1126,7 @@ $(document).ready(function() {
     return final_string
   }
 
-  function fill_specimen() {
+  function fillSpecimen() {
     var spec_text = "";
     var spec_array = [];
     if ($('#spec_pb').prop("checked")) {
@@ -1180,7 +1176,7 @@ $(document).ready(function() {
     }
   }
 
-  function fill_pb() {
+  function fillPB() {
     var pb_text = "";
     var rbc_list_array = [];
     var rbc_list_string = list_text(rbc_list_adjust(master_list.rbc_strings)).toLowerCase();
@@ -1251,23 +1247,18 @@ $(document).ready(function() {
     } else if (rbc_list_array.indexOf("Polychromasia") != -1) {
         pb_text += "Red blood cells show " + rbc_list_string + ". ";   
     } else if (rbc_list_array.indexOf("Predominantly unremarkable") != -1) {
-      pb_text += "Red blood cells show predominantly unremarkable morphology. "
+      pb_text += "Red blood cells show predominantly unremarkable morphology. ";
     } else if (rbc_list_array.indexOf("Unremarkable") != -1) {
-      pb_text += "Red blood cells show unremarkable morphology. "
+      pb_text += "Red blood cells show unremarkable morphology. ";
     }
 
-    if (rbc_list_array.indexOf("Nucleated RBCs") != -1) {
-      for (const i in master_list.rbc_strings){
-        if (master_list.rbc_strings[i][1] == "Nucleated RBCs"){
-          if (master_list.rbc_strings[i][0] != null){
-            pb_text += master_list.rbc_strings[i][0].charAt(0).toUpperCase() + master_list.rbc_strings[i][0].slice(1) + " nucleated red blood cells are identified. ";
-          } else {
-            pb_text += "Nucleated red blood cells are identified. ";
-          }
-        }
-      }
+    if ($("#nrbcRare").prop("checked")) {
+      pb_text += "Rare nucleated red blood cells are identified. ";
+    } else if ($("#nrbcOccasional").prop("checked")){
+      pb_text += "Occasional nucleated red blood cells are identified. ";
+    } else if ($("#nrbcFrequent").prop("checked")) {
+      pb_text += "Frequent nucleated red blood cells are identified. ";
     }
-    
     
       if ($("#neutLow").prop("checked")) {
         $("#neutMildMarked").show();
@@ -1378,7 +1369,7 @@ $(document).ready(function() {
       }
 
     if (pb_text != "") {
-      $(pb_div).html("<b>Peripheral blood</b><br>" + pb_text + "<br>");
+      $(pb_div).html("<b>Peripheral Blood Smear</b><br>" + pb_text + "<br><br><br>");
       $(pb_div).show();
       $(right_panel_final).show();
     } else {
@@ -1386,9 +1377,9 @@ $(document).ready(function() {
     }
   }
 
-  function fill_asp() {
+  function fillAsp() {
     let asp_text = "";
-    const adequacy_list_string = list_text(master_list.adequacy_strings).toLowerCase();
+    const adequacyListString = list_text(master_list.adequacy_strings).toLowerCase();
     const erythroidListString = list_text(master_list.erythroid_strings).toLowerCase();
     const myeloidListString = list_text(master_list.myeloid_strings).toLowerCase();
     const megakaryocyteListString = list_text(master_list.megakaryocyte_strings).toLowerCase();
@@ -1405,14 +1396,20 @@ $(document).ready(function() {
       $("#megakaryocyte_unremarkable").prop("checked", false);
     }
     
-    if ($('#asp_adequate').prop("checked") && adequacy_list_string == "") {
+    if ($('#asp_adequate').prop("checked") && adequacyListString == "") {
       asp_text += "The bone marrow aspirate smears are cellular and adequate for interpretation. ";
     } else if ($('#asp_adequate').prop("checked")) {
-      asp_text += "The bone marrow aspirate smears are " + adequacy_list_string + " but overall adequate for interpretation. ";
-    } else if ($('#asp_inadequate').prop("checked") && adequacy_list_string == "") {
+      asp_text += "The bone marrow aspirate smears are " + adequacyListString + " but overall adequate for interpretation. ";
+    } else if ($('#asp_inadequate').prop("checked") && adequacyListString == "") {
       asp_text += "The bone marrow aspirate smears are inadequate for interpretation. ";
     } else if ($('#asp_inadequate').prop("checked")) {
-      asp_text += "The bone marrow aspirate smears are " + adequacy_list_string + " precluding a meaningful marrow differential. ";
+      asp_text += "The bone marrow aspirate smears are " + adequacyListString + " precluding a meaningful marrow differential. ";
+    }
+
+    if ($('#erythroidPredominance').prop("checked")){
+      asp_text += "There is an erythroid predominance. ";
+    } else if ($('#myeloidPredominance').prop("checked")){
+      asp_text += "There is a myeloid predominance. ";
     }
 
     if ($('#erythroid_unremarkable').prop("checked") && $('#myeloid_unremarkable').prop("checked")) {
@@ -1442,16 +1439,33 @@ $(document).ready(function() {
       asp_text += "Blasts are significantly increased. ";
     }
 
-    if (asp_text != "" && $(pb_div).html() != "") {
-      $(asp_div).html("<br><b>Aspirate smear/Touch preparation</b><br>" + asp_text);
-      $(asp_div).show();
-      $("#rightTemplate").show();
-    } else if (asp_text != "") {
-      $(asp_div).html("<b>Aspirate smear/Touch preparation</b><br>" + asp_text);
+    if (asp_text != "") {
+      $(asp_div).html("<b>Aspirate Smear/Touch Preparation</b><br>" + asp_text +"<br><br><br>");
       $(asp_div).show();
       $(right_panel_final).show();
     } else {
       $(asp_div).hide();
+    }
+  }
+
+  function fillBone(){
+    let boneText = "";
+    const adequacyListString = list_text(master_list.adequacy_strings).toLowerCase();
+    if ($('#boneAdequate').prop("checked") && adequacyListString == "") {
+      boneText += "The bone marrow core biopsy is adequate for interpretation. ";
+    } else if ($('#boneAdequate').prop("checked")) {
+      boneText += "The bone marrow core biopsy is " + adequacyListString + " but overall adequate for interpretation. ";
+    } else if ($('#boneInadequate').prop("checked") && adequacyListString == "") {
+      boneText += "The bone marrow core biopsy is inadequate for interpretation. ";
+    } else if ($('#boneInadequate').prop("checked")) {
+      boneText += "The bone marrow core biopsy is " + adequacyListString + " and overall inadequate for interpretation. ";
+    }
+    if (boneText != "") {
+      $(boneDiv).html("<b>Core Biopsy/Particle Clot</b><br>" + boneText +"<br><br><br>");
+      $(boneDiv).show();
+      $(right_panel_final).show();
+    } else {
+      $(boneDiv).hide();
     }
   }
 
