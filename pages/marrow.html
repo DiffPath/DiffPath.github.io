@@ -495,10 +495,18 @@
                                     <input type="radio" class="form" id="blast_increased" name="asp_blast"><label for="blast_increased">Increased</label>
                                 </div>
                             </div>
+                            <div>
+                                <b>Touch Preparation:</b>
+                            </div>
+                            <div class="flex">
+                                <div>
+                                    <input type="checkbox" class="form" id="touchSimilar" name="asp_touch"><label for="touchSimilar">Similar to aspirate smear</label>
+                                </div>
+                            </div>
                         </div>                        
                     </div>
                     <div class="panelBody" id="bonePanel" style="display: none">
-                        <div class="boneGrid">
+                        <div class="aspGrid">
                             <div>
                                 <b>Adequacy:</b>
                             </div>
@@ -509,9 +517,67 @@
                                     <select id="boneAdequacy_select_1" class="select"></select>
                                 </div>
                             </div>
-                        </div>     
+                            <div>
+                                <b>Cellularity:</b>
+                            </div>
+                            <div class="flex">
+                                <div>
+                                    <input type="input" class="form" id="boneCellularity" size="2" maxlength="3">%
+                                    <input type="radio" class="form" id="hypocellular" name="boneCellularity"><label for="hypocellular">Hypocellular</label>
+                                    <input type="radio" class="form" id="normocellular" name="boneCellularity"><label for="normocellular">Normocellular</label>
+                                    <input type="radio" class="form" id="hypercellular" name="boneCellularity"><label for="hypercellular">Hypercellular</label>
+                                </div>
+
+                            </div>
+                            <div>
+                                <b>Myeloids/Erythroids:</b>
+                            </div>
+                            <div>
+                                <div class="flex">
+                                    <div>
+                                        <input type="checkbox" class="form" id="boneMEUnremarkable"><label for="boneMEUnremarkable">Unremarkable</label>
+                                    </div>
+                                </div>
+                                <div id="boneME_select_div" class="dropdown_div">
+                                    <select id="boneME_select_0" class="select"></select>
+                                </div>
+                            </div>
+                            <div>
+                                <b>Megakaryocytes:</b>
+                            </div>
+                            <div>
+                                <div class="flex">
+                                    <div>
+                                        <input type="checkbox" class="form" id="boneMegUnremarkable"><label for="boneMegUnremarkable">Unremarkable</label>
+                                    </div>
+                                </div>
+                                <div id="boneMeg_select_div" class="dropdown_div">
+                                    <select id="boneMeg_select_0" class="select"></select>
+                                </div>
+                            </div>
+                            <div>
+                                <b>Particle Clot:</b>
+                            </div>
+                            <div class="flex">
+                                <div>
+                                    <input type="checkbox" class="form" id="clotSimilar" name="boneClot"><label for="clotSimilar">Similar to core biopsy</label>
+                                </div>
+                            </div> 
+                        </div>  
                     </div>
                     <div class="panelBody" id="stainPanel" style="display: none">
+                        <div class="aspGrid">
+                            <div>
+                                <b>Iron:</b>
+                            </div>
+                            <div>
+                                <input type="radio" class="form" id="boneAdequate" name="boneAdequacy"><label for="boneAdequate">Adequate</label>
+                                <input type="radio" class="form" id="boneInadequate" name="boneAdequacy"><label for="boneInadequate">Inadequate</label>
+                                <div id="boneAdequacy_select_div" class="dropdown_div">
+                                    <select id="boneAdequacy_select_1" class="select"></select>
+                                </div>
+                            </div>
+                        </div>
                     </div>       
                 </div>
             </div>
@@ -521,10 +587,13 @@
                     <div class="copyButton" id="microscopic"><i class="fas fa-copy headerIcon"></i>Copy Microscopic</div>
                 </div>
                 <div class="panelBody" id="right_panel_final" style="display: none">
-                    <div class="spec" id="spec_div"></div>
-                    <div id="microscopic_div">
+                    <div id="spec_container">
+                        <div class="panelFormat" id="spec_div">
+                        </div>
+                    </div>
+                    <div id="microscopic_container">
                         <div class="pb" id="pb_table_div" style="display: none">
-                            <div class="panelFormat" style="font-size:11pt">
+                            <div class="panelFormat">
                                 <div>
                                     <b>Differential Count</b>
                                 </div>
@@ -671,15 +740,11 @@
                                   <br>
                             </div>
                         </div>
-                        <div class="pb panelFormat" id="pb_div" style="font-size:11pt">
-                        </div>
-                        <div class="asp panelFormat" id="asp_div" style="font-size:11pt">
-                        </div>
-                        <div class="bone panelFormat" id="boneDiv" style="font-size:11pt">
-                        </div>
+                        <div class="final panelFormat" id="finalDiv" style="font-size:11pt">
                         </div>
                     </div>
 
+                </div>
             </div>
             <div class="panel" id="helpPanel" style="display: none; margin-left: 5px">
                 <div class="panelBody">
@@ -923,7 +988,6 @@
                         <br>
                         <button type="button" class="saveButton">Save</button>
                     </div>  
-            </div>
             </div>
         </div>
 
