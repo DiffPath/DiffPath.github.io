@@ -112,9 +112,9 @@ $(document).ready(function() {
   ];
   var boneAdequacy_list = [
     ["", 0],
+    ["Crush artifact", 4],
+    ["Aspiration artifact", 4],
     ["Fragmented", 0],
-    ["Crush artifact", 0],
-    ["Aspiration artifact", 0],
     ["Subcortical", 0],
     ["Predominantly subcortical", 0],
     ["Small", 0],
@@ -618,10 +618,6 @@ $(document).ready(function() {
     }
   });
 
-  $('#lymphocyte_select').change(function(){
-    fillPB();
-  });
-
   $('.sub_checked').change(function() {
     if ($(this).prop("checked")) {
       add_dropdowns(this.id)
@@ -686,7 +682,7 @@ $(document).ready(function() {
 
 
   $('.copyButton').click(function(){
-    let element = "#" + this.id + "_div";
+    let element = "#" + this.id + "_container";
     if($(element).is(":visible")){
       let temp = document.createElement("div");
       temp.setAttribute("contentEditable", true);
@@ -713,13 +709,6 @@ $(document).ready(function() {
       }
     }
 })
-  function fillReport(){
-    fillSpecimen();
-    fillPB();
-    fillAsp();
-    fillBone();
-  }
-
   function add_dropdowns(id) {
     let selected_array = find_selected(id);
     var div_id = "#" + id + "_select_div";
@@ -1042,7 +1031,7 @@ $(document).ready(function() {
         }
       }
     }
-    fillPB();
+    fillReport();
   }
 
   function rbc_list_adjust(a) {
@@ -1056,7 +1045,7 @@ $(document).ready(function() {
         b.splice(i,1);
         i--;
       } else if (b[i][1] == "Anisopoikilocytosis"){
-        aniso = true
+        aniso = true;
       }
     }
     if (aniso){
@@ -1124,6 +1113,69 @@ $(document).ready(function() {
         }
       }
     return final_string
+  }
+
+  function fillReport(){
+    fillSpecimen();
+    let finalText = "";
+    const pb = fillPB();
+    const asp = fillAsp();
+    const touch = fillTouch();
+    const bone = fillBone();
+    const clot = fillClot();
+    if (pb != ""){
+      finalText += "<b>Peripheral Blood Smear</b><br>" + pb;
+    }
+    if (finalText != ""){
+      if (asp != ""){
+        finalText += "<br><br><b>Aspirate Smear";
+        if (touch != ""){
+          finalText += "/Touch Preparation</b><br>" + asp + "<br><br>" + touch;
+        } else {
+          finalText += "</b><br>" + asp;
+        }
+      } else if (touch != ""){
+        finalText += "<br><br><b>Touch Preparation</b><br>" + touch;
+      }
+    } else {
+      if (asp != ""){
+        finalText += "<b>Aspirate Smear";
+        if (touch != ""){
+          finalText += "/Touch Preparation</b><br>" + asp + "<br><br>" + touch;
+        } else {
+          finalText += "</b><br>" + asp;
+        }
+      } else if (touch != ""){
+        finalText += "<b>Touch Preparation</b><br>" + touch;
+      }
+    }
+
+    if (finalText != ""){
+      if (bone != ""){
+        finalText += "<br><br><b>Core Biopsy";
+        if (clot != ""){
+          finalText += "/Particle Clot</b><br>" + bone + "<br><br>" + clot;
+        } else {
+          finalText += "</b><br>" + bone;
+        }
+      } else if (clot != ""){
+        finalText += "<br><br><b>Particle Clot</b><br>" + clot;
+      }
+    } else {
+      if (bone != ""){
+        finalText += "<b>Core Biopsy";
+        if (clot != ""){
+          finalText += "/Particle Clot</b><br>" + bone + "<br><br>" + clot;
+        } else {
+          finalText += "</b><br>" + bone;
+        }
+      } else if (clot != ""){
+        finalText += "<b>Particle Clot</b><br>" + clot;
+      }
+    }
+
+    $("#finalDiv").html(finalText)
+    $(right_panel_final).show();
   }
 
   function fillSpecimen() {
@@ -1344,37 +1396,35 @@ $(document).ready(function() {
         } else {
           pb_text += " decreased with " + plt_list_string + ". ";
         }
-      } else if ($("#pltNormal").prop("checked")) {
+      } else if ($("#pltNormal").prop("checked")){
         $("#pltMildMarked").hide();
         if (plt_list_string == "") {
           pb_text += "Platelets are adequate with unremarkable morphology. ";
         } else {
           pb_text += "Platelets are adequate with " + plt_list_string + ". ";  
         }
-      } else if ($("#pltHigh").prop("checked")) {
+      } else if ($("#pltHigh").prop("checked")){
         $("#pltMildMarked").show();
         pb_text += "Platelets are";
-        if ($("#pltMild").prop("checked")) {
+        if ($("#pltMild").prop("checked")){
           pb_text += " mildly";
         } else if ($("#pltMarked").prop("checked")) {
           pb_text += " markedly";
         }
-        if (plt_list_string == "") {
+        if (plt_list_string == ""){
         pb_text += " increased with unremarkable morphology. ";
         } else {
         pb_text += " increased with " + plt_list_string + ". ";
         }
       } else if (plt_list_string != ""){
-        pb_text += plt_list_string.charAt(0).toUpperCase() + plt_list_string.slice(1) + " are seen."
+        pb_text += plt_list_string.charAt(0).toUpperCase() + plt_list_string.slice(1) + " are seen. "
       }
 
-    if (pb_text != "") {
-      $(pb_div).html("<b>Peripheral Blood Smear</b><br>" + pb_text + "<br><br><br>");
-      $(pb_div).show();
-      $(right_panel_final).show();
-    } else {
-      $(pb_div).hide();
-    }
+      if ($("#circulatingPlasma").prop("checked")){
+        pb_text += "No circulating plasma cells are identified. "
+      }
+
+    return pb_text
   }
 
   function fillAsp() {
@@ -1439,18 +1489,21 @@ $(document).ready(function() {
       asp_text += "Blasts are significantly increased. ";
     }
 
-    if (asp_text != "") {
-      $(asp_div).html("<b>Aspirate Smear/Touch Preparation</b><br>" + asp_text +"<br><br><br>");
-      $(asp_div).show();
-      $(right_panel_final).show();
-    } else {
-      $(asp_div).hide();
+    return asp_text;
+  }
+
+  function fillTouch(){
+    let touchText = "";
+    if ($('#touchSimilar').prop("checked")){
+      touchText += "The bone marrow touch preparations are cellular and show findings similar to the aspirate smears.";
     }
+
+    return touchText;
   }
 
   function fillBone(){
     let boneText = "";
-    const adequacyListString = list_text(master_list.adequacy_strings).toLowerCase();
+    const adequacyListString = list_text(master_list.boneAdequacy_strings).toLowerCase();
     if ($('#boneAdequate').prop("checked") && adequacyListString == "") {
       boneText += "The bone marrow core biopsy is adequate for interpretation. ";
     } else if ($('#boneAdequate').prop("checked")) {
@@ -1460,13 +1513,41 @@ $(document).ready(function() {
     } else if ($('#boneInadequate').prop("checked")) {
       boneText += "The bone marrow core biopsy is " + adequacyListString + " and overall inadequate for interpretation. ";
     }
-    if (boneText != "") {
-      $(boneDiv).html("<b>Core Biopsy/Particle Clot</b><br>" + boneText +"<br><br><br>");
-      $(boneDiv).show();
-      $(right_panel_final).show();
-    } else {
-      $(boneDiv).hide();
+
+    if ($('#hypocellular').prop('checked')){
+      boneText += "The marrow is hypocellular for age"
+    } else if ($('#normocellular').prop('checked')){
+      boneText += "The marrow is normocellular for age"
+    } else if ($('#hypercellular').prop('checked')){
+      boneText += "The marrow is hypercellular for age"
     }
+    
+    if ($('#hypocellular').prop('checked') || $('#normocellular').prop('checked') || $('#hypercellular').prop('checked')){
+      if ($.isNumeric($('#boneCellularity').val())){
+        boneText += " (" + $('#boneCellularity').val() + "% cellular). ";
+      } else {
+          boneText += ". ";
+      }
+    }
+    
+    if ($('#boneMEUnremarkable').prop('checked')){
+      boneText += "Myeloid and erythroid precursors show progressive maturation. "
+    }   
+
+    if ($('#boneMegUnremarkable').prop('checked')){
+      boneText += "Megakaryocytes are adequate and regularly distributed. "
+    }
+
+    return boneText;
+  }
+
+  function fillClot(){
+    let clotText = "";
+    if ($('#clotSimilar').prop("checked")){
+      clotText += "The bone marrow particle clot shows multiple marrow particles with findings similar to the core biopsy.";
+    }
+
+    return clotText;
   }
 
 
