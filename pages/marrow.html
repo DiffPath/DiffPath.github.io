@@ -8,12 +8,11 @@
         <script src="/js/marrow.js"></script>
     </head>
     <body>
-        <div id="copyDiv"></div> 
         <div id="copyAlert"></div> 
         <div id="overlay"></div>  
         <nav id="navbar">
-            <div id="navbarIcon" class="navbarIcon">
-                <i class="fas fa-bars titleIcon icon"></i>
+            <div>
+                <i class="titleIcon navbarIcon fas fa-bars"></i>
             </div>
             <div>
                     <div class="navItem" style="padding-top: 15px"><a href="https://diffpath.github.io/pages/marrow.html"></a><i class="fas fa-bone headerIcon"></i><b>Bone Marrow</b></div>
@@ -22,24 +21,24 @@
             </div>
         </nav>  
         <div class="header"> 
-            <div id="navbarIcon" class="navbarIcon">
-                <i class="fas fa-bars titleIcon icon"></i>
+            <div>
+                <i class="titleIcon navbarIcon fas fa-bars "></i>
             </div>
             <div class="title">Bone Marrow Template</div>
             <div class="pagebar">
                 <i class="titleIcon headerTab fas fa-list clicked" id="templateTab"></i>
-                <i class="titleIcon headerTab fas fa-book unclicked" id="helpTab"></i>
-                <i class="titleIcon headerTab far fa-question-circle unclicked" id="infoTab"></i>
-                <i class="titleIcon headerTab fas fa-cog unclicked" id="settingTab"></i>
+                <i class="titleIcon headerTab fas fa-book" id="helpTab"></i>
+                <i class="titleIcon headerTab far fa-question-circle" id="infoTab"></i>
+                <i class="titleIcon headerTab fas fa-cog" id="settingTab"></i>
             </div>
         </div>
-        <div class="content single">
-            <div class="panel" style="margin-right: 5px">
+        <div class="panelContainer">
+            <div class="panel">
                 <div class="panelHeader">
                     <div class="templateTab headerTab underline clicked" id="specTab"><i class="fas fa-list headerIcon"></i>Specimen</div>
                     <div class="templateTab headerTab underline unclicked" id="pbTab"><i class="fas fa-tint headerIcon"></i>Blood</div>
                     <div class="templateTab headerTab underline unclicked" id="aspTab"><i class="fas fa-syringe headerIcon"></i>Aspirate</div>
-                    <div class="templateTab headerTab underline unclicked" id="boneTab"><i class="fas fa-bone headerIcon"></i>Bone</div>
+                    <div class="templateTab headerTab underline unclicked" id="coreTab"><i class="fas fa-bone headerIcon"></i>Core</div>
                     <div class="templateTab headerTab underline unclicked" id="stainTab"><i class="fas fa-palette headerIcon"></i>Stains</div>
                 </div>
                 <div>
@@ -50,92 +49,91 @@
                             <b>Laterality:</b>
                         </div>
                         <div>
-                            <input type="radio" class="form" id="lat_left" name="laterality"><label for="lat_left">Left</label>
-                            <input type="radio" class="form" id="lat_right" name="laterality"><label for="lat_right">Right</label>
-                            <input type="radio" class="form" id="lat_bilateral" name="laterality"><label for="lat_bilateral">Bilateral</label>
-                            <input type="radio" class="form" id="lat_notspecified" name="laterality"><label for="lat_notspecified">Not specified</label>
+                            <input type="radio" class="form" id="latLeft" name="laterality"><label for="latLeft">Left</label>
+                            <input type="radio" class="form" id="latRight" name="laterality"><label for="latRight">Right</label>
+                            <input type="radio" class="form" id="latBilateral" name="laterality"><label for="latBilateral">Bilateral</label>
+                            <input type="radio" class="form" id="latNotSpecified" name="laterality"><label for="latNotSpecified">Not specified</label>
                         </div>
                         <div>
                             <b>Specimens:</b>
                         </div>
                         <div>
                             <div>
-                                <input type="radio" class="form toggle" id="spec_all"><label for="spec_all">All specimens</label>  
+                                <input type="radio" class="form toggle" id="specAll"><label for="specAll">All specimens</label>  
                             </div>
                             <div>
-                                <input type="checkbox" class="form specimen" id="spec_pb"><label for="spec_pb">Peripheral blood</label> 
+                                <input type="checkbox" class="form specimen" id="specPB"><label for="specPB">Peripheral blood</label> 
                             </div>
                             <div>
-                                <input type="checkbox" class="form specimen" id="spec_asp"><label for="spec_asp">Aspirate smears</label>  
+                                <input type="checkbox" class="form specimen" id="specAsp"><label for="specAsp">Aspirate smears</label>  
                             </div>
                             <div>
-                                <input type="checkbox" class="form specimen" id="spec_tp"><label for="spec_tp">Touch preparations</label>
+                                <input type="checkbox" class="form specimen" id="specTP"><label for="specTP">Touch preparations</label>
                             </div>
                             <div>
-                                <input type="checkbox" class="form specimen" id="spec_pc"><label for="spec_pc">Particle clot</label>       
+                                <input type="checkbox" class="form specimen" id="specPC"><label for="specPC">Particle clot</label>       
                             </div>
                             <div>
-                                <input type="checkbox" class="form specimen" id="spec_cb"><label for="spec_cb">Core biopsy</label>  
+                                <input type="checkbox" class="form specimen" id="specCB"><label for="specCB">Core biopsy</label>  
                             </div>
                         </div>
                     </div>
                     <div class="panelBody" id="pbPanel" style="display: none">
                         <div class="title">Peripheral Blood</div>
                         <hr>
-                        <div class="pb_cbc">
-                            <b>Paste CBC here:</b>
-                            <textarea class="extend" id="pb_cbc" rows="1" max></textarea>
+                        <div class="pbCBC">
+                            <textarea class="extend" id="pbCBC" rows="1" placeholder='Paste CBC Here'></textarea>
                         </div>
-                        <div class="counterGrid">
-                            <div class="grid">
-                            <div class="grid_cell">
+                        <div class="upperGrid">
+                            <div class="counterGrid">
+                            <div class="gridCell">
                                 <b id="pbLabel7"></b>
                                 <input class="pb_counter" id="pbCount7" size="2">
                             </div>
-                            <div class="grid_cell">
+                            <div class="gridCell">
                                 <b id="pbLabel8"></b>
                                 <input class="pb_counter" id="pbCount8" size="2">
                             </div>
-                            <div class="grid_cell">
+                            <div class="gridCell">
                                 <b id="pbLabel9"></b>
                                 <input class="pb_counter" id="pbCount9" size="2">
                             </div>
-                            <div class="grid_cell">
+                            <div class="gridCell">
                                 <b id="pbLabel4"></b>
                                 <input class="pb_counter" id="pbCount4" size="2">
                             </div>
-                            <div class="grid_cell">
+                            <div class="gridCell">
                                 <b id="pbLabel5"></b>
                                 <input class="pb_counter" id="pbCount5" size="2">
                             </div>
-                            <div class="grid_cell">
+                            <div class="gridCell">
                                 <b id="pbLabel6"></b>
                                 <input class="pb_counter" id="pbCount6" size="2">
                             </div>
-                            <div class="grid_cell">
+                            <div class="gridCell">
                                 <b id="pbLabel1"></b>
                                 <input class="pb_counter" id="pbCount1" size="2">
                             </div>
-                            <div class="grid_cell">
+                            <div class="gridCell">
                                 <b id="pbLabel2"></b>
                                 <input class="pb_counter" id="pbCount2" size="2">
                             </div>
-                            <div class="grid_cell">
+                            <div class="gridCell">
                                 <b id="pbLabel3"></b>
                                 <input class="pb_counter" id="pbCount3" size="2">
                             </div>
                             <div></div>
-                            <div class="grid_cell">
+                            <div class="gridCell">
                                 <b id="pbLabel0"></b>
                                 <input class="pb_counter" id="pbCount0" size="2">
                             </div>
                             </div>
                             <div>
-                            <div class="grid_cell">
+                            <div class="gridCell">
                                 <b>Current Count</b>
                                 <input class="pb_counter" id="pbCCount" size="2">
                             </div>
-                            <div class="grid_cell">
+                            <div class="gridCell">
                                 <b>Desired Count</b>
                                 <input id="pbDCount" list="pbDList" size="2" placeholder="200">
                                 <datalist id="pbDList">
@@ -147,23 +145,21 @@
                                     <option value="1000"></option>
                                 </datalist>
                             </div>
-                            <div class="grid_cell">
+                            <div class="gridCell">
                                 <b>Total %</b>
                                 <input class="pb_counter" id="pbTCount" size="2">
                             </div>
                         </div>
-                    </div>
-                        
+                        </div>      
                         <div>
-                            <b>Count Here:</b>
-                            <textarea class="counter" id="pbCounter" rows="4"></textarea>
+                            <textarea class="counter" id="pbCounter" placeholder='Count Here'></textarea>
                         </div>
-                        <div class="pbGrid">
+                        <div class="lowerGrid">
                             <div>
-                                    <b>Hemoglobin:</b>
+                                <b>Hemoglobin:</b>
                             </div>
                             <div>
-                                    <div class="flex">
+                                <div class="flex">
                                     <div class="flex" style="padding-right: 10px">
                                         <div>
                                             <input type="radio" class="form" id="hgbLow" name="hgb"><label for="hgbLow">Anemia</label>
@@ -179,39 +175,55 @@
                                         <input type="checkbox" class="form singleCheck" id="hgbMild" name="hgb"><label for="hgbMild">Mild</label>                   
                                         <input type="checkbox" class="form singleCheck" id="hgbMarked" name="hgb"><label for="hgbMarked">Marked</label>
                                     </div>
-                                </div>
-                                
+                                </div>  
                             </div>
                             <div>
-                                <b>MCV:</b>
+                                <b>MCV / MCHC:</b>
                             </div>
                             <div>
                                 <div class="flex">
-                                    <div>
-                                        <input type="radio" class="form" id="mcvLow" name="mcv"><label for="mcvLow">Microcytic</label>
+                                    <div class="flex" style="padding-right: 10px">
+                                        <div>
+                                            <input type="radio" class="form" id="mcvLow" name="mcv"><label for="mcvLow">Microcytic</label>
+                                        </div>
+                                        <div>
+                                            <input type="radio" class="form" id="mcvNormal" name="mcv"><label for="mcvNormal">Normocytic</label>
+                                        </div>
+                                        <div>
+                                            <input type="radio" class="form" id="mcvHigh" name="mcv"><label for="mcvHigh">Macrocytic</label>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <input type="radio" class="form" id="mcvNormal" name="mcv"><label for="mcvNormal">Normocytic</label>
-                                    </div>
-                                    <div>
-                                        <input type="radio" class="form" id="mcvHigh" name="mcv"><label for="mcvHigh">Macrocytic</label>
+                                    <div id="hypochromasia">                          
+                                        <input type="checkbox" class="form singleCheck" id="hypochromic"><label for="hypochromic">Hypochromic</label>                   
                                     </div>
                                 </div>
                             </div>
                             <div>
-                                <b>RBC Descriptors:</b>
+                                <b>Polychromasia:</b>
                             </div>
-                            <div id="rbc_select_div" class="dropdown_div">
-                                        <select id="rbc_select_0" class="select"></select>
+                            <div>
+                                <input type="radio" class="form" id="polyPresent" name="poly" value="polychromasia"><label for="polyPresent">Present</label> 
+                                <input type="radio" class="form" id="polyAbsent" name="poly"><label for="polyAbsent">Absent</label>
+                                <input type="radio" class="form" id="polySlight" name="poly" value="slight polychromasia"><label for="polySlight">Slight</label>
+                                <input type="radio" class="form" id="polyMarked" name="poly" value="marked polychromasia"><label for="polyMarked">Marked</label>   
+                            </div> 
+                            <div>
+                                <b>Anisopoikilocytosis:</b>
                             </div>
-                            <div id="aniso_div" style ="display: none">
+                            <div>
+                                <input type="radio" class="form aniso" id="anisoPresent" name="aniso"><label for="anisoPresent">Present</label> 
+                                <input type="radio" class="form aniso" id="anisoAbsent" name="aniso"><label for="anisoAbsent">Absent</label>
+                                <input type="radio" class="form aniso" id="anisoMild" name="aniso"><label for="anisoMild">Mild</label>
+                                <input type="radio" class="form aniso" id="anisoMarked" name="aniso"><label for="anisoMarked">Marked</label>   
+                            </div> 
+                            <div id="anisoDiv" style ="display: none">
                                 <b>Anisopoikilocytosis Descriptors:</b>
                             </div>
-                            <div id="aniso_select_div" class="dropdown_div" style ="display: none">
-                                <select id='aniso_select_0' class="select"></select>
+                            <div id="anisoSelect" class="selectDiv" style ="display: none">
+                                <select id='anisoSelect0' class="select anisoSelect"></select>
                             </div>
                             <div style="padding-bottom: 10px">
-                                <b>Nucleated RBCs</b>
+                                <b>Nucleated RBCs:</b>
                             </div>
                             <div>
                                 <input type="radio" class="form" id="nrbcRare" name="nrbc"><label for="nrbcRare">Rare</label>
@@ -239,8 +251,10 @@
                             <div style="padding-bottom: 10px">
                                 <b>Neutrophil Descriptors:</b>
                             </div>
-                            <div id="neutrophil_select_div" class="dropdown_div">
-                                <select id="neutrophil_select_0" class="select"></select>
+                            <div id="neutrophilSelect" class="selectDiv">
+                                <div>
+                                    <select id="neutrophilSelect0" class="select neutrophilSelect"></select>
+                                </div>
                             </div>
                             <div>
                                 <b>Absolute Lymphocytes:</b>
@@ -263,14 +277,8 @@
                             <div style="padding-bottom: 10px">
                                 <b>Lymphocyte Descriptors:</b>
                             </div>
-                            <div id="lymphocyte_select_div">
-                                <select id="lymphocyte_select" style="width: 200px">
-                                    <option value=""></option>
-                                    <option value="unremarkable">Unremarkable</option>
-                                    <option value="smallLarge">Small mature and large granular</option>
-                                    <option value="smallLargeReactive">Small, large, and reactive</option>
-                                    <option value="monotypic">Monotypic</option>
-                                </select>
+                            <div id="lymphocyteSelect" class="selectDiv">
+                                <select id="lymphocyteSelect" class="select lymphocyteSelect"></select>
                             </div>
                             <div style="padding-bottom: 10px">
                                 <b>Absolute Eosinophils:</b>
@@ -321,8 +329,8 @@
                             <div style="padding-bottom: 10px">
                                 <b>Platelet descriptors: </b>
                             </div>                            
-                            <div id="platelet_select_div" class="dropdown_div">
-                                <select id="platelet_select_0" class="select"></select>
+                            <div id="plateletSelect" class="selectDiv">
+                                <select id="plateletSelect0" class="select plateletSelect"></select>
                             </div>
                             <div>
                                 <b>Plasma cells:</b>
@@ -331,7 +339,6 @@
                                 <input type="checkbox" class="form" id="circulatingPlasma" name="plasma"><label for="circulatingPlasma">None</label>  
                             </div>                            
                         </div>
-
                     </div>
                     <div class="panelBody" id="aspPanel" style="display: none">
                         <div class="title">Aspirate Smear/Touch Preparation</div>
@@ -345,57 +352,57 @@
                                 <input type="checkbox" id="blastCheck"></label>
                         </div>
                         <br>
-                        <div class="counterGrid">
-                            <div class="grid">
-                                <div class="grid_cell">
+                        <div class="upperGrid">
+                            <div class="counterGrid">
+                                <div class="gridCell">
                                     <b id="aspLabel7"></b>
                                     <input class="aspCounter" id="aspCount7" size="2">
                                 </div>
-                                <div class="grid_cell">
+                                <div class="gridCell">
                                     <b id="aspLabel8"></b>
                                     <input class="aspCounter" id="aspCount8" size="2">
                                 </div>
-                                <div class="grid_cell">
+                                <div class="gridCell">
                                     <b id="aspLabel9"></b>
                                     <input class="aspCounter" id="aspCount9" size="2">
                                 </div>
-                                <div class="grid_cell">
+                                <div class="gridCell">
                                     <b id="aspLabel4"></b>
                                     <input class="aspCounter" id="aspCount4" size="2">
                                 </div>
-                                <div class="grid_cell">
+                                <div class="gridCell">
                                     <b id="aspLabel5"></b>
                                     <input class="aspCounter" id="aspCount5" size="2">
                                 </div>
-                                <div class="grid_cell">
+                                <div class="gridCell">
                                     <b id="aspLabel6"></b>
                                     <input class="aspCounter" id="aspCount6" size="2">
                                 </div>
-                                <div class="grid_cell">
+                                <div class="gridCell">
                                     <b id="aspLabel1"></b>
                                     <input class="aspCounter" id="aspCount1" size="2">
                                 </div>
-                                <div class="grid_cell">
+                                <div class="gridCell">
                                     <b id="aspLabel2"></b>
                                     <input class="aspCounter" id="aspCount2" size="2">
                                 </div>
-                                <div class="grid_cell">
+                                <div class="gridCell">
                                     <b id="aspLabel3"></b>
                                     <input class="aspCounter" id="aspCount3" size="2">
                                 </div>
                                 <div></div>
-                                <div class="grid_cell">
+                                <div class="gridCell">
                                     <b id="aspLabel0"></b>
                                     <input class="aspCounter" id="aspCount0" size="2">
                                 </div>
                                 <div></div>
                             </div>
                             <div>
-                                <div class="grid_cell">
+                                <div class="gridCell">
                                     <b>Current Count</b>
                                     <input id="aspCCount" size="2">
                                 </div>
-                                <div class="grid_cell">
+                                <div class="gridCell">
                                     <b>Desired Count</b>
                                     <input id="aspDCount" list="aspDList" maxlength="4" size="3" placeholder="500">
                                     <datalist id="aspDList">
@@ -407,29 +414,28 @@
                                         <option value="1000"></option>
                                     </datalist>
                                 </div>
-                                <div class="grid_cell">
+                                <div class="gridCell">
                                     <b>M:E ratio</b>
                                     <input id="meRatio" size="2">
                                 </div>
-                                <div class="grid_cell">
+                                <div class="gridCell">
                                     <b>Total %</b>
                                     <input id="aspTCount" size="2">
                                 </div>
                             </div>
                         </div>                   
                         <div>
-                            <b>Count Here:</b>
-                            <textarea class="counter" id="aspCounter" rows="4"></textarea>
+                            <textarea class="counter" id="aspCounter"></textarea>
                         </div>
-                        <div class="aspGrid">
+                        <div class="lowerGrid">
                             <div>
                                 <b>Adequacy:</b>
                             </div>
                             <div>
                                 <input type="radio" class="form" id="asp_adequate" name="adequacy"><label for="asp_adequate">Adequate</label>
                                 <input type="radio" class="form" id="asp_inadequate" name="adequacy"><label for="asp_inadequate">Inadequate</label>
-                                <div id="adequacy_select_div" class="dropdown_div">
-                                    <select id="adequacy_select_0" class="select"></select>
+                                <div id="adequacySelect" class="selectDiv">
+                                    <select id="adequacySelect0" class="select adequacySelect"></select>
                                 </div>
                             </div>
                             <div>
@@ -454,8 +460,8 @@
                                         <input type="checkbox" class="form unremarkable" id="erythroid_unremarkable" name="erythroid"><label for="erythroid_unremarkable">Unremarkable</label>
                                     </div>
                                 </div>
-                                <div id="erythroid_select_div" class="dropdown_div">
-                                    <select id="erythroid_select_0" class="select"></select>
+                                <div id="erythroidSelect" class="selectDiv">
+                                    <select id="erythroidSelect0" class="select erythroidSelect"></select>
                                 </div>
                             </div>
                             <div>
@@ -467,8 +473,8 @@
                                         <input type="checkbox" class="form unremarkable" id="myeloid_unremarkable" name="myeloid"><label for="myeloid_unremarkable">Unremarkable</label>
                                     </div>
                                 </div>
-                                <div id="myeloid_select_div" class="dropdown_div">
-                                    <select id="myeloid_select_0" class="select"></select>
+                                <div id="myeloidSelect" class="selectDiv">
+                                    <select id="myeloidSelect0" class="select myeloidSelect"></select>
                                 </div>
                             </div>
                             <div>
@@ -480,8 +486,8 @@
                                         <input type="checkbox" class="form unremarkable" id="megakaryocyte_unremarkable" name="megakaryocyte"><label for="megakaryocyte_unremarkable">Unremarkable</label>
                                     </div>
                                 </div>
-                                <div id="megakaryocyte_select_div" class="dropdown_div">
-                                    <select id="megakaryocyte_select_0" class="select"></select>
+                                <div id="megakaryocyteSelect" class="selectDiv">
+                                    <select id="megakaryocyteSelect0" class="select megakaryocyteSelect"></select>
                                 </div>
                             </div>
                             <div>
@@ -505,16 +511,18 @@
                             </div>
                         </div>                        
                     </div>
-                    <div class="panelBody" id="bonePanel" style="display: none">
-                        <div class="aspGrid">
+                    <div class="panelBody" id="corePanel" style="display: none">
+                        <div class="title">Core Biopsy/Particle Clot</div>
+                        <hr>
+                        <div class="lowerGrid">
                             <div>
                                 <b>Adequacy:</b>
                             </div>
                             <div>
-                                <input type="radio" class="form" id="boneAdequate" name="boneAdequacy"><label for="boneAdequate">Adequate</label>
-                                <input type="radio" class="form" id="boneInadequate" name="boneAdequacy"><label for="boneInadequate">Inadequate</label>
-                                <div id="boneAdequacy_select_div" class="dropdown_div">
-                                    <select id="boneAdequacy_select_1" class="select"></select>
+                                <input type="radio" class="form" id="coreAdequate" name="coreAdequacy"><label for="coreAdequate">Adequate</label>
+                                <input type="radio" class="form" id="coreInadequate" name="coreAdequacy"><label for="coreInadequate">Inadequate</label>
+                                <div id="coreAdequacySelect" class="selectDiv">
+                                    <select id="coreAdequacySelect0" class="select coreAdequacySelect"></select>
                                 </div>
                             </div>
                             <div>
@@ -522,10 +530,10 @@
                             </div>
                             <div class="flex">
                                 <div>
-                                    <input type="input" class="form" id="boneCellularity" size="2" maxlength="3">%
-                                    <input type="radio" class="form" id="hypocellular" name="boneCellularity"><label for="hypocellular">Hypocellular</label>
-                                    <input type="radio" class="form" id="normocellular" name="boneCellularity"><label for="normocellular">Normocellular</label>
-                                    <input type="radio" class="form" id="hypercellular" name="boneCellularity"><label for="hypercellular">Hypercellular</label>
+                                    <input type="input" class="form" id="coreCellularity" size="2" maxlength="3">%
+                                    <input type="radio" class="form" id="hypocellular" name="coreCellularity"><label for="hypocellular">Hypocellular</label>
+                                    <input type="radio" class="form" id="normocellular" name="coreCellularity"><label for="normocellular">Normocellular</label>
+                                    <input type="radio" class="form" id="hypercellular" name="coreCellularity"><label for="hypercellular">Hypercellular</label>
                                 </div>
 
                             </div>
@@ -535,11 +543,11 @@
                             <div>
                                 <div class="flex">
                                     <div>
-                                        <input type="checkbox" class="form" id="boneMEUnremarkable"><label for="boneMEUnremarkable">Unremarkable</label>
+                                        <input type="checkbox" class="form" id="coreMEUnremarkable"><label for="coreMEUnremarkable">Unremarkable</label>
                                     </div>
                                 </div>
-                                <div id="boneME_select_div" class="dropdown_div">
-                                    <select id="boneME_select_0" class="select"></select>
+                                <div id="coreMESelect" class="selectDiv">
+                                    <select id="coreMESelect0" class="select coreMESelect"></select>
                                 </div>
                             </div>
                             <div>
@@ -548,11 +556,11 @@
                             <div>
                                 <div class="flex">
                                     <div>
-                                        <input type="checkbox" class="form" id="boneMegUnremarkable"><label for="boneMegUnremarkable">Unremarkable</label>
+                                        <input type="checkbox" class="form" id="coreMegUnremarkable"><label for="coreMegUnremarkable">Unremarkable</label>
                                     </div>
                                 </div>
-                                <div id="boneMeg_select_div" class="dropdown_div">
-                                    <select id="boneMeg_select_0" class="select"></select>
+                                <div id="coreMegSelect" class="selectDiv">
+                                    <select id="coreMegSelect0" class="select coreMegSelect"></select>
                                 </div>
                             </div>
                             <div>
@@ -560,44 +568,76 @@
                             </div>
                             <div class="flex">
                                 <div>
-                                    <input type="checkbox" class="form" id="clotSimilar" name="boneClot"><label for="clotSimilar">Similar to core biopsy</label>
+                                    <input type="checkbox" class="form" id="clotSimilar" name="coreClot"><label for="clotSimilar">Similar to core biopsy</label>
                                 </div>
                             </div> 
                         </div>  
                     </div>
                     <div class="panelBody" id="stainPanel" style="display: none">
-                        <div class="aspGrid">
+                        <div class="title">Special Stains</div>
+                        <hr>
+                        <b>Aspirate Smear:</b>
+                        <div>
                             <div>
-                                <b>Iron:</b>
+                                <div id="aspirateSpecialStainsSelect" class="selectDiv">
+                                    <select id="aspirateSpecialStainsSelect0" class="select aspirateSpecialStainsSelect"></select>
+                                </div>
                             </div>
+                        </div>
+                        <b>Core Biopsy:</b>
+                        <div>
                             <div>
-                                <input type="radio" class="form" id="boneAdequate" name="boneAdequacy"><label for="boneAdequate">Adequate</label>
-                                <input type="radio" class="form" id="boneInadequate" name="boneAdequacy"><label for="boneInadequate">Inadequate</label>
-                                <div id="boneAdequacy_select_div" class="dropdown_div">
-                                    <select id="boneAdequacy_select_1" class="select"></select>
+                                <div id="coreSpecialStainsSelect" class="selectDiv">
+                                    <select id="coreSpecialStainsSelect0" class="select coreSpecialStainsSelect"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <b>Particle Clot:</b>
+                        <div>
+                            <div>
+                                <div id="clotSpecialStainsSelect" class="selectDiv">
+                                    <select id="clotSpecialStainsSelect0" class="select clotSpecialStainsSelect"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="title">Immunohistochemical Stains</div>
+                        <hr>
+                        <b>Core Biopsy:</b>
+                        <div>
+                            <div>
+                                <div id="coreImmunostainsSelect" class="selectDiv">
+                                    <select id="coreImmunostainsSelect0" class="select coreImmunostainsSelect"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <b>Particle Clot:</b>
+                        <div>
+                            <div>
+                                <div id="clotImmunostainsSelect" class="selectDiv">
+                                    <select id="clotImmunostainsSelect0" class="select clotImmunostainsSelect"></select>
                                 </div>
                             </div>
                         </div>
                     </div>       
                 </div>
             </div>
-            <div class="panel" id="templatePanel" style="margin-left: 5px">
+            <div class="panel" id="templatePanel">
                 <div class="copyHeader">
-                    <div class="copyButton" id="spec"><i class="fas fa-copy headerIcon"></i><b></b>Copy Final</div>
-                    <div class="copyButton" id="microscopic"><i class="fas fa-copy headerIcon"></i>Copy Microscopic</div>
+                    <div class="copyButton specContainer underline unclicked" id="spec"><i class="fas fa-copy headerIcon"></i><b></b>Copy Final</div>
+                    <div class="copyButton microscopicContainer underline unclicked" id="microscopic"><i class="fas fa-copy headerIcon"></i>Copy Microscopic</div>
                 </div>
-                <div class="panelBody" id="right_panel_final" style="display: none">
-                    <div id="spec_container">
-                        <div class="panelFormat" id="spec_div">
+                <div class="panelBody" id="rightPanelFinal" style="display: none">
+                    <div id="specContainer">
+                        <div class="panelFormat" id="specDiv">
                         </div>
                     </div>
-                    <div id="microscopic_container">
-                        <div class="pb" id="pb_table_div" style="display: none">
+                    <div id="microscopicContainer">
+                        <div class="pb" id="pbTableDiv" style="display: none">
                             <div class="panelFormat">
                                 <div>
                                     <b>Differential Count</b>
                                 </div>
-                                <table class="templateTable" style="width:460px; font-size:11pt">
+                                <table class="templateTable" style="width:440px; font-size:11pt">
                                     <tr>
                                       <th style="width:50%" id="pbTableCountHeader">Peripheral Blood (200 cells)</th>
                                       <th style="width:17%">Result</th>
@@ -673,9 +713,9 @@
                             </div>
     
                         </div>
-                        <div class="asp" id="asp_table_div" style="display: none">
+                        <div class="asp" id="aspTableDiv" style="display: none">
                             <div class="panelFormat" style="font-size:11pt">
-                                <table class="templateTable" style="width:460px; font-size:11pt">
+                                <table class="templateTable" style="width:440px; font-size:11pt">
                                     <tr>
                                       <th style="width:50%" id="aspTableCountHeader">Aspirate Smear (500 cells)</td>
                                       <th style="width:17%">Result</td>
@@ -743,10 +783,9 @@
                         <div class="final panelFormat" id="finalDiv" style="font-size:11pt">
                         </div>
                     </div>
-
                 </div>
             </div>
-            <div class="panel" id="helpPanel" style="display: none; margin-left: 5px">
+            <div class="panel" id="helpPanel" style="display: none">
                 <div class="panelBody">
                     <h3 style="margin-top: 0px">
                         Changelog:
@@ -763,7 +802,7 @@
                     <b>Version 0.1 Initial version</b>
                 </div>
             </div>
-            <div class="panel" id="infoPanel" style="display: none; margin-left: 5px">
+            <div class="panel" id="infoPanel" style="display: none">
                     <div class="panelBody">
                         <h3 style="margin-top: 0px">
                             About:
@@ -776,8 +815,8 @@
             </div>      
             <div class="panel" id="settingPanel" style="display: none">
                     <div class="panelHeader">
-                        <div class="settingTab headerTab underline clicked" id="refTab"><i class="fas fa-list headerIcon"></i>Reference Ranges</div>
-                        <div class="settingTab headerTab underline unclicked" id="diffTab"><i class="fas fa-tint headerIcon"></i>Differential Settings</div>
+                        <div class="settingTab headerTab underline clicked" id="refTab"></i>Reference Ranges</div>
+                        <div class="settingTab headerTab underline unclicked" id="diffTab"></i>Differential Settings</div>
                     </div>
                     <div class="panelBody" id="refPanel">
                         <div>
