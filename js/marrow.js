@@ -25,7 +25,7 @@ $(document).ready(function() {
     specTab: 'specPanel',
     pbTab: 'pbPanel',
     aspTab: 'aspPanel',
-    boneTab: 'bonePanel',
+    coreTab: 'corePanel',
     stainTab: 'stainPanel'    
   };
 
@@ -33,163 +33,262 @@ $(document).ready(function() {
   let pbCountTable = getSavedItems()[0];
   let aspCountTable = getSavedItems()[1];
 
-  let objectType = {
+  const objectType = {
     pbCounter: 'pb',
     aspCounter: 'asp',
     pbCounterTemplate: 'pb',
     aspCounterTemplate: 'asp',
   }
 
-  let typeObject = {
-    'pb': {counterID: "#pbCounter", characterID: "#pbCount", tableID: "#pbTable", dcountID: "#pbDCount", ccountID: "#pbCCount", tcountID: "#pbTCount", tableDivID: "#pb_table_div", table: pbCountTable},
-    'asp': {counterID: "#aspCounter", characterID: "#aspCount", tableID: "#aspTable", dcountID: "#aspDCount", ccountID: "#aspCCount", tcountID: "#aspTCount", tableDivID: "#asp_table_div", table: aspCountTable}
+  const typeObject = {
+    'pb': {counterID: "#pbCounter", characterID: "#pbCount", tableID: "#pbTable", dcountID: "#pbDCount", ccountID: "#pbCCount", tcountID: "#pbTCount", tableDivID: "#pbTableDiv", table: pbCountTable},
+    'asp': {counterID: "#aspCounter", characterID: "#aspCount", tableID: "#aspTable", dcountID: "#aspDCount", ccountID: "#aspCCount", tcountID: "#aspTCount", tableDivID: "#aspTableDiv", table: aspCountTable}
   }
 
   window.keypressed = {};
 
   let patientAge = -1;
 
-  let cbcVariables = ["WBC", "RBC", "HGB", "MCV", "MCHC", "PLT", "NRBC", "Absolute Neutrophils", "Absolute Lymphocytes", "Absolute Monocytes", "Absolute Eosinophils", "Absolute Basophils", "Absolute NRBCs"];
-
-  var rbc_list = [
-    ["", 0],
-    ["Unremarkable", 0],
-    ["Predominantly unremarkable", 0],
-    ["Anisopoikilocytosis", 2],
-    ["Hypochromasia", 4],
-    ["Polychromasia", 2]
-  ];
-  var aniso_list = [
-    ["", 0],
-    ["Acanthocytes", 1],
-    ["Basophilic stippling", 1],
-    ["Bite cells", 1],
-    ["Blister cells", 1],
-    ["Burr cells", 1],
-    ["Echinocytes", 1],
-    ["Elliptocytes", 1],
-    ["Howell-Jolly bodies", 1],
-    ["Macrocytes", 1],
-    ["Macroovalocytes", 1],
-    ["Microcytes", 1],
-    ["Ovalocytes", 1],
-    ["Schistocytes", 1],
-    ["Sickle cells", 1],
-    ["Spherocytes", 1],
-    ["Target cells", 1],
-    ["Teardrop cells", 1],
-    ["Teardrop forms", 1]
-  ];
-  var neutrophil_list = [
-    ["", 0],
-    ["Hypogranular forms", 1],
-    ["Hypolobated forms", 1],
-    ["Hypersegmented forms", 1],
-    ["Shift to immaturity", 3],
-    ["Toxic changes", 2]
-  ];
-  var lymphocyte_list = [
-    ["", 0],
-    ["Unremarkable", 0],
-    ["Small mature and large granular", 5],
-    ["Small mature, large granular, and reactive", 5],
-    ["Small to medium-sized with clumped chromatin", 5]
-  ];
-  var platelet_list = [
-    ["", 0],
-    ["Hypogranular platelets", 1],
-    ["Large platelets", 1],
-    ["Giant platelets", 1],
-  ];
-  var adequacy_list = [
-    ["", 0],
-    ["Hemodilute", 0],
-    ["Hypocellular", 0],
-    ["Paucicellular", 0],
-    ["Virtually acellular", 0],
-    ["Paucispicular", 0],
-    ["Aspicular", 0]
-  ];
-  var boneAdequacy_list = [
-    ["", 0],
-    ["Crush artifact", 4],
-    ["Aspiration artifact", 4],
-    ["Fragmented", 0],
-    ["Subcortical", 0],
-    ["Predominantly subcortical", 0],
-    ["Small", 0],
-  ];
-  var erythroid_list = [
-    ["", 0],
-    ["Nuclear budding", 1],
-    ["Nuclear contour irregularity", 1],
-    ["Multinucleation", 1],
-    ["Megaloblastoid changes", 0],
-    ["Shift to immaturity", 3]
-  ];
-  var myeloid_list = [
-    ["", 0],
-    ["Hypogranular forms", 1],
-    ["Monolobated forms", 1],
-    ["Hyposegmented forms", 1],
-    ["Hypersegmented forms", 1],
-    ["Shift to immaturity", 3]
-  ];
-  var megakaryocyte_list = [
-    ["", 0],
-    ["Widely separated nuclear lobes", 1],
-    ["Hypolobated forms", 1],
-    ["Small hypolobated forms", 1],
-    ["Micromegakaryocytes", 1],
-  ];
-
-  var quant_descriptors = ["Frequent", "Occasional", "Rare"];
-  var degree_descriptors = ["Slight", "Mild", "Marked"]
-  var master_descriptors = {
-    0: [],
-    1: quant_descriptors,
-    2: degree_descriptors,
-    3: degree_descriptors,
-    4: [],
-    5: []
-  }
+  const cbcVariables = ["WBC", "RBC", "HGB", "MCV", "MCHC", "PLT", "NRBC", "Absolute Neutrophils", "Absolute Lymphocytes", "Absolute Monocytes", "Absolute Eosinophils", "Absolute Basophils", "Absolute NRBCs"];
   
-  var master_list = {
-    "aniso": aniso_list,
-    "aniso_strings": [],
-    "rbc": rbc_list,
-    "rbc_strings": [],
-    "neutrophil": neutrophil_list,
-    "neutrophil_strings": [],
-    "lymphocyte": lymphocyte_list,
-    "lymphocyte_strings": [],
-    "platelet": platelet_list,
-    "platelet_strings": [],
-    "adequacy": adequacy_list,
-    "adequacy_strings": [],
-    "boneAdequacy": boneAdequacy_list,
-    "boneAdequacy_strings": [],
-    "erythroid": erythroid_list,
-    "erythroid_strings": [],
-    "myeloid": myeloid_list,
-    "myeloid_strings": [],
-    "megakaryocyte": megakaryocyte_list,
-    "megakaryocyte_strings": [],
+  const quantDescriptors = {class: "radio", descriptors: ["Rare", "Occasional", "Frequent"], value: ["rare ", "occasional ", "frequent "]};
+  const degreeDescriptors = {class: "radio", descriptors: ["Slight", "Mild", "Marked"], value: ["slight ", "mild", "marked "]};
+  const altDegreeDescriptors = {class: "radio", descriptors: ["Slight", "Mild", "Marked"], value: ["a slight ", "a mild ", "a marked "]};
+  const dualDescriptors = {class: 'radio', descriptors: ['Positive', 'Negative'], value: ['positive', 'negative']}
+  const noneDescriptors = {class: "none", descriptors: "", value: []};
+  const stopDescriptors = {class: "stop", descriptors: "", value: []};
+  const ironDescriptors = {class: "iron", descriptors: {'Storage Iron': ['Increased', 'Adequate', 'Decreased', 'Inadequate'], 'Ring Sideroblasts': ['Present', 'Absent', 'Inadequate']}, value: {'Storage Iron': ['increased', 'adequate', 'decreased', 'inadequate'], 'Ring Sideroblasts': ['present', 'absent', 'inadequate rings']},};
+  const reticulinDescriptors = {class: 'radio', descriptors: ['MF-0', 'MF-1', 'MF-2', 'MF-3'], value: ['MF-0', 'MF-1', 'MF-2', 'MF-3']}
+  const cd3Descriptors = {class: 'select', descriptors: ['','Interstitially scattered','Interstitially scattered and focal clusters'], value: ['','Highights interstitially scattered small T cells.','Highlights interstitially scattered and focal clusters of small T cells.']}
+  const cd20Descriptors = {class: 'select', descriptors: ['','Interstitially scattered','Interstitially scattered and focal clusters'], value: ['','Highights interstitially scattered small B cells.','Highlights interstitially scattered and focal clusters of small B cells.']}
+  const cd34Descriptors = {class: 'select', descriptors: ['','Not increased','Increased'], value: ['','Shows no increase in blasts (*** of total cellularity).','Highlights increased blasts (*** of total cellularity).']}
+  const cd61Descriptors = {class: 'select', descriptors: ['','Adequate, regularly destributed, unremarkable morphology','Increased, regularly destributed'], value: ['','Highlights adequate, regularly distributed megakaryocytes with unremarkable morphology.','Highlights increased but regularly distributed megakaryocytes with unremarkable morphology.']}
+
+  const rbcList = [
+    "",
+    "Unremarkable",
+    "Predominantly unremarkable",
+    "Anisopoikilocytosis",
+    "Hypochromasia",
+    "Polychromasia"
+  ];
+
+  const anisoList = [
+    "",
+    "Acanthocytes",
+    "Basophilic stippling",
+    "Bite cells",
+    "Blister cells",
+    "Burr cells",
+    "Echinocytes",
+    "Elliptocytes",
+    "Howell-Jolly bodies",
+    "Macroovalocytes",
+    "Ovalocytes",
+    "Schistocytes",
+    "Sickle cells",
+    "Spherocytes",
+    "Target cells",
+    "Teardrop cells",
+    "Teardrop forms"
+  ];
+
+  const neutrophilList = [
+    "",
+    "Hypogranular forms",
+    "Hypolobated forms",
+    "Hypersegmented forms",
+    "Shift to immaturity",
+    "Toxic changes"
+  ];
+
+  const lymphocyteList = [
+    "",
+    "Unremarkable",
+    "Small mature",
+    "Large granular",
+    "Reactive",
+    "Monotypic"
+  ];
+
+  const plateletList = [
+    "",
+    "Hypogranular platelets",
+    "Large platelets",
+    "Giant platelets",
+  ];
+
+  const adequacyList = [
+    "",
+    "Hemodilute",
+    "Paucicellular",
+    "Virtually acellular",
+    "Paucispicular",
+    "Aspiculate"
+  ];
+
+  const coreAdequacyList = [
+    "",
+    "Crush artifact",
+    "Aspiration artifact",
+    "Fragmented",
+    "Subcortical",
+    "Predominantly subcortical",
+    "Small",
+  ];
+  
+  const erythroidList = [
+    "",
+    "Nuclear budding",
+    "Nuclear contour irregularity",
+    "Multinucleation",
+    "Megaloblastoid changes",
+    "Shift to immaturity"
+  ];
+
+  const myeloidList = [
+    "",
+    "Hypogranular forms",
+    "Monolobated forms",
+    "Hyposegmented forms",
+    "Hypersegmented forms",
+    "Shift to immaturity"
+  ];
+
+  const megakaryocyteList = [
+    "",
+    "Widely separated nuclear lobes",
+    "Separation of nuclear lobes",
+    "Hypolobated forms",
+    "Small hypolobated forms",
+    "Micromegakaryocytes",
+  ];
+
+  const aspirateSpecialStainsList = [
+    "",
+    "Iron",
+  ]
+
+  const coreSpecialStainsList = [
+    "",
+    "Iron",
+    "Reticulin",
+    "Congo red",
+    "GMS",
+    "AFB"
+  ]
+
+  const clotSpecialStainsList = [
+    "",
+    "Iron",
+    "Reticulin",
+    "Congo red",
+    "GMS",
+    "AFB"
+  ]
+
+  const coreImmunostainsList = [
+    "",
+    "CD3",
+    "CD20",
+    "CD34",
+    "CD61",
+    "CD71",
+    "MPO",
+  ]
+
+  const clotImmunostainsList = [
+    "",
+    "CD3",
+    "CD20",
+    "CD34",
+    "CD61",
+    "CD71",
+    "MPO",
+  ]
+
+  const descriptorList = {
+    "Unremarkable": {descriptorObject: stopDescriptors, templateText: "unremarkable"},
+    "Predominantly unremarkable": {descriptorObject: stopDescriptors, templateText: "predominantly unremarkable"},
+    "Anisopoikilocytosis": {descriptorObject: noneDescriptors, templateText: "Anisopoikilocytosis"},
+    "Hypochromasia": {descriptorObject: noneDescriptors, templateText: "hypochromasia"},
+    "Polychromasia": {descriptorObject: noneDescriptors, templateText: "polychromasia"},
+    "Acanthocytes": {descriptorObject: quantDescriptors, templateText: "acanthocytes"},
+    "Basophilic stippling": {descriptorObject: quantDescriptors, templateText: "basophilic stippling"},
+    "Bite cells": {descriptorObject: quantDescriptors, templateText: "bite cells"},
+    "Blister cells": {descriptorObject: quantDescriptors, templateText: "blister cells"},
+    "Burr cells": {descriptorObject: quantDescriptors, templateText: "burr cells"},
+    "Echinocytes": {descriptorObject: quantDescriptors, templateText: "echinocytes"},
+    "Elliptocytes": {descriptorObject: quantDescriptors, templateText: "elliptocytes"},
+    "Howell-Jolly bodies": {descriptorObject: quantDescriptors, templateText: "Howell-Jolly bodies"},
+    "Macroovalocytes": {descriptorObject: quantDescriptors, templateText: "macroovalocytes"},
+    "Ovalocytes": {descriptorObject: quantDescriptors, templateText: "ovalocytes"},
+    "Schistocytes": {descriptorObject: quantDescriptors, templateText: "schistocytes"},
+    "Sickle cells": {descriptorObject: quantDescriptors, templateText: "sickle cells"},
+    "Target cells": {descriptorObject: quantDescriptors, templateText: "target cells"},
+    "Teardrop cells": {descriptorObject: quantDescriptors, templateText: "teardrop cells"},
+    "Teardrop forms": {descriptorObject: quantDescriptors, templateText: "teardrop forms"},
+    "Hypogranular forms": {descriptorObject: quantDescriptors, templateText: "hypogranular forms"},
+    "Hypolobated forms": {descriptorObject: quantDescriptors, templateText: "hypolobated forms"},
+    "Hypersegmented forms": {descriptorObject: quantDescriptors, templateText: "hypogranular forms"}, 
+    "Shift to immaturity": {descriptorObject: altDegreeDescriptors, templateText: "a shift to immaturity"},
+    "Toxic changes": {descriptorObject: degreeDescriptors, templateText: "toxic changes"},
+    "Hypogranular platelets": {descriptorObject: quantDescriptors, templateText: "hypogranular platelets"},
+    "Large platelets": {descriptorObject: quantDescriptors, templateText: "large platelets"},
+    "Giant platelets": {descriptorObject: quantDescriptors, templateText: "giant platelets"},
+    "Hemodilute": {descriptorObject: noneDescriptors, templateText: "hemodilute"},
+    "Paucicellular": {descriptorObject: noneDescriptors, templateText: "paucicellular"},
+    "Virtually acellular": {descriptorObject: noneDescriptors, templateText: "virtually acellular"},
+    "Paucispicular": {descriptorObject: noneDescriptors, templateText: "paucispicular"},
+    "Aspiculate": {descriptorObject: noneDescriptors, templateText: "aspiculate"},
+    "Nuclear budding": {descriptorObject: quantDescriptors, templateText: "nuclear budding"},
+    "Nuclear contour irregularity": {descriptorObject: quantDescriptors, templateText: "nuclear contour irregularity"},
+    "Multinucleation": {descriptorObject: quantDescriptors, templateText: "multinucleation"},
+    "Megaloblastoid changes": {descriptorObject: quantDescriptors, templateText: "megaloblastoid changes"},
+    "Widely separated nuclear lobes": {descriptorObject: quantDescriptors, templateText: "widely separated nuclear lobes"},
+    "Separation of nuclear lobes": {descriptorObject: quantDescriptors, templateText: "separation of nuclear lobes"},
+    "Small hypolobated forms": {descriptorObject: quantDescriptors, templateText: "small hypolobated forms"},
+    "Micromegakaryocytes": {descriptorObject: quantDescriptors, templateText: "micromegakaryocytes"},
+    "Crush artifact": {descriptorObject: noneDescriptors, templateText: "crush artifact"},
+    "Aspiration artifact": {descriptorObject: noneDescriptors, templateText: "aspiration artifact"},
+    "Fragmented": {descriptorObject: noneDescriptors, templateText: "fragmented"},
+    "Subcortical": {descriptorObject: noneDescriptors, templateText: "subcortical"},
+    "Predominantly subcortical": {descriptorObject: noneDescriptors, templateText: "predominantly subcortical"},
+    "Small": {descriptorObject: noneDescriptors, templateText: "small"},
+    'Iron': {descriptorObject: ironDescriptors},
+    'Reticulin': {descriptorObject: reticulinDescriptors},
+    'Congo red': {descriptorObject: dualDescriptors},
+    'GMS': {descriptorObject: dualDescriptors},
+    'AFB': {descriptorObject: dualDescriptors},
+    'CD3': {descriptorObject: cd3Descriptors},
+    'CD20': {descriptorObject: cd20Descriptors},
+    'CD34': {descriptorObject: cd34Descriptors},
+    'CD61': {descriptorObject: cd61Descriptors},
+  };
+
+  const masterList = {
+    anisoSelect: anisoList,
+    rbcSelect: rbcList,
+    neutrophilSelect: neutrophilList,
+    lymphocyteSelect: lymphocyteList,
+    plateletSelect: plateletList,
+    adequacySelect: adequacyList,
+    coreAdequacySelect: coreAdequacyList,
+    erythroidSelect: erythroidList,
+    myeloidSelect: myeloidList,
+    megakaryocyteSelect: megakaryocyteList,
+    aspirateSpecialStainsSelect: aspirateSpecialStainsList,
+    coreSpecialStainsSelect: coreSpecialStainsList,
+    clotSpecialStainsSelect: clotSpecialStainsList,
+    coreImmunostainsSelect: coreImmunostainsList,
+    clotImmunostainsSelect: clotImmunostainsList,
     "pbCountTable": pbCountTable,
     "aspCountTable": aspCountTable
   };
 
-  add_dropdowns("rbc");
-  add_dropdowns("aniso");
-  add_dropdowns("neutrophil");
-  add_dropdowns("platelet");
-  add_dropdowns("adequacy");
-  add_dropdowns("erythroid");
-  add_dropdowns("myeloid");
-  add_dropdowns("megakaryocyte");
-  add_dropdowns("boneAdequacy");
-
-  fillCounterLabels();
+  for (key in masterList){
+    fillOptions(key);
+  }
 
   function getSavedItems(){
     let pbCountTable = {
@@ -235,9 +334,14 @@ $(document).ready(function() {
     if (saveFileBM.aspCountTableBM != null){
       aspCountTable = saveFileBM.aspCountTableBM;
     }
-    if (saveFileBM.settingObjectBM != null) {
-      $.each(saveFileBM.settingObjectBM,function(x,y){
-        $('#'+x).prop('checked',y);
+    if (saveFileBM.checkedObjectBM != null) {
+      $.each(saveFileBM.checkedObjectBM,function(x,y){
+        $(`#${x}`).prop('checked',y);
+      });
+    }
+    if (saveFileBM.inputObjectBM != null) {
+      $.each(saveFileBM.inputObjectBM,function(x,y){
+        $(`#${x}`).val(y);
       });
     }  
   };
@@ -248,7 +352,7 @@ $(document).ready(function() {
   fillSelects();
   
   function fillSelects(){
-    $(".pbCounterTemplate").each(function(){
+    $('.pbCounterTemplate').each(function(){
       id = this.id;
       $.each(pbCountTable, function (i) {
         if(this.character != parseInt(id.match(/\d+/g))){
@@ -265,7 +369,7 @@ $(document).ready(function() {
         };
     });
     });
-    $(".aspCounterTemplate").each(function(){
+    $('.aspCounterTemplate').each(function(){
       id = this.id;
       $.each(aspCountTable, function (i) {
         if(this.character != parseInt(id.match(/\d+/g))){
@@ -292,11 +396,11 @@ $(document).ready(function() {
     let e = new Audio('https://diffpath.github.io/media/Complete-Nice.mp3');
     let f = new Audio('https://diffpath.github.io/media/100-Soothing.mp3');
     a.volume = 0;
-    b.volume = 0;
+    b.volume = 0.01;
     c.volume = 0;
     d.volume = 0;
     e.volume = 0;
-    f.volume = 0.01;
+    f.volume = 0;
     a.play();
     b.play();
     c.play();
@@ -307,27 +411,27 @@ $(document).ready(function() {
 
   function fillCounterLabels(){
     for (const i in pbCountTable) {
-      $("#pbLabel" + pbCountTable[i]["character"]).html(pbCountTable[i]["character"] + ". " + pbCountTable[i]["name"]);
-      $("#pbTemplate" + pbCountTable[i]["character"]).val(pbCountTable[i]["name"]);
+      $(`#pbLabel${pbCountTable[i]['character']}`).html(`${pbCountTable[i]['character']}. ${pbCountTable[i]['name']}`);
+      $(`#pbTemplate${pbCountTable[i]['character']}`).val(pbCountTable[i]['name']);
     }
     for (const i in aspCountTable) {
-      $("#aspLabel" + aspCountTable[i]["character"]).html(aspCountTable[i]["character"] + ". " + aspCountTable[i]["name"]);
-      $("#aspTemplate" + aspCountTable[i]["character"]).val(aspCountTable[i]["name"]);
+      $(`#aspLabel${aspCountTable[i]['character']}`).html(`${aspCountTable[i]['character']}. ${aspCountTable[i]['name']}`);
+      $(`#aspTemplate${aspCountTable[i]['character']}`).val(aspCountTable[i]['name']);
     }
   }
 
-  $(".navbarIcon").click(function(){
+  $('.navbarIcon').click(function(){
     $("#navbar").toggle();
     $("#overlay").toggle();
   });
 
-  $("#overlay").click(function(){
+  $('#overlay').click(function(){
     $("#navbar").hide();
     $("#overlay").hide();
   });
 
-  $(".headerTab").click(function() {
-    $("."+this.className.split(" ")[0]).each(function() {
+  $('.headerTab').click(function() {
+    $(`.${this.className.split(" ")[0]}`).each(function() {
       $(this).removeClass("clicked");
       $(this).addClass("unclicked");
       $("#"+headerObject[this.id]).hide();
@@ -338,12 +442,12 @@ $(document).ready(function() {
   });
 
   $(".specimen").change(function() {
-    $(spec_all).prop("checked", false)
-    radioObject.spec_all = 0;
+    $(specAll).prop("checked", false)
+    radioObject.specAll = 0;
   });
 
-  $(spec_all).click(function() {
-    if ($(spec_all).prop('checked')) {
+  $('#specAll').click(function() {
+    if ($(specAll).prop('checked')) {
       $(".specimen").each(function() {
         $(this).prop("checked", true);
       });
@@ -355,23 +459,25 @@ $(document).ready(function() {
     fillSpecimen();
   });
 
-  $('#pb_cbc').bind('input', function() {
+  $('#pbCBC').bind('input', function() {
     let cbcFinal = [];
     let cbcVar = [...cbcVariables];
-    const cbcLines = $('#pb_cbc').val().split("\n");
+    const cbcLines = $('#pbCBC').val().split("\n");
     let toggle = true;
     for (let i = 0; i < cbcLines.length; i++) {
-      cbcFinal.push(cbcLines[i].split("\t"))
+      cbcFinal.push(cbcLines[i].split('\t'))
     }
-    for (let i = 0; i < cbcFinal.length; i++) {
-      for (let j = 0; j < cbcVar.length; j++){
+    for (i in cbcFinal) {
+      for (j in cbcVar){
         if (cbcFinal[i][0] == cbcVar[j]){
           cbcObject[cbcVar[j]] = {};
-          cbcObject[cbcVar[j]]["min"] = parseFloat(cbcFinal[i+1][0].replace(/[^0-9.\-]/g, '').split("-")[0]);
-          cbcObject[cbcVar[j]]["max"] = parseFloat(cbcFinal[i+1][0].replace('10ˆ3','').replace('10ˆ6','').replace(/[^0-9.\-]/g, '').split("-")[1]);
-          cbcObject[cbcVar[j]]["value"] = parseFloat(cbcFinal[i+1][1]);
+          cbcObject[cbcVar[j]]["min"] = parseFloat(cbcFinal[parseInt(i)+1][0].replace(/10\W3/g,'').replace(/10\W6/g,'').replace(/[^0-9.\-]/g, '').split('-')[0]);
+          cbcObject[cbcVar[j]]["max"] = parseFloat(cbcFinal[parseInt(i)+1][0].replace(/10\W3/g,'').replace(/10\W6/g,'').replace(/[^0-9.\-]/g, '').split("-")[1]);
+          cbcObject[cbcVar[j]]["value"] = parseFloat(cbcFinal[parseInt(i)+1][1]);
+          delete cbcVar[j];
         }
       }
+      
       if (toggle){
         for (let j = 0; j < cbcFinal[i].length; j++){
           if (cbcFinal[i][j].indexOf("DOB:")!= -1){
@@ -388,12 +494,208 @@ $(document).ready(function() {
     fillInputs();
   });
 
+  function fillSelectHTML(id){
+    let selectedList = [...masterList[id]];
+    let selectHTML = "";
+    let count = 0;
+    let addBlank = true;
+    $("."+ id).each(function(){
+      let descriptorValue = "";
+      if ($(this).val() != "" && selectedList.includes($(this).val())){
+        selectHTML += `<div class='flex'><div><select id='${id}${count}' class='select ${id}'>`;
+        const descriptorObject = descriptorList[$(this).val()]["descriptorObject"];
+        const dClass = descriptorObject.class;
+        for(i in selectedList){
+          if (selectedList[i] == $(this).val()){
+            selectHTML += `<option selected>${selectedList[i]}</option>`;
+            delete selectedList[i];
+          } else {
+            selectHTML += `<option>${selectedList[i]}</option>`;
+          }
+        }
+        selectHTML += "</select></div><div>";
+          if (dClass == 'radio' || dClass == 'checkbox'){
+            $(`.${this.id}`).each(function(){
+              if ($(this).prop('checked')){
+                descriptorValue = $(this).val();
+              }
+            })
+            for (i in descriptorObject.descriptors){
+              const descriptor = descriptorObject["descriptors"][i];
+              const value = descriptorObject["value"][i];
+              if (value != descriptorValue){
+                selectHTML += `<label><input type="${dClass}" class="descriptor ${id}${count}" id="${id}${count}${descriptor}" name="${id}${count}" value="${value}">${descriptor}</label>`;
+              } else {
+                selectHTML += `<label><input type="${dClass}" class="descriptor ${id}${count}" id="${id}${count}${descriptor}" name="${id}${count}" value="${value}" checked>${descriptor}</label>`;
+              }
+            }
+          } else if (dClass == 'stop'){
+            
+            addBlank = false;
+          } else if (dClass == 'iron'){
+            for (key in descriptorObject['descriptors']){
+              $(`.${this.id}${key[0]}`).each(function(){
+                if ($(this).prop('checked')){
+                  descriptorValue = $(this).val();
+                }
+              })
+              selectHTML += `<div><b>${key}:</b> `;
+              for (i in descriptorObject['descriptors'][key]){
+                const descriptor = descriptorObject["descriptors"][key][i];
+                const value = descriptorObject["value"][key][i];
+                if (value != descriptorValue){
+                  selectHTML += `<label><input type="radio" class="descriptor ${id}${count} ${id}${count}${key[0]}" id="${id}${count}${descriptor}${key[0]}" name="${id}${count}${key}" value="${value}">${descriptor}</label>`;
+                } else {
+                  selectHTML += `<label><input type="radio" class="descriptor ${id}${count} ${id}${count}${key[0]}" id="${id}${count}${descriptor}${key[0]}" name="${id}${count}${key}" value="${value}" checked>${descriptor}</label>`;
+                }
+              }
+              selectHTML += '</div>'
+            }
+            if (descriptorValue == 'present' && id == 'aspirateSpecialStainsSelect'){
+              selectHTML += "<div><textarea class='extend' id='pbCBC' rows='1' placeholder='Count Here'></textarea></div>"
+            }
+          } else if (dClass == 'select'){
+            const descriptorSelect = descriptorList[$(this).val()]['descriptorObject']['descriptors'];
+            const value = descriptorList[$(this).val()]['descriptorObject']['value']
+            selectHTML += `<select id='${id}${count}select' class='selectDescriptor ${id}${count}' value='${value}'>`;
+            for(i in descriptorSelect){
+              if (value[i] == $(`#${id}${count}select`).val()){
+                selectHTML += `<option value='${value[i]}' selected>${descriptorSelect[i]}</option>`;
+              } else {
+                selectHTML += `<option value='${value[i]}'>${descriptorSelect[i]}</option>`;
+              }
+            }
+            selectHTML += '</select>';
+          }
+          selectHTML += "</div></div>";
+        }
+        count++;
+      })
+
+    if (selectedList.filter(Boolean).length > 0 && addBlank){
+      selectHTML += `<div><select id='${id}${count}' class='select ${id}'>`;
+      for(i in selectedList){
+        selectHTML += `<option>${selectedList[i]}</option>`;
+      }
+      selectHTML += "</select></div>"; 
+    }
+    $(`#${id}`).html(selectHTML);
+  }
+
+  $('.selectDiv').on('click', '.descriptor', function(){
+    unClickRadio(this.id, this.name);
+    fillSelectHTML(this.className.split(' ')[1].replace(/[0-9]/g, ''));
+    fillReport();
+  })
+
+  $('.selectDiv').on('change', '.select', function(){
+    fillSelectHTML(this.className.split(' ')[1]);
+    fillReport();
+  })
+
+  $('.selectDiv').on('change', '.selectDescriptor', function(){
+    fillReport();
+  })
+  
+  function listText(id) {
+    let listString = "";
+    let stringArray = [];
+    let descriptorString = "";
+    let descriptorClass = "";
+    let descriptorSelected = false;
+    $(`.${id}`).each(function(){
+      if ($(this).val()!=""){
+        let prevClass = descriptorClass;
+        let selectedValue = descriptorList[$(this).val()]["templateText"];
+        $(`.${this.id}`).each(function(){
+          if ($(this).prop('checked')){
+            descriptorString = $(this).val();
+            descriptorSelected = true;
+          }
+          descriptorClass = this.className.split(" ")[2];
+        })
+        if (stringArray.length == 0){
+          stringArray = [[descriptorString], [[selectedValue]]];
+        } else {
+          if (stringArray[0].indexOf(descriptorString) == -1){
+            stringArray[0].push(descriptorString)
+            stringArray[1].push([selectedValue])
+          } else if (descriptorClass != prevClass){
+            if (descriptorSelected){
+              stringArray[0].push(descriptorString)
+              stringArray[1].push([selectedValue])
+            } else {
+              stringArray[0].push("")
+              stringArray[1].push([selectedValue])
+            }
+          } else {
+            for (i in stringArray[0]){
+              if (stringArray[0][i] == descriptorString){
+                stringArray[1][i].push(selectedValue)
+              }
+            }
+          }         
+        }
+      }
+      descriptorSelected = false;
+    })
+    for (i in stringArray[0]){
+      if (stringArray[0].length == 1){
+        listString = `${stringArray[0][0]}${addCommas(stringArray[1][0])}`;
+      } else if (stringArray[0].length == 2){
+        if(stringArray[1][0].length == 1 && stringArray[1][1].length == 1){
+          listString = `${stringArray[0][0]}${stringArray[1][0]} and ${stringArray[0][1]}${stringArray[1][1]}`;
+        } else {
+          listString = `${stringArray[0][0]}${addCommas(stringArray[1][0])} with ${stringArray[0][1]}${addCommas(stringArray[1][1])}`;
+        }
+      } else if (stringArray[0].length > 2){
+        for (i in stringArray[0]){
+          listString += `${stringArray[0][i]}${addCommas(stringArray[1][i])}`;
+          if (i == 1){
+            listString += ` with `;
+          } else if (stringArray[0]){
+
+          };
+        }
+      }
+    }
+    return listString;
+  }
+
+  function addCommas(array) {
+    const length = array.length;
+    let commaString = "";
+    if (length == 1){
+      commaString = array[0];
+    } else if (length == 2){
+      commaString = `${array[0]} and ${array[1]}`;
+    } else if (length > 2){
+      for (i in array){
+        if (i < length - 1){
+          commaString += `${array[i]}, `;
+        } else if (i == length - 1){
+          commaString += `and ${array[i]}`;
+        }
+      }
+    }
+    return commaString;
+  }
+
+  function fillOptions (id){
+    $(`.${id}`).each(function(){
+      for(i in masterList[id]){
+        $(this).append(`<option>${masterList[id][i]}</option>`);
+      }
+    })
+  }
+
   $('.counter').keydown(function(e) {
     countNoise(e);
   })
 
   $('.counter').keyup(function(e) {
     window.keypressed[e.which] = false;
+    countCells(objectType[this.id]);
   });
 
   function countNoise(e) {
@@ -415,10 +717,6 @@ $(document).ready(function() {
       }
     }
   }
-
-  $(".counter").keyup(function() {
-    countCells(objectType[this.id]);
-  })
 
   function countCells(id){
     let table = typeObject[id]["table"];
@@ -535,7 +833,7 @@ $(document).ready(function() {
       }
       $('#aspTable4').html((neutSum).toFixed(1) + "%");
     }
-    $(right_panel_final).show();
+    $(rightPanelFinal).show();
   };
 
   function cellCounter(x, y) {
@@ -565,14 +863,14 @@ $(document).ready(function() {
 
   function checkDuplicate(thisClass,id,val){
     let type = objectType[thisClass];
-    let table = typeObject[type]["table"];
+    let table = typeObject[type]['table'];
     let idNum = parseInt(id.match(/\d+/g));
     $.each(table,function(i){
       if (i == val){
-        $("#"+type+"Template"+idNum).css("background-color","white");
+        $(`#${type}Template${idNum}`).css('background-color','white');
         if (table[val]["character"] != -1){
-          $("#"+type+"Template"+this.character).val(" ");
-          $("#"+type+"Template"+this.character).css("background-color","rgb(255, 95, 95)");
+          $(`#${type}Template${this.character}`).val(' ');
+          $(`#${type}Template${this.character}`).css('background-color','rgb(255, 95, 95)');
         } else {
           countCells(type);
         } 
@@ -582,10 +880,10 @@ $(document).ready(function() {
       }
     })
 
-    if (thisClass == "pbCounterTemplate"){
-      pbCountTable[val]["character"] = idNum;
-    } else if (thisClass == "aspCounterTemplate"){
-      aspCountTable[val]["character"] = idNum;
+    if (thisClass == 'pbCounterTemplate'){
+      pbCountTable[val]['character'] = idNum;
+    } else if (thisClass == 'aspCounterTemplate'){
+      aspCountTable[val]['character'] = idNum;
     }
     fillCounterLabels();
   };
@@ -618,60 +916,26 @@ $(document).ready(function() {
     }
   });
 
-  $('.sub_checked').change(function() {
-    if ($(this).prop("checked")) {
-      add_dropdowns(this.id)
-      $("#" + this.id + "_select_div").show();
-    } else {
-      $("#" + this.id + "_select_div").hide();
-    }
-  });
-
-  $('.dropdown_div').on('change', '.select', function() {
-    add_dropdowns(this.id.split("_")[0]);
-    fillReport();
-  });
-
   $('input:radio').on('click', function() {
-    var currentButton = this.id
-    $("[name='"+this.name+"']").each(function() {
-      if (this.id != currentButton) {
+    unClickRadio(this.id, this.name);
+    fillReport();
+
+  });
+
+  function unClickRadio (id, name){
+    $(`[name='${name}']`).each(function() {
+      if (this.id != id) {
         radioObject[this.id] = 0;
       }
     });
-    if (radioObject[this.id] == 1) {
-      radioObject[this.id] = 0;
-      $(this).prop("checked", false);
+    if (radioObject[id] == 1) {
+      radioObject[id] = 0;
+      $(`#${id}`).prop("checked", false);
     } else {
-      radioObject[this.id] = 1;
+      radioObject[id] = 1;
     }
-    fillReport();
-  });
-
-  $('.dropdown_div').on('click', '.descriptor', function() {
-    var currentButton = this.id
-    $("[name='"+this.name+"']").each(function() {
-      if (this.id != currentButton) {
-        radioObject[this.id] = 0;
-      }
-    });
-    if (radioObject[this.id] == 1) {
-      radioObject[this.id] = 0;
-      $(this).prop("checked", false);
-    } else {
-      radioObject[this.id] = 1;
-    }
-    find_selected(this.id.split("_")[0]);
-    fillReport();
-  });
-
-  $('.unremarkable').click(function(){
-    const x = this.id;
-    const y = x.split('_')[0];
-    $('#'+ y+"_select_div").html('<select id="'+ y + '" class="select"></select>');
-    add_dropdowns(y);
-  });
-
+  }
+  
   $('input:checkbox').on('change', function() {
     $(this).siblings('input[type="checkbox"]').prop('checked', false);
   });
@@ -680,130 +944,37 @@ $(document).ready(function() {
     fillReport();
   });
 
-
   $('.copyButton').click(function(){
-    let element = "#" + this.id + "_container";
+    const element = document.getElementById(this.className.split(' ')[1]);
     if($(element).is(":visible")){
-      let temp = document.createElement("div");
-      temp.setAttribute("contentEditable", true);
-      temp.innerHTML = $(element).html();
-      temp.setAttribute("onfocus", "document.execCommand('selectAll',false,null)");
-      document.getElementById('copyDiv').appendChild(temp);
-      temp.focus();
-      document.execCommand("copy");
-      document.getElementById('copyDiv').removeChild(temp);
-      if($('#copyAlert').is(":hidden")){
-        $('#copyAlert').html('Text copied.');
-        $('#copyAlert').css("background-color", "rgb(100, 255, 95)")
-        $('#copyAlert').show().animate({bottom: '20px'},700).animate({bottom: '20px'},1000).animate({bottom: '-5%'},1000,function(){
-        $('#copyAlert').hide();
-        });
-      }
-    } else {
-      if($('#copyAlert').is(":hidden")){
-        $('#copyAlert').html('No text to copy.');
-        $('#copyAlert').css("background-color", "rgb(255, 95, 95)")
-        $('#copyAlert').show().animate({bottom: '20px'},700).animate({bottom: '20px'},1000).animate({bottom: '-5%'},1000,function(){
-        $('#copyAlert').hide();
-        });
-      }
-    }
-})
-  function add_dropdowns(id) {
-    let selected_array = find_selected(id);
-    var div_id = "#" + id + "_select_div";
-    var select_list = selected_array[0];
-    var descriptor_list = selected_array[1];
-    var option_list = [...master_list[id]];
-    var id_counter = 0;
-    $(div_id).empty();
-    for (let i = 0; i < select_list.length; i++) {
-      var type_index;
-      $(div_id).append("<div class='flex' id='temp_id'><select id='temp_id2' class='select form descriptor'></select></div>");
-      $("#temp_id").attr({
-        id: id + "_div_" + id_counter,
+    const tempElement = document.createElement('div');
+    const clonedElement = element.cloneNode(true);
+    tempElement.appendChild(clonedElement);
+    document.body.appendChild(tempElement);
+    const selection = document.getSelection();
+    selection.removeAllRanges();
+    const range = document.createRange();
+    range.selectNodeContents(tempElement);
+    selection.addRange(range);
+    document.execCommand('copy');
+    document.body.removeChild(tempElement);
+    if($('#copyAlert').is(":hidden")){
+      $('#copyAlert').html('Text copied.');
+      $('#copyAlert').css("background-color", "rgb(100, 255, 95)")
+      $('#copyAlert').show().animate({bottom: '20px'},700).animate({bottom: '20px'},1000).animate({bottom: '-5%'},1000,function(){
+      $('#copyAlert').hide();
       });
-      $("#temp_id2").attr({
-        id: id.replace(/ /g, "_") + "_" + id_counter,
-        class: id.replace(/ /g, "_") + "_item select descriptor",
-        style: "width: 200px"
+    }
+  } else {
+    if($('#copyAlert').is(":hidden")){
+      $('#copyAlert').html('No text to copy.');
+      $('#copyAlert').css("background-color", "rgb(255, 95, 95)")
+      $('#copyAlert').show().animate({bottom: '20px'},700).animate({bottom: '20px'},1000).animate({bottom: '-5%'},1000,function(){
+      $('#copyAlert').hide();
       });
-      for (let j = 0; j < option_list.length; j++) {
-        if (select_list[i] == option_list[j][0]) {
-          $("#" + id + "_" + id_counter).append($('<option>', {
-            text: option_list[j][0],
-            selected: true
-          }));
-          type_index = option_list[j][1];
-          option_list.splice(j, 1);
-          j--;
-
-        } else {
-          $("#" + id + "_" + id_counter).append($('<option>', {
-            text: option_list[j][0],
-          }));
-        }
-      }
-      add_descriptors("#" + id + "_div_" + id_counter, id, select_list[i], descriptor_list[i], type_index)
-      id_counter++;
-    }
-    $(div_id).append("<div><select id='temp_id' class='select form descriptor'></select></div>")
-    $("#temp_id").attr({
-      id: id.replace(/ /g, "_") + "_" + id_counter,
-      class: id.replace(/ /g, "_") + "_item select descriptor",
-      style: "width: 200px"
-    });
-    for (let i = 0; i < option_list.length; i++) {
-      $("#" + id.replace(/ /g, "_") + "_" + id_counter).append($('<option>', {
-        text: option_list[i][0]
-      }));
     }
   }
-
-  function find_selected(id) {
-    var select_list = [];
-    var descriptor_list = [];
-    var string_id = id + "_strings"
-    var type_index;
-    var final_list = [];
-    $("." + id + "_item").each(function() {
-      if (select_list.indexOf($(this).val()) == -1 && $(this).val() != "") {
-        for (let i = 0; i < master_list[id].length; i++) {
-          if (master_list[id][i][0] == $(this).val()) {
-            type_index = master_list[id][i][1];
-          }
-        }
-        if (type_index == 3 && $('input[name=' + $(this).val().replace(/ /g, "_") + '_descriptor]:checked').val() != undefined) {
-          final_list.push(["a " + $('input[name=' + $(this).val().replace(/ /g, "_") + '_descriptor]:checked').val(), $(this).val(), type_index]);
-        } else if (type_index == 3) {
-          final_list.push([$('input[name=' + $(this).val().replace(/ /g, "_") + '_descriptor]:checked').val(), "a " + $(this).val(), type_index]);
-        } else {
-          final_list.push([$('input[name=' + $(this).val().replace(/ /g, "_") + '_descriptor]:checked').val(), $(this).val(), type_index]);
-        }
-        select_list.push($(this).val());
-        descriptor_list.push($('input[name=' + $(this).val().replace(/ /g, "_") + '_descriptor]:checked').val());
-      }
-    });
-    master_list[string_id] = final_list;
-    return [select_list, descriptor_list]
-  }
-
-  function add_descriptors(a, b, c, d, e) {
-    let x = '<div class="flex">'
-    for (let i = 0; i < master_descriptors[e].length; i++) {
-      x += '<div><input type="radio"'
-      x += ' id="' + b + '_' + c.replace(/ /g, '_') + '_' + master_descriptors[e][i] + '"';
-      x += ' class="' + c.replace(/ /g, '_') + '_descriptor ' + 'descriptor"';
-      x += ' name="' + c.replace(/ /g, '_') + '_descriptor"';
-      x += ' value="' + master_descriptors[e][i] +'"';
-      if (d == master_descriptors[e][i]) {
-        x += ' checked'
-      } 
-      x += "><label for='" + b + "_" + c.replace(/ /g, "_") + "_" + master_descriptors[e][i] + "'>" + master_descriptors[e][i] + "</label></div>"
-    }
-    x += '</div>';
-    $(a).append(x)
-  }
+  });
 
   function fillInputs() {
     if (cbcObject["HGB"] !== undefined) {
@@ -813,10 +984,10 @@ $(document).ready(function() {
         $('#hgbMarked').prop("checked", false);
       } else if (cbcObject["HGB"]["value"] < cbcObject["HGB"]["min"]) {
         $('#hgbLow').prop("checked", true);
-        if (cbcObject["HGB"]["value"] < $("#cbcHgbLowMarked").val()) {
+        if (cbcObject["HGB"]["value"] < $("#cbcHgbLowMarked").val() && $("#cbcHgbLowMarked").val() != '') {
           $('#hgbMarked').prop("checked", true);
           $('#hgbMild').prop("checked", false);
-        } else if (cbcObject["HGB"]["value"] > $("#cbcHgbLowMild").val()) {
+        } else if (cbcObject["HGB"]["value"] > $("#cbcHgbLowMild").val() && $("#cbcHgbLowMild").val() != '') {
           $('#hgbMild').prop("checked", true);
           $('#hgbMarked').prop("checked", false);
         } else {
@@ -825,10 +996,10 @@ $(document).ready(function() {
         }
       } else if (cbcObject["HGB"]["value"] > cbcObject["HGB"]["max"]) {
         $('#hgbHigh').prop("checked", true);
-        if (cbcObject["HGB"]["value"] > $("#cbcHgbHighMarked").val()) {
+        if (cbcObject["HGB"]["value"] > $("#cbcHgbHighMarked").val() && $("#cbcHgbHighMarked").val() != '') {
           $('#hgbMarked').prop("checked", true);
           $('#hgbMild').prop("checked", false);
-        } else if (cbcObject["HGB"]["value"] < $("#cbcHgbHighMild").val()) {
+        } else if (cbcObject["HGB"]["value"] < $("#cbcHgbHighMild").val() && $("#cbcHgbHighMild").val() != '') {
           $('#hgbMild').prop("checked", true);
           $('#hgbMarked').prop("checked", false);
         } else {
@@ -853,10 +1024,10 @@ $(document).ready(function() {
         $('#neutMarked').prop("checked", false);
       } else if (cbcObject["Absolute Neutrophils"]["value"] < cbcObject["Absolute Neutrophils"]["min"]) {
         $('#neutLow').prop("checked", true);
-        if (cbcObject["Absolute Neutrophils"]["value"] > $("#cbcNeutHighMarked").val()) {
+        if (cbcObject["Absolute Neutrophils"]["value"] < $("#cbcNeutLowMarked").val() && $("#cbcNeutLowMarked").val() != '') {
           $('#neutMarked').prop("checked", true);
           $('#neutMild').prop("checked", false);
-        } else if (cbcObject["Absolute Neutrophils"]["value"] < $("#cbcNeutHighMild").val()) {
+        } else if (cbcObject["Absolute Neutrophils"]["value"] > $("#cbcNeutLowMild").val() && $("#cbcNeutLowMild").val() != '') {
           $('#neutMild').prop("checked", true);
           $('#neutMarked').prop("checked", false);
         } else {
@@ -865,10 +1036,10 @@ $(document).ready(function() {
         }
       } else if (cbcObject["Absolute Neutrophils"]["value"] > cbcObject["Absolute Neutrophils"]["max"]) {
         $('#neutHigh').prop("checked", true);
-        if (cbcObject["Absolute Neutrophils"]["value"] > $("#cbcNeutHighMarked").val()) {
+        if (cbcObject["Absolute Neutrophils"]["value"] > $("#cbcNeutHighMarked").val() && $("#cbcNeutHighMarked").val() != '') {
           $('#neutMarked').prop("checked", true);
           $('#neutMild').prop("checked", false);
-        } else if (cbcObject["Absolute Neutrophils"]["value"] < $("#cbcNeutHighMild").val()) {
+        } else if (cbcObject["Absolute Neutrophils"]["value"] < $("#cbcNeutHighMild").val() && $("#cbcNeutHighMild").val() != '') {
           $('#neutMild').prop("checked", true);
           $('#neutMarked').prop("checked", false);
         } else {
@@ -884,10 +1055,10 @@ $(document).ready(function() {
         $('#lymphMarked').prop("checked", false);
       } else if (cbcObject["Absolute Lymphocytes"]["value"] < cbcObject["Absolute Lymphocytes"]["min"]) {
         $('#lymphLow').prop("checked", true);
-        if (cbcObject["Absolute Lymphocytes"]["value"] > $("#cbcLymphHighMarked").val()) {
+        if (cbcObject["Absolute Lymphocytes"]["value"] < $("#cbcLymphLowMarked").val() && $("#cbcLymphLowMarked").val() != '') {
           $('#lymphMarked').prop("checked", true);
           $('#lymphMild').prop("checked", false);
-        } else if (cbcObject["Absolute Lymphocytes"]["value"] < $("#cbcLymphHighMild").val()) {
+        } else if (cbcObject["Absolute Lymphocytes"]["value"] > $("#cbcLymphLowMild").val() && $("#cbcLymphLowMild").val() != '') {
           $('#lymphMild').prop("checked", true);
           $('#lymphMarked').prop("checked", false);
         } else {
@@ -896,10 +1067,10 @@ $(document).ready(function() {
         }
       } else if (cbcObject["Absolute Lymphocytes"]["value"] > cbcObject["Absolute Lymphocytes"]["max"]) {
         $('#lymphHigh').prop("checked", true);
-        if (cbcObject["Absolute Lymphocytes"]["value"] > $("#cbcLymphHighMarked").val()) {
+        if (cbcObject["Absolute Lymphocytes"]["value"] > $("#cbcLymphHighMarked").val() && $("#cbcLymphHighMarked").val() != '') {
           $('#lymphMarked').prop("checked", true);
           $('#lymphMild').prop("checked", false);
-        } else if (cbcObject["Absolute Lymphocyte"]["value"] < $("#cbcLymphHighMild").val()) {
+        } else if (cbcObject["Absolute Lymphocytes"]["value"] < $("#cbcLymphHighMild").val() && $("#cbcLymphHighMild").val() != '') {
           $('#lymphMild').prop("checked", true);
           $('#lymphMarked').prop("checked", false);
         } else {
@@ -972,19 +1143,6 @@ $(document).ready(function() {
     }
 
     if (cbcObject["Absolute NRBCs"]["value"] > 0) {
-      let toggle = false;
-      let counter = -1;
-      ($(".rbc_item").each(function(){
-        if($(this).val() == "Nucleated RBCs"){
-          toggle = true;
-        }
-        counter++
-      })
-      )
-      if (!toggle){
-        $('#rbc_'+counter).val('Nucleated RBCs')
-        add_dropdowns('rbc');
-      }
       if (cbcObject["Absolute NRBCs"]["value"] > $("#nrbcFrequent").val()){
         $('#rbc_Nucleated_RBCs_Frequent').prop("checked", true);
         $('#rbc_Nucleated_RBCs_Occasional').prop("checked", false);
@@ -1034,98 +1192,21 @@ $(document).ready(function() {
     fillReport();
   }
 
-  function rbc_list_adjust(a) {
-    let b = [...a];
-    let aniso = false
-    for (let i = 0; i < b.length; i++){
-      if (b[i][1] == "Nucleated RBCs"){
-        b.splice(i,1);
-        i--;
-      } else if (b[i][1] == "Hypochromasia"){
-        b.splice(i,1);
-        i--;
-      } else if (b[i][1] == "Anisopoikilocytosis"){
-        aniso = true;
-      }
-    }
-    if (aniso){
-      for (let i in b){
-        if (b[i][1] == "Anisopoikilocytosis"){
-          b.push(b.splice(i, 1)[0]);
-        }
-      }
-      
-    }
-    return b
-  }
-
-  function list_text(a) {
-    var b = [...a]
-    var descriptor_final = [];
-    var final_string = "";
-    while (b.length > 0) {
-      var descriptors = [b[0][1]];
-      var descriptor_string = b[0][0];
-      var descriptor_index = b[0][2];
-      b.splice(0, 1);
-      var toggle = 1;
-      for (let i = 0; i < b.length; i++) {
-        if (b[i][0] == undefined && toggle == 1 && b[i][2] == descriptor_index) {
-          descriptors.push(b[i][1]);
-          b.splice(i, 1);
-          i--;
-        } else if (b[i][0] == descriptor_string) {
-          descriptors.push(b[i][1]);
-          b.splice(i, 1);
-          i--;
-        } else {
-          toggle = 0;
-        }
-      }
-      descriptor_final.push([descriptor_string, descriptor_index, descriptors])
-      descriptor_string = "";
-      descriptor_index = "";
-      descriptors = [];
-    }
-
-    for (let i = 0; i < descriptor_final.length; i++) {
-        if (i == 1 && (descriptor_final.length > 2 || descriptor_final[i][2].length > 1)) {
-          final_string += " with ";
-        } else if (i >= 1) {
-          final_string += " and ";
-        }
-        if (descriptor_final[i][0] != undefined) {
-          final_string += descriptor_final[i][0] + " ";
-        }
-        if (descriptor_final[i][2].length == 1) {
-          final_string += descriptor_final[i][2][0];
-        } else if (descriptor_final[i][2].length == 2) {
-          final_string += descriptor_final[i][2][0] + " and " + descriptor_final[i][2][1];
-        } else if (descriptor_final[i][2].length > 2) {
-          for (let j = 0; j < descriptor_final[i][2].length; j++) {
-            final_string += descriptor_final[i][2][j];
-            if (j < descriptor_final[i][2].length - 2) {
-              final_string += ", ";
-            } else if (j == descriptor_final[i][2].length - 2) {
-              final_string += ", and "
-            }
-          }
-        }
-      }
-    return final_string
-  }
-
   function fillReport(){
-    fillSpecimen();
     let finalText = "";
+    const specText = fillSpecimen();
     const pb = fillPB();
     const asp = fillAsp();
     const touch = fillTouch();
-    const bone = fillBone();
+    const core = fillCore();
     const clot = fillClot();
+    const specialStains = fillSpecialStains();
+    const immunostains = fillImmunostains();
+
     if (pb != ""){
       finalText += "<b>Peripheral Blood Smear</b><br>" + pb;
     }
+
     if (finalText != ""){
       if (asp != ""){
         finalText += "<br><br><b>Aspirate Smear";
@@ -1151,288 +1232,326 @@ $(document).ready(function() {
     }
 
     if (finalText != ""){
-      if (bone != ""){
+      if (core != ""){
         finalText += "<br><br><b>Core Biopsy";
         if (clot != ""){
-          finalText += "/Particle Clot</b><br>" + bone + "<br><br>" + clot;
+          finalText += "/Particle Clot</b><br>" + core + "<br><br>" + clot;
         } else {
-          finalText += "</b><br>" + bone;
+          finalText += "</b><br>" + core;
         }
       } else if (clot != ""){
         finalText += "<br><br><b>Particle Clot</b><br>" + clot;
       }
     } else {
-      if (bone != ""){
+      if (core != ""){
         finalText += "<b>Core Biopsy";
         if (clot != ""){
-          finalText += "/Particle Clot</b><br>" + bone + "<br><br>" + clot;
+          finalText += "/Particle Clot</b><br>" + core + "<br><br>" + clot;
         } else {
-          finalText += "</b><br>" + bone;
+          finalText += "</b><br>" + core;
         }
       } else if (clot != ""){
         finalText += "<b>Particle Clot</b><br>" + clot;
       }
     }
 
-    $("#finalDiv").html(finalText)
-    $(right_panel_final).show();
+    if (finalText != ""){
+      if (specialStains != ""){
+        finalText += `<br><br><b>Special Stains</b><br>${specialStains}`;
+      } 
+    } else if (specialStains != ""){
+      finalText += `<b>Special Stains</b><br>${specialStains}`;
+    }
+
+    if (finalText != ""){
+      if (immunostains != ""){
+        if (specialStains == ''){
+          finalText += '<br>'
+        }
+        finalText += `<br><b>Immunohistochemical Stains</b><br>${immunostains}`;
+      } 
+    } else if (immunostains != ""){
+      finalText += `<b>Immunohistochemical Stains</b><br>${immunostains}`;
+    }
+    if(finalText != '' || specText != ''){
+      $(rightPanelFinal).show();
+      if (finalText != ''){
+        $('#finalDiv').html(finalText);
+      }
+      if (specText != ''){
+        $('#specDiv').html(specText);
+      }
+    } else {
+      $(rightPanelFinal).hide();
+      $('#specDiv').html(specText);
+      $('#finalDiv').html(finalText);
+    }
   }
 
   function fillSpecimen() {
-    var spec_text = "";
-    var spec_array = [];
-    if ($('#spec_pb').prop("checked")) {
-      spec_array.push("peripheral blood smear");
+    var specText = '';
+    var specArray = [];
+    if ($('#specPB').prop("checked")) {
+      specArray.push("peripheral blood smear");
     }
-    if ($('#spec_asp').prop("checked")) {
-      spec_array.push("bone marrow aspirate");
+    if ($('#specAsp').prop("checked")) {
+      specArray.push("bone marrow aspirate");
     }
-    if ($('#spec_tp').prop("checked")) {
-      spec_array.push("touch preparations");
+    if ($('#specTP').prop("checked")) {
+      specArray.push("touch preparations");
     }
-    if ($('#spec_pc').prop("checked")) {
-      spec_array.push("particle clot");
+    if ($('#specPC').prop("checked")) {
+      specArray.push("particle clot");
     }
-    if ($('#spec_cb').prop("checked")) {
-      if ($('#lat_left').prop("checked")) {
-        spec_array.push("left posterior iliac crest bone marrow core biopsy");
-      } else if ($('#lat_right').prop("checked")) {
-        spec_array.push("right posterior iliac crest bone marrow core biopsy");
-      } else if ($('#lat_bilateral').prop("checked")) {
-        spec_array.push("bilateral posterior iliac crest bone marrow core biopsies");
-      } else if ($('#lat_notspecified').prop("checked")) {
-        spec_array.push("posterior iliac crest bone marrow core biopsy");
+    if ($('#specCB').prop("checked")) {
+      if ($('#latLeft').prop("checked")) {
+        specArray.push("left posterior iliac crest bone marrow core biopsy");
+      } else if ($('#latRight').prop("checked")) {
+        specArray.push("right posterior iliac crest bone marrow core biopsy");
+      } else if ($('#latBilateral').prop("checked")) {
+        specArray.push("bilateral posterior iliac crest bone marrow core biopsies");
+      } else {
+        specArray.push("posterior iliac crest bone marrow core biopsy");
       }
     }
+    specText = addCommas(specArray);
+    if (specText != ''){
+      specText = `<b>A, B: ${specText.charAt(0).toUpperCase()}${specText.slice(1)}:</b><br><br>`;
+    }
+    return specText;
+  }
 
-    if (spec_array.length == 1) {
-      spec_text = spec_array[0];
-    } else if (spec_array.length == 2) {
-      spec_text += spec_array[0] + " and " + spec_array[1];
-    } else if (spec_array.length > 2) {
-      spec_text += spec_array[0] + ", " + spec_array[1];
-      for (let i = 2; i < spec_array.length; i++) {
-        if (i == spec_array.length - 1) {
-          spec_text += ", and " + spec_array[i];
-        } else {
-          spec_text += ", " + spec_array[i];
+  function fillPB() {
+    let pbText = "";
+    const neutListString = listText("neutrophilSelect");
+    const anisoListString = listText('anisoSelect');
+    const pltListString = listText("plateletSelect");
+    
+    if ($('#hgbNormal').prop("checked")) {
+      $("#hgbMildMarked").hide();
+      pbText += "The peripheral blood smear shows adequate hemoglobin. ";
+    } else if ($('#hgbLow').prop("checked")) {
+      $("#hgbMildMarked").show();
+      pbText += "The peripheral blood smear shows";
+      if ($('#hgbMarked').prop("checked")) {
+        pbText += " marked";
+      } else if ($('#hgbMild').prop("checked")) {
+        pbText += " mild";
+      }
+      if ($('#mcvLow').prop("checked")) {
+        pbText += " microcytic";
+      } else if ($('#mcvNormal').prop("checked")) {
+        pbText += " normocytic";
+      } else if ($('#mcvHigh').prop("checked")) {
+        pbText += " macrocytic";
+      }
+      if ($('#hypochromic').prop("checked") && ($('#mcvLow').prop("checked") || $('#mcvNormal').prop("checked") || $('#mcvHigh').prop("checked"))) {
+        pbText += ", hypochromic";
+      } else if ($('#hypochromic').prop("checked")) {
+        pbText += " hypochromic";
+      }
+      pbText += " anemia. "
+    } else if ($('#hgbHigh').prop("checked")) {
+      $("#hgbMildMarked").show();
+      pbText += "The peripheral blood smear shows";
+      if ($('#hgbMarked').prop("checked")) {
+        pbText += " marked";
+      } else if ($('#hgbMild').prop("checked")) {
+        pbText += " mild";
+      }
+      pbText += " polycythemia. ";
+    }
+
+    if ($("#anisoPresent").prop("checked") || $("#anisoMild").prop("checked") || $("#anisoMarked").prop("checked")) {
+      ($('#anisoDiv').show());
+      ($('#anisoSelect').show());
+    } else if ($("#anisoAbsent").prop("checked")){
+      ($('#anisoDiv').hide());
+      ($('#anisoSelect').hide());
+    }
+
+    if ($("#polyPresent").prop("checked") || $("#polySlight").prop("checked") || $("#polyMarked").prop("checked")) {
+      pbText += "Red blood cells show ";
+      if ($("#polyPresent").prop("checked")){
+        pbText += 'polychromasia';
+      } else if ($("#polySlight").prop("checked")){
+        pbText += 'slight polychromasia';
+      } else if ($("#polyMarked").prop("checked")){
+        pbText += 'marked polychromasia';
+      }
+      if ($("#anisoAbsent").prop("checked")){
+        pbText += '. ';
+      } else if (anisoListString != ''){
+        if ($("#anisoPresent").prop("checked")){
+          pbText += ` and anisopoikilocytosis including ${anisoListString}. `;
+        } else if ($("#anisoMild").prop("checked")){
+          pbText += ` and mild anisopoikilocytosis including ${anisoListString}. `;
+        } else if ($("#anisoMarked").prop("checked")){
+          pbText += ` and marked anisopoikilocytosis including ${anisoListString}. `;
+        }
+      } else {
+        if ($("#anisoPresent").prop("checked")){
+          pbText += ' and nonspecific anisopoikilocytosis. ';
+        } else if ($("#anisoMild").prop("checked")){
+          pbText += ' and mild nonspecific anisopoikilocytosis. ';
+        } else if ($("#anisoMarked").prop("checked")){
+          pbText += ' and marked nonspecific anisopoikilocytosis. ';
+        }
+      }
+    } else if ($("#anisoAbsent").prop("checked")){
+      pbText += 'Red blood cells show unremarkable morphology. '
+    } else {
+        if (anisoListString != ''){
+        if ($("#anisoPresent").prop("checked")){
+          pbText += `Red blood cells show anisopoikilocytosis including ${anisoListString}. `;
+        } else if ($("#anisoMild").prop("checked")){
+          pbText += `Red blood cells show mild anisopoikilocytosis including ${anisoListString}. `;
+        } else if ($("#anisoMarked").prop("checked")){
+          pbText += `Red blood cells show marked anisopoikilocytosis including ${anisoListString}. `;
+        }
+      } else {
+        if ($("#anisoPresent").prop("checked")){
+          pbText += 'Red blood cells show nonspecific anisopoikilocytosis. ';
+        } else if ($("#anisoMild").prop("checked")){
+          pbText += 'Red blood cells show mild nonspecific anisopoikilocytosis. ';
+        } else if ($("#anisoMarked").prop("checked")){
+          pbText += 'Red blood cells show marked nonspecific anisopoikilocytosis. ';
+        } else if ($("#anisoAbsent").prop("checked")){
         }
       }
     }
 
-    if (spec_text != "") {
-      $(spec_div).html("<b>A,B: " + spec_text.charAt(0).toUpperCase() + spec_text.slice(1) + ":</b><br><br>")
-      $(right_panel_final).show();
-    } else {
-      $(spec_div).html("")
-    }
-  }
-
-  function fillPB() {
-    var pb_text = "";
-    var rbc_list_array = [];
-    var rbc_list_string = list_text(rbc_list_adjust(master_list.rbc_strings)).toLowerCase();
-    var aniso_list_string = list_text(master_list.aniso_strings).toLowerCase();
-    var neut_list_string = list_text(master_list.neutrophil_strings).toLowerCase();
-    var plt_list_string = list_text(master_list.platelet_strings).toLowerCase();
-    
-    if (master_list.rbc_strings.length > 0) {
-      for (let i = 0; i < master_list.rbc_strings.length; i++) {
-        if (master_list.rbc_strings)
-        rbc_list_array.push(master_list.rbc_strings[i][1]);
-      }
-    }
-
-    if ($('#hgbNormal').prop("checked")) {
-      $("#hgbMildMarked").hide();
-      pb_text += "The peripheral blood smear shows adequate hemoglobin. ";
-    } else if ($('#hgbLow').prop("checked")) {
-      $("#hgbMildMarked").show();
-      pb_text += "The peripheral blood smear shows";
-      if ($('#hgbMarked').prop("checked")) {
-        pb_text += " marked";
-      } else if ($('#hgbMild').prop("checked")) {
-        pb_text += " mild";
-      }
-      if ($('#mcvLow').prop("checked")) {
-        pb_text += " microcytic";
-      } else if ($('#mcvNormal').prop("checked")) {
-        pb_text += " normocytic";
-      } else if ($('#mcvHigh').prop("checked")) {
-        pb_text += " macrocytic";
-      }
-      if (rbc_list_array.indexOf("Hypochromasia") != -1 && ($('#mcvLow').prop("checked") || $('#mcvNormal').prop("checked") || $('#mcvHigh').prop("checked"))) {
-        pb_text += ", hypochromic";
-      } else if (rbc_list_array.indexOf("Hypochromsia") != -1) {
-        pb_text += " hypochromic";
-      }
-      pb_text += " anemia. "
-    } else if ($('#hgbHigh').prop("checked")) {
-      $("#hgbMildMarked").show();
-      pb_text += "The peripheral blood smear shows";
-      if ($('#hgbMarked').prop("checked")) {
-        pb_text += " marked";
-      } else if ($('#hgbMild').prop("checked")) {
-        pb_text += " mild";
-      }
-      pb_text += " polycythemia. ";
-    }
-
-    if (rbc_list_array.indexOf("Anisopoikilocytosis") != -1) {
-      $('#aniso_div').show();
-      $('#aniso_select_div').show();
-    } else {
-      $('#aniso_div').hide();
-      $('#aniso_select_div').hide();
-    }
-
-    if (rbc_list_array.indexOf("Unremarkable") != -1 && rbc_list_array.indexOf("Predominantly unremarkable") != -1) {
-      pb_text += " *** INCOMPATIBLE RBC DESCRIPTORS *** ";
-    } else if ((rbc_list_array.indexOf("Unremarkable") != -1 || rbc_list_array.indexOf("Predominantly unremarkable") != -1) && (rbc_list_array.indexOf("Anisopoikilocytosis") != -1 || rbc_list_array.indexOf("Polychromasia") != -1)) {
-      pb_text += " *** INCOMPATIBLE RBC DESCRIPTORS *** ";
-    } else if (rbc_list_array.indexOf("Anisopoikilocytosis") != -1) {
-      if (aniso_list_string == "") {
-        pb_text += "Red blood cells show " + rbc_list_string.slice(0, rbc_list_string.indexOf("anisopoikilocytosis")) + "nonspecific " + rbc_list_string.slice(rbc_list_string.indexOf("anisopoikilocytosis")) + ". ";
-      } else {
-        pb_text += "Red blood cells show " + rbc_list_string + " including " + aniso_list_string + ". ";
-      }
-    } else if (rbc_list_array.indexOf("Polychromasia") != -1) {
-        pb_text += "Red blood cells show " + rbc_list_string + ". ";   
-    } else if (rbc_list_array.indexOf("Predominantly unremarkable") != -1) {
-      pb_text += "Red blood cells show predominantly unremarkable morphology. ";
-    } else if (rbc_list_array.indexOf("Unremarkable") != -1) {
-      pb_text += "Red blood cells show unremarkable morphology. ";
-    }
-
     if ($("#nrbcRare").prop("checked")) {
-      pb_text += "Rare nucleated red blood cells are identified. ";
+      pbText += "Rare nucleated red blood cells are identified. ";
     } else if ($("#nrbcOccasional").prop("checked")){
-      pb_text += "Occasional nucleated red blood cells are identified. ";
+      pbText += "Occasional nucleated red blood cells are identified. ";
     } else if ($("#nrbcFrequent").prop("checked")) {
-      pb_text += "Frequent nucleated red blood cells are identified. ";
+      pbText += "Frequent nucleated red blood cells are identified. ";
     }
     
       if ($("#neutLow").prop("checked")) {
         $("#neutMildMarked").show();
-        pb_text += "There is"
+        pbText += "There is"
         if ($('#neutMarked').prop("checked")) {
-          pb_text += " marked";
+          pbText += " marked";
         } else if ($('#neutMild').prop("checked")) {
-          pb_text += " mild";
+          pbText += " mild";
         }
-        if (neut_list_string == "") {
-          pb_text += " absolute neutropenia. Neutrophils show unremarkable morphology. ";
+        if (neutListString == "") {
+          pbText += " absolute neutropenia. Neutrophils show unremarkable morphology. ";
         } else {
-          pb_text += " absolute neutropenia. Neutrophils show " + neut_list_string.toLowerCase() + ". ";
+          pbText += " absolute neutropenia. Neutrophils show " + neutListString + ". ";
         }
       } else if ($("#neutNormal").prop("checked")) {
         $("#neutMildMarked").hide();
-        if (neut_list_string == "") {
-          pb_text += "Neutrophils are adequate and show unremarkable morphology. ";
+        if (neutListString == "") {
+          pbText += "Neutrophils are adequate and show unremarkable morphology. ";
         } else {
-          pb_text += " Neutrophils are adequate. Neutrophils show " + neut_list_string.toLowerCase() + ". ";
+          pbText += " Neutrophils are adequate. Neutrophils show " + neutListString + ". ";
         }
       } else if ($("#neutHigh").prop("checked")) {
         $("#neutMildMarked").show();
-        pb_text += "There is";
+        pbText += "There is";
         if ($('#neutMarked').prop("checked")) {
-          pb_text += " marked";
+          pbText += " marked";
         } else if ($('#neutMild').prop("checked")) {
-          pb_text += " mild";
+          pbText += " mild";
         }
-        if (neut_list_string == "") {
-        pb_text += " absolute neutrophilia. Neutrophils show unremarkable morphology. ";
+        if (neutListString == "") {
+          pbText += " absolute neutrophilia. Neutrophils show unremarkable morphology. ";
         } else {
-          pb_text += " absolute neutrophilia. Neutrophils show " + neut_list_string.toLowerCase() + ". ";
+          pbText += " absolute neutrophilia. Neutrophils show " + neutListString + ". ";
         }
+      } else if (neutListString != ""){
+        pbText += `Neutrophils show ${neutListString}. `;
       }
 
       if ($("#lymphLow").prop("checked")) {
         $("#lymphMildMarked").show();
-        pb_text += "There is"
+        pbText += "There is"
         if ($('#lymphMarked').prop("checked")) {
-          pb_text += " marked";
+          pbText += " marked";
         } else if ($('#lymphMild').prop("checked")) {
-          pb_text += " mild";
+          pbText += " mild";
         }
-        pb_text += " absolute lymphopenia. "
+        pbText += " absolute lymphopenia. "
         if ($('#lymphocyte_select').val() == "unremarkable") {
-          pb_text += "Lymphocytes show unremarkable morphology. ";
+          pbText += "Lymphocytes show unremarkable morphology. ";
         }
       } else if ($("#lymphNormal").prop("checked") && $('#lymphocyte_select').val() == "unremarkable") {
         $("#lymphMildMarked").hide();
-        pb_text += "Lymphocytes are adequate and show unremarkable morphology. ";
+        pbText += "Lymphocytes are adequate and show unremarkable morphology. ";
       } else if ($("#lymphHigh").prop("checked")) {
         $("#lymphMildMarked").show();
-        pb_text += "There is";
+        pbText += "There is";
         if ($('#lymphMarked').prop("checked")) {
-          pb_text += " marked";
+          pbText += " marked";
         } else if ($('#lymphMild').prop("checked")) {
-          pb_text += " mild";
+          pbText += " mild";
         }
-        pb_text += " absolute lymphocytosis."
+        pbText += " absolute lymphocytosis. "
       } else {
-/*         pb_text += " Lymphocytes show " + lymph_list_string.toLowerCase() + ". ";
+/*         pbText += " Lymphocytes show " + lymph_list_string.toLowerCase() + ". ";
  */      }
 
       if ($("#eosHigh").prop("checked") && $("#basoHigh").prop("checked")) {
-        pb_text += "There is absolute eosinophilia and basophilia. ";
+        pbText += "There is absolute eosinophilia and basophilia. ";
       } else if ($("#eosHigh").prop("checked")){
-        pb_text += "There is absolute eosinophilia. ";
+        pbText += "There is absolute eosinophilia. ";
       } else if ($("#basoHigh").prop("checked")){
-        pb_text += "There is absolute basophilia. ";
+        pbText += "There is absolute basophilia. ";
       }
 
       if ($("#pltLow").prop("checked")) {
         $("#pltMildMarked").show();
-        pb_text += "Platelets are";
+        pbText += "Platelets are";
         if ($("#pltMild").prop("checked")) {
-          pb_text += " mildly";
+          pbText += " mildly";
         } else if ($("#pltMarked").prop("checked")) {
-          pb_text += " markedly";
+          pbText += " markedly";
         }
-        if (plt_list_string == "") {
-          pb_text += " decreased with unremarkable morphology. "
+        if (pltListString == "") {
+          pbText += " decreased with unremarkable morphology. "
         } else {
-          pb_text += " decreased with " + plt_list_string + ". ";
+          pbText += " decreased with " + pltListString + ". ";
         }
       } else if ($("#pltNormal").prop("checked")){
         $("#pltMildMarked").hide();
-        if (plt_list_string == "") {
-          pb_text += "Platelets are adequate with unremarkable morphology. ";
+        if (pltListString == "") {
+          pbText += "Platelets are adequate with unremarkable morphology. ";
         } else {
-          pb_text += "Platelets are adequate with " + plt_list_string + ". ";  
+          pbText += "Platelets are adequate with " + pltListString + ". ";  
         }
       } else if ($("#pltHigh").prop("checked")){
         $("#pltMildMarked").show();
-        pb_text += "Platelets are";
+        pbText += "Platelets are";
         if ($("#pltMild").prop("checked")){
-          pb_text += " mildly";
+          pbText += " mildly";
         } else if ($("#pltMarked").prop("checked")) {
-          pb_text += " markedly";
+          pbText += " markedly";
         }
-        if (plt_list_string == ""){
-        pb_text += " increased with unremarkable morphology. ";
+        if (pltListString == ""){
+          pbText += " increased with unremarkable morphology. ";
         } else {
-        pb_text += " increased with " + plt_list_string + ". ";
+          pbText += " increased with " + pltListString + ". ";
         }
-      } else if (plt_list_string != ""){
-        pb_text += plt_list_string.charAt(0).toUpperCase() + plt_list_string.slice(1) + " are seen. "
+      } else if (pltListString != ""){
+        pbText += pltListString.charAt(0).toUpperCase() + pltListString.slice(1) + " are seen. "
       }
 
       if ($("#circulatingPlasma").prop("checked")){
-        pb_text += "No circulating plasma cells are identified. "
+        pbText += "No circulating plasma cells are identified. "
       }
 
-    return pb_text
+    return pbText
   }
 
   function fillAsp() {
-    let asp_text = "";
-    const adequacyListString = list_text(master_list.adequacy_strings).toLowerCase();
-    const erythroidListString = list_text(master_list.erythroid_strings).toLowerCase();
-    const myeloidListString = list_text(master_list.myeloid_strings).toLowerCase();
-    const megakaryocyteListString = list_text(master_list.megakaryocyte_strings).toLowerCase();
+    let aspText = "";
+    const adequacyListString = listText("adequacySelect");
+    const erythroidListString = listText("erythroidSelect").toLowerCase();
+    const myeloidListString = listText("myeloidSelect").toLowerCase();
+    const megakaryocyteListString = listText("megakaryocyteSelect").toLowerCase();
 
     if (erythroidListString != ""){
       $("#erythroid_unremarkable").prop("checked", false);
@@ -1447,49 +1566,49 @@ $(document).ready(function() {
     }
     
     if ($('#asp_adequate').prop("checked") && adequacyListString == "") {
-      asp_text += "The bone marrow aspirate smears are cellular and adequate for interpretation. ";
+      aspText += "The bone marrow aspirate smears are cellular and adequate for interpretation. ";
     } else if ($('#asp_adequate').prop("checked")) {
-      asp_text += "The bone marrow aspirate smears are " + adequacyListString + " but overall adequate for interpretation. ";
+      aspText += "The bone marrow aspirate smears are " + adequacyListString + " but overall adequate for interpretation. ";
     } else if ($('#asp_inadequate').prop("checked") && adequacyListString == "") {
-      asp_text += "The bone marrow aspirate smears are inadequate for interpretation. ";
+      aspText += "The bone marrow aspirate smears are inadequate for interpretation. ";
     } else if ($('#asp_inadequate').prop("checked")) {
-      asp_text += "The bone marrow aspirate smears are " + adequacyListString + " precluding a meaningful marrow differential. ";
+      aspText += "The bone marrow aspirate smears are " + adequacyListString + " precluding a meaningful marrow differential. ";
     }
 
     if ($('#erythroidPredominance').prop("checked")){
-      asp_text += "There is an erythroid predominance. ";
+      aspText += "There is an erythroid predominance. ";
     } else if ($('#myeloidPredominance').prop("checked")){
-      asp_text += "There is a myeloid predominance. ";
+      aspText += "There is a myeloid predominance. ";
     }
 
     if ($('#erythroid_unremarkable').prop("checked") && $('#myeloid_unremarkable').prop("checked")) {
-      asp_text += "Myeloid and erythroid precursors show progressive maturation with unremarkable morphology. ";
+      aspText += "Myeloid and erythroid precursors show progressive maturation with unremarkable morphology. ";
     } else {
       if ($('#erythroid_unremarkable').prop("checked")){
-        asp_text += "Erythroid precursors show progressive maturation with unremarkable morphology. ";
+        aspText += "Erythroid precursors show progressive maturation with unremarkable morphology. ";
       } else if (erythroidListString != ""){
-        asp_text += "Erythroid precursors show " + erythroidListString + ". ";
+        aspText += "Erythroid precursors show " + erythroidListString + ". ";
       }
       if ($('#myeloid_unremarkable').prop("checked")){
-        asp_text += "Myeloid precursors show progressive maturation with unremarkable morphology. ";
+        aspText += "Myeloid precursors show progressive maturation with unremarkable morphology. ";
       } else if (myeloidListString != ""){
-        asp_text += "Myeloid precursors show " + myeloidListString + ". ";
+        aspText += "Myeloid precursors show " + myeloidListString + ". ";
       }
     };
 
     if ($('#megakaryocyte_unremarkable').prop("checked")) {
-      asp_text += "Megakaryocytes appear adequate with unremarkable morphology. ";
+      aspText += "Megakaryocytes appear adequate with unremarkable morphology. ";
     } else if (megakaryocyteListString != ""){
-      asp_text += "Megakaryocytes show " + megakaryocyteListString + ". ";
+      aspText += "Megakaryocytes show " + megakaryocyteListString + ". ";
     }
 
     if ($('#blast_adequate').prop("checked")) {
-      asp_text += "Blasts are not increased. ";
+      aspText += "Blasts are not increased. ";
     } else if ($('#blast_increased').prop("checked")){
-      asp_text += "Blasts are significantly increased. ";
+      aspText += "Blasts are significantly increased. ";
     }
 
-    return asp_text;
+    return aspText;
   }
 
   function fillTouch(){
@@ -1501,44 +1620,44 @@ $(document).ready(function() {
     return touchText;
   }
 
-  function fillBone(){
-    let boneText = "";
-    const adequacyListString = list_text(master_list.boneAdequacy_strings).toLowerCase();
-    if ($('#boneAdequate').prop("checked") && adequacyListString == "") {
-      boneText += "The bone marrow core biopsy is adequate for interpretation. ";
-    } else if ($('#boneAdequate').prop("checked")) {
-      boneText += "The bone marrow core biopsy is " + adequacyListString + " but overall adequate for interpretation. ";
-    } else if ($('#boneInadequate').prop("checked") && adequacyListString == "") {
-      boneText += "The bone marrow core biopsy is inadequate for interpretation. ";
-    } else if ($('#boneInadequate').prop("checked")) {
-      boneText += "The bone marrow core biopsy is " + adequacyListString + " and overall inadequate for interpretation. ";
+  function fillCore(){
+    let coreText = "";
+    const adequacyListString = listText("coreAdequacySelect");
+    if ($('#coreAdequate').prop("checked") && adequacyListString == "") {
+      coreText += "The bone marrow core biopsy is adequate for interpretation. ";
+    } else if ($('#coreAdequate').prop("checked")) {
+      coreText += "The bone marrow core biopsy is " + adequacyListString + " but overall adequate for interpretation. ";
+    } else if ($('#coreInadequate').prop("checked") && adequacyListString == "") {
+      coreText += "The bone marrow core biopsy is inadequate for interpretation. ";
+    } else if ($('#coreInadequate').prop("checked")) {
+      coreText += "The bone marrow core biopsy is " + adequacyListString + " and overall inadequate for interpretation. ";
     }
 
     if ($('#hypocellular').prop('checked')){
-      boneText += "The marrow is hypocellular for age"
+      coreText += "The marrow is hypocellular for age"
     } else if ($('#normocellular').prop('checked')){
-      boneText += "The marrow is normocellular for age"
+      coreText += "The marrow is normocellular for age"
     } else if ($('#hypercellular').prop('checked')){
-      boneText += "The marrow is hypercellular for age"
+      coreText += "The marrow is hypercellular for age"
     }
     
     if ($('#hypocellular').prop('checked') || $('#normocellular').prop('checked') || $('#hypercellular').prop('checked')){
-      if ($.isNumeric($('#boneCellularity').val())){
-        boneText += " (" + $('#boneCellularity').val() + "% cellular). ";
+      if ($.isNumeric($('#coreCellularity').val())){
+        coreText += " (" + $('#coreCellularity').val() + "% cellular). ";
       } else {
-          boneText += ". ";
+        coreText += ". ";
       }
     }
     
-    if ($('#boneMEUnremarkable').prop('checked')){
-      boneText += "Myeloid and erythroid precursors show progressive maturation. "
+    if ($('#coreMEUnremarkable').prop('checked')){
+      coreText += "Myeloid and erythroid precursors show progressive maturation. "
     }   
 
-    if ($('#boneMegUnremarkable').prop('checked')){
-      boneText += "Megakaryocytes are adequate and regularly distributed. "
+    if ($('#coreMegUnremarkable').prop('checked')){
+      coreText += "Megakaryocytes are adequate and regularly distributed. "
     }
 
-    return boneText;
+    return coreText;
   }
 
   function fillClot(){
@@ -1550,13 +1669,130 @@ $(document).ready(function() {
     return clotText;
   }
 
+  function fillSpecialStains(){
+    let stainText = '';
+    let classObject = {
+      aspirateSpecialStainsSelect: 'Bone Marrow Aspirate', 
+      coreSpecialStainsSelect: 'Bone Marrow Core Biopsy', 
+      clotSpecialStainsSelect: 'Bone Marrow Particle Clot'
+    };
+
+    for (key in classObject){
+      let stainArray = [];
+      $(`.${key}`).each(function(){
+        if ($(this).val() != ''){
+          let descriptorArray = [];
+          let descriptorText = '';
+          $(`.${this.id}`).each(function(){
+            if ($(this).prop('checked')){
+              descriptorArray.push($(this).val());
+            }
+          })
+          if ($(this).val() == 'Iron'){
+            if (descriptorArray.indexOf('adequate') != -1){
+              descriptorText += 'There is adequate storage iron. '
+            } else if (descriptorArray.indexOf('decreased') != -1){
+              descriptorText += 'There is decreased storage iron. '
+            } else if (descriptorArray.indexOf('increased') != -1){
+              descriptorText += 'There is increased storage iron. '
+            } else if (descriptorArray.indexOf('inadequate') != -1 && descriptorArray.indexOf('inadequate rings') == -1){
+              descriptorText += 'There are too few spicules for assessment of storage iron. '
+            } else if (descriptorArray.indexOf('inadequate') != -1 && descriptorArray.indexOf('inadequate rings') != -1){
+              descriptorText += 'There are too few spicules for assessment of storage iron and too few erythroid precursors for assessment of ring sideroblasts. '
+            }
+            if (descriptorArray.indexOf('present') != -1){
+              descriptorText += 'Ring sideroblasts are identified. '
+            } else if (descriptorArray.indexOf('absent') != -1){
+              descriptorText += 'No ring sideroblasts are identified. '
+            } else if (descriptorArray.indexOf('inadequate rings') != -1 && descriptorArray.indexOf('inadequate') == -1){
+              descriptorText += 'There are too few erythroid precursors for assessment of ring sideroblasts. '
+            }
+          } else if ($(this).val() == 'Reticulin'){
+            if (descriptorArray[0] == 'MF-0'){
+              descriptorText = 'There is no increase in fibrosis (MF-0).';
+            } else if (descriptorArray[0] == 'MF-1'){
+              descriptorText = 'There is mildly increased fibrosis (MF-1).';
+            } else if (descriptorArray[0] == 'MF-2'){
+              descriptorText = 'There is moderately increased fibrosis (MF-2).';
+            } else if (descriptorArray[0] == 'MF-3'){
+              descriptorText = 'There is markedly increased fibrosis (MF-3).';
+            }
+          } else if ($(this).val() == 'Congo red'){
+            if (descriptorArray[0] == 'negative'){
+              descriptorText = 'Negative for amyloid.';
+            } else if (descriptorArray[0] == 'positive'){
+              descriptorText = 'Positive for amyloid.';
+            }
+          } else if ($(this).val() == 'GMS'){
+            if (descriptorArray[0] == 'negative'){
+              descriptorText = 'Negative for fungal organisms.';
+            } else if (descriptorArray[0] == 'positive'){
+              descriptorText = 'Positive for fungal organisms.';
+            }
+          } else if ($(this).val() == 'AFB'){
+            if (descriptorArray[0] == 'negative'){
+              descriptorText = 'Negative for acid-fast bacteria.';
+            } else if (descriptorArray[0] == 'positive'){
+              descriptorText = 'Positive for acid-fast bacteria.';
+            }
+          }
+          stainArray.push([$(this).val(), descriptorText]);
+        }
+      })
+      if (stainArray.length != 0){
+        if (stainText != ''){
+          stainText += '<br>'
+        }
+        stainText += stainTable(stainArray, classObject[key])
+      }
+    }
+    return stainText;
+  }
+
+  function fillImmunostains(){
+    let stainText = '';
+    let classObject = {
+      coreImmunostainsSelect: 'Bone Marrow Core Biopsy', 
+      clotImmunostainsSelect: 'Bone Marrow Particle Clot'
+    };
+
+    for (key in classObject){
+      let stainArray = [];
+      $(`.${key}`).each(function(){
+        if ($(this).val() != ''){
+          let descriptorText = '';
+          $(`.${this.id}`).each(function(){
+            descriptorText = $(this).val();
+          })
+          stainArray.push([$(this).val(), descriptorText]);
+        }
+      })
+      if (stainArray.length != 0){
+        if (stainText != ''){
+          stainText += '<br>'
+        }
+        stainText += stainTable(stainArray, classObject[key])
+      }
+    }
+    return stainText;
+  }
+
+  function stainTable(array, label){
+    let stainText = `${label}<br><table class="templateTable" style="width:600px; font-size:11pt">`
+      for (i in array){
+        stainText += `<tr><td style="width:30%">${array[i][0]}</td><td style="width:70%">${array[i][1]} </td></tr>`
+      }
+      stainText += '</table>'
+    return stainText;
+  }
 
   $(".saveButton").click(function() {
     let saveFileBM = {};
     let aspToggle = false;
     let pbToggle = false;
     let errorDescriptor = "";
-    let settingObject = {};
+    let checkedObject = {};
+    let inputObject = {};
     $('.pbCounterTemplate').each(function(){
       if ($(this).css("background-color") == "rgb(255, 95, 95)"){
         pbToggle = true;
@@ -1574,7 +1810,11 @@ $(document).ready(function() {
       }
     })
     $('.diffSetting').each(function(){
-      settingObject[this.id] = $(this).prop('checked');
+      checkedObject[this.id] = $(this).prop('checked');
+    })
+
+    $('.saveInput').each(function(){
+      inputObject[this.id] = $(this).val();
     })
 
     if (aspToggle || pbToggle){
@@ -1588,7 +1828,8 @@ $(document).ready(function() {
     } else {
       saveFileBM.pbCountTableBM = pbCountTable;
       saveFileBM.aspCountTableBM = aspCountTable;
-      saveFileBM.settingObjectBM = settingObject;
+      saveFileBM.checkedObjectBM = checkedObject;
+      saveFileBM.inputObjectBM = inputObject;
       localStorage.setItem("saveFileBM", JSON.stringify(saveFileBM));
       if($('#copyAlert').is(":hidden")){
         $('#copyAlert').html('Settings have been saved.');
