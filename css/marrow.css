@@ -4,7 +4,7 @@
   }
 
   
-  input:focus::placeholder {
+input:focus::placeholder {
     color: transparent;
   }
 
@@ -61,22 +61,6 @@ body {
     color: #FFFFFF;
 }
 
-.single {
-    display: flex;
-    align-items: flex-start;
-}
-
-.double {
-    display: grid;
-    grid-template-rows: auto auto;
-}
-
-.counterGrid {
-    display: grid;
-    grid-template-columns: 75% 25%;
-    justify-items: center;
-}
-
 .title {
     flex-basis: 50%;
     text-align: center;
@@ -108,18 +92,27 @@ body {
     cursor: pointer;
 }
 
+.panelContainer {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-evenly;
+    gap: 10px;
+    margin: 10px;
+}
+
 .panel {
     background-color: #FFFFFF;
-    margin: 10px;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     border-radius: 3px;
-    overflow: hidden;
     flex-grow: 1;
     flex-basis: 0;
 }
 
 .panelBody {
     padding: 10px;
+    overflow-y:auto;
+    overflow-x:hidden;
+    max-height: calc(100vh - 120px);
 }
 
 .panelHeader {
@@ -127,6 +120,12 @@ body {
     display: flex;
     justify-content: space-evenly; 
     padding-top: 4px; 
+    color: #FFFFFF;
+}
+
+.select {
+    width: 200px;
+    margin-right: 10px;
 }
 
 .copyHeader {
@@ -142,13 +141,14 @@ body {
 
 .templateTable th, .templateTable td {
     border: 1px solid;
+    vertical-align: top;
     text-align: left;
     font-family: Arial;
     font-size: 11pt;
     padding-left: 10px;
 }
 
-.grid {
+.counterGrid {
     display: grid;
     grid-template-rows: auto auto auto auto;
     grid-template-columns: 100px 100px 100px;
@@ -166,7 +166,7 @@ body {
     grid-column-end: 4;
 }
 
-.grid_cell {
+.gridCell {
     display: grid;
     grid-template-rows: auto auto;
     text-align: center;
@@ -182,20 +182,28 @@ body {
     flex-wrap: wrap;
 }
 
-.pbGrid {
+.upperGrid {
+    display: grid;
+    grid-template-columns: 75% 25%;
+    justify-items: center;
+    padding-bottom: 10px;
+}
+
+.lowerGrid {
+    display: grid;
+    grid-template-columns: 200px auto;
+    column-gap: 20px
+}
+
+.stainGrid {
     display: grid;
     grid-template-columns: 250px auto;
     column-gap: 20px
 }
 
-.aspGrid {
-    display: grid;
-    grid-template-columns: 150px auto;
-    column-gap: 20px
-}
-
 .counter {
-    width: 98.5%;   
+    width: 98.5%;
+    height: 4em;
 }
 
 .extend {
@@ -209,11 +217,15 @@ body {
 
 .titleIcon{
     font-size: 20px;
-    padding: 10px;
     cursor: pointer;
+    padding: 10px;
 }
 
+.headerIcon {
+    padding-right: 5px;
+}
 .underline {
+    padding: 5px;
     cursor: pointer;
     flex: 1 1 0;
     width: 0;
@@ -221,16 +233,12 @@ body {
     border-bottom: 4px solid #2CEDF1;
 }
 
-.headerIcon {
-    padding: 5px;
-}
-
 .clicked {
     color:  #2CEDF1;       
 }
 
 .unclicked {
-    color:  white;
+    color: white;
     border-bottom: none;
 }
 
@@ -307,3 +315,4 @@ textarea {
     border: none;
     cursor: pointer;
   }
+
