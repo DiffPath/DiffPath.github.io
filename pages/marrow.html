@@ -443,8 +443,8 @@
                             </div>
                             <div>
                                 <div>
-                                    <input type="checkbox" id="erythroidPredominance" class="form"><label for="erythroidPredominance">Erythroid predominance</label>
-                                    <input type="checkbox" id="myeloidPredominance" class="form"><label for="myeloidPredominance">Myeloid predominance</label>
+                                    <input type="radio" id="erythroidPredominance" class="form"><label for="erythroidPredominance">Erythroid predominance</label>
+                                    <input type="radio" id="myeloidPredominance" class="form"><label for="myeloidPredominance">Myeloid predominance</label>
                                 </div>
                                 <div id="predominanceSlightMarked" style ="display: none">                          
                                     <input type="checkbox" class="form singleCheck" id="predominanceSlight" name="predominance"><label for="predominanceSlight">Slight</label>                   
@@ -528,14 +528,21 @@
                             <div>
                                 <b>Cellularity:</b>
                             </div>
-                            <div class="flex">
+                            <div>
                                 <div>
                                     <input type="input" class="form" id="coreCellularity" size="2" maxlength="3">%
+                                </div>
+                                <div class='flex'>
+                                <div style="padding-right: 10px">
                                     <input type="radio" class="form" id="hypocellular" name="coreCellularity"><label for="hypocellular">Hypocellular</label>
                                     <input type="radio" class="form" id="normocellular" name="coreCellularity"><label for="normocellular">Normocellular</label>
                                     <input type="radio" class="form" id="hypercellular" name="coreCellularity"><label for="hypercellular">Hypercellular</label>
                                 </div>
-
+                                <div id="cellularityMildMarked" style ="display: none">                          
+                                    <input type="checkbox" class="form singleCheck" id="cellularityMild" name="cellularity"><label for="cellularityMild">Mild</label>                   
+                                    <input type="checkbox" class="form singleCheck" id="cellularityMarked" name="cellularity"><label for="cellularityMarked">Marked</label>
+                                </div>
+                                </div>
                             </div>
                             <div>
                                 <b>Myeloids/Erythroids:</b>
@@ -643,69 +650,69 @@
                                       <th style="width:17%">Result</th>
                                       <th style="width:33%">Reference Range</th>
                                     </tr>
-                                    <tr id="pb_atypical_row" style="display: none">
+                                    <tr id="pbTableRow0" style="display: none">
                                         <td style="width:50%">Atypical Cells</td>
-                                        <td style="width:17%" id="pbTable10"></td>
+                                        <td style="width:17%" id="pbTableCell0"></td>
                                         <td style="width:33%">0</td>
                                     </tr>
-                                    <tr id="pb_other_row" style="display: none">
+                                    <tr id="pbTableRow1" style="display: none">
                                         <td style="width:50%">Other Cells</td>
-                                        <td style="width:17%" id="pbTable11"></td>
+                                        <td style="width:17%" id="pbTableCell1"></td>
                                         <td style="width:33%">0</td>
                                     </tr>
-                                    <tr id="pb_blasts_row" style="display: none">
+                                    <tr id="pbTableRow2" style="display: none">
                                       <td style="width:50%">Blasts</td>
-                                      <td style="width:17%" id="pbTable0"></td>
+                                      <td style="width:17%" id="pbTableCell2"></td>
                                       <td style="width:33%">0</td>
                                     </tr>
-                                    <tr id="pb_promyelocytes_row" style="display: none">
+                                    <tr id="pbTableRow3" style="display: none">
                                       <td style="width:50%">Promyelocytes</td>
-                                      <td style="width:17%" id="pbTable1"></td>
+                                      <td style="width:17%" id="pbTableCell3"></td>
                                       <td style="width:33%">0</td>
                                     </tr>
-                                    <tr id="pb_myelo_row" style="display: none">
+                                    <tr id="pbTableRow4" style="display: none">
                                       <td style="width:50%">Myelocytes</td>
-                                      <td style="width:17%" id="pbTable2"></td>
+                                      <td style="width:17%" id="pbTableCell4"></td>
                                       <td style="width:33%">0</td>
                                     </tr>
-                                    <tr id="pb_metas_row" style="display: none">
+                                    <tr id="pbTableRow5" style="display: none">
                                       <td style="width:50%">Metamyelocytes</td>
-                                      <td style="width:17%" id="pbTable3"></td>
+                                      <td style="width:17%" id="pbTableCell5"></td>
                                       <td style="width:33%">0</td>
                                     </tr>
-                                    <tr>
+                                    <tr id="pbTableRow6">
                                       <td style="width:50%">Neutrophils</td>
-                                      <td style="width:17%" id="pbTable4"></td>
+                                      <td style="width:17%" id="pbTableCell6"></td>
                                       <td style="width:33%">34 - 73%</td>
                                     </tr>
-                                    <tr>
+                                    <tr id="pbTableRow7">
                                       <td style="width:50%">Lymphocytes</td>
-                                      <td style="width:17%" id="pbTable5"></td>
+                                      <td style="width:17%" id="pbTableCell7"></td>
                                       <td style="width:33%">15 - 50%</td>
                                     </tr>
-                                    <tr>
+                                    <tr id="pbTableRow8">
                                       <td style="width:50%">Monocytes</td>
-                                      <td style="width:17%" id="pbTable6"></td>
+                                      <td style="width:17%" id="pbTableCell8"></td>
                                       <td style="width:33%">1 - 15%</td>
                                     </tr>
-                                    <tr>
+                                    <tr id="pbTableRow9">
                                       <td style="width:50%">Eosinophils</td>
-                                      <td style="width:17%" id="pbTable7"></td>
+                                      <td style="width:17%" id="pbTableCell9"></td>
                                       <td style="width:33%">0 - 8%</td>
                                     </tr>
-                                    <tr>
+                                    <tr id="pbTableRow10">
                                       <td style="width:50%">Basophils</td>
-                                      <td style="width:17%" id="pbTable8"></td>
+                                      <td style="width:17%" id="pbTableCell10"></td>
                                       <td style="width:33%">0 - 2%</td>
                                     </tr>
-                                    <tr id="pb_plasma_row" style="display: none">
+                                    <tr id="pbTableRow11" style="display: none">
                                         <td style="width:50%">Plasma Cells</td>
-                                        <td style="width:17%" id="pbTable9"></td>
+                                        <td style="width:17%" id="pbTableCell11"></td>
                                         <td style="width:33%">0</td>
                                     </tr>
-                                    <tr id="pb_nrbcs_row" style="display: none">
+                                    <tr id="pbTableRow12" style="display: none">
                                       <td style="width:50%">NRBCs/100 WBC</td>
-                                      <td style="width:17%" id="pbTable12"></td>
+                                      <td style="width:17%" id="pbTableCell12"></td>
                                       <td style="width:33%">0</td>
                                     </tr>
                                 </table>
@@ -721,59 +728,59 @@
                                       <th style="width:17%">Result</td>
                                       <th style="width:33%">Reference Range</td>
                                     </tr>
-                                    <tr id="asp_atypical_row" style="display: none">
+                                    <tr id="aspTableRow0" style="display: none">
                                         <td style="width:50%">Atypical Cells</td>
-                                        <td style="width:17%" id="aspTable11"></td>
+                                        <td style="width:17%" id="aspTableCell0"></td>
                                         <td style="width:33%">0</td>
                                     </tr>
-                                    <tr id="asp_other_row" style="display: none">
+                                    <tr id="aspTableRow1" style="display: none">
                                         <td style="width:50%">Other Cells</td>
-                                        <td style="width:17%" id="aspTable12"></td>
+                                        <td style="width:17%" id="aspTableCell1"></td>
                                         <td style="width:33%">0</td>
                                     </tr>
                                     <tr>
                                       <td style="width:50%">Blasts</td>
-                                      <td style="width:17%" id="aspTable10"></td>
+                                      <td style="width:17%" id="aspTableCell2"></td>
                                       <td style="width:33%">0 - 3%</td>
                                     </tr>
                                     <tr>
                                       <td style="width:50%">Neutrophils & Precursors</td>
-                                      <td style="width:17%" id="aspTable4"></td>
+                                      <td style="width:17%" id="aspTableCell3"></td>
                                       <td style="width:33%">33 - 63%</td>
                                     </tr>
                                     <tr>
                                       <td style="width:50%">Eosinophils & Precursors</td>
-                                      <td style="width:17%" id="aspTable7"></td>
+                                      <td style="width:17%" id="aspTableCell4"></td>
                                       <td style="width:33%">1 - 5%</td>
                                     </tr>
                                     <tr>
                                       <td style="width:50%">Basophils & Precursors</td>
-                                      <td style="width:17%" id="aspTable8"></td>
+                                      <td style="width:17%" id="aspTableCell5"></td>
                                       <td style="width:33%">0 - 1%</td>
                                     </tr>
                                     <tr>
                                         <td style="width:50%">Monocytes</td>
-                                        <td style="width:17%" id="aspTable6"></td>
+                                        <td style="width:17%" id="aspTableCell6"></td>
                                         <td style="width:33%">0 - 2%</td>
                                     </tr>
                                     <tr>
                                         <td style="width:50%">Lymphocytes</td>
-                                        <td style="width:17%" id="aspTable5"></td>
+                                        <td style="width:17%" id="aspTableCell7"></td>
                                         <td style="width:33%">10 - 15%</td>
                                       </tr>
                                     <tr>
                                         <td style="width:50%">Plasma Cells</td>
-                                        <td style="width:17%" id="aspTable0"></td>
+                                        <td style="width:17%" id="aspTableCell8"></td>
                                         <td style="width:33%">0 - 1%</td>
                                     </tr>
                                     <tr>
                                       <td style="width:50%">Erythroid Precursors</td>
-                                      <td style="width:17%" id="aspTable9"></td>
+                                      <td style="width:17%" id="aspTableCell9"></td>
                                       <td style="width:33%">15 - 27%</td>
                                     </tr>
                                     <tr>
                                         <td style="width:50%">M:E ratio</td>
-                                        <td style="width:17%" id="aspTable99"></td>
+                                        <td style="width:17%" id="aspTableCell99"></td>
                                         <td style="width:33%">1.5 - 3.3</td>
                                     </tr>
                                   </table>
@@ -817,6 +824,7 @@
                     <div class="panelHeader">
                         <div class="settingTab headerTab underline clicked" id="refTab"></i>Reference Ranges</div>
                         <div class="settingTab headerTab underline unclicked" id="diffTab"></i>Differential Settings</div>
+                        <div class="settingTab headerTab underline unclicked" id="miscellaneousTab"></i>Miscellaneous Settings</div>
                     </div>
                     <div class="panelBody" id="refPanel">
                         <div>
@@ -902,9 +910,6 @@
                         </div>  
                     </div>
                     <div class="panelBody" id="diffPanel" style="display: none">
-                        <h3 style="margin-top: 0px">
-                            Settings:
-                        </h3>
                         <div class="grid2">
                             <div class="gridTitle">
                                 <b>Peripheral blood layout</b>
@@ -1025,6 +1030,33 @@
                             </table>
                         </div>
                         <br>
+                        <button type="button" class="saveButton">Save</button>
+                    </div>
+                    <div class='panelBody lowerGrid' id='miscellaneousPanel' style='display: none'>
+                        <div>
+                            <b>Markedly hypocellular cutoff:</b>
+                        </div>
+                        <div>
+                            ≥<input type="number" class="saveInput miscellaneous" id="markedlyHypocellular" size="2">% below expected.
+                        </div>
+                        <div>
+                            <b>Mildly hypocellular cutoff:</b>
+                        </div>
+                        <div>
+                            ≥<input type="number" class="saveInput miscellaneous" id="mildlyHypocellularMin" size="2">% but less than <input type="number" class="saveInput miscellaneous" id="mildlyHypocellularMax" size="2">% below expected.
+                        </div>
+                        <div>
+                            <b>Markedly hypercellular cutoff:</b>
+                        </div>
+                        <div>
+                            ≥<input type="number" class="saveInput miscellaneous" id="markedlyHypercellular" size="2">% above expected.
+                        </div>
+                        <div>
+                            <b>Mildly hypocellular cutoff:</b>
+                        </div>
+                        <div>
+                            ≥<input type="number" class="saveInput miscellaneous" id="mildlyHypercellularMin" size="2">% but less than <input type="number" class="saveInput miscellaneous" id="mildlyHypercellularMax" size="2">% above expected.
+                        </div>
                         <button type="button" class="saveButton">Save</button>
                     </div>  
             </div>
