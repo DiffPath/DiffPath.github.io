@@ -22,6 +22,7 @@ $(document).ready(function() {
     infoTab: 'infoPanel',
     refTab: 'refPanel',
     diffTab: 'diffPanel',
+    miscellaneousTab: 'miscellaneousPanel',
     specTab: 'specPanel',
     pbTab: 'pbPanel',
     aspTab: 'aspPanel',
@@ -292,34 +293,34 @@ $(document).ready(function() {
 
   function getSavedItems(){
     let pbCountTable = {
-      Blasts: {name: 'Blasts', character: 0, tableID: 0, cellType: 5, count: 0, percent: 0, hidden: true},
-      Neuts: {name: 'Neuts', character: 4, tableID: 4, cellType: 1, count: 0, percent: 0, hidden: false},
-      NRBCs: {name: 'NRBCs', character: 1, tableID: 12, cellType: 4, count: 0, percent: 0, hidden: true},
-      Lymphs: {name: 'Lymphs', character: 5, tableID: 5, cellType: 0, count: 0, percent: 0, hidden: false},
-      Monos: {name: 'Monos', character: 6, tableID: 6, cellType: 2, count: 0, percent: 0, hidden: false},
-      Metas: {name: 'Metas', character: 7, tableID: 3, cellType: 1, count: 0, percent: 0, hidden: true},
-      Myelo: {name: 'Myelo', character: 8, tableID: 2, cellType: 1, count: 0, percent: 0, hidden: true},
-      Promyelo: {name: 'Promyelo', character: -1, tableID: 1, cellType: 1, count: 0, percent: 0, hidden: true},
-      Plasma: {name: 'Plasma', character: 9, tableID: 9, cellType: 0, count: 0, percent: 0, hidden: true},
-      Eos: {name: 'Eos', character: 2, tableID: 7, cellType: 2, count: 0, percent: 0, hidden: false},
-      Basos: {name: 'Basos', character: 3, tableID: 8, cellType: 2, count: 0, percent: 0, hidden: false},
-      Atypical: {name: 'Atypical', character: -1, tableID: 10, cellType: 0, count: 0, percent: 0, hidden: true},
-      Other: {name: 'Other', character: -1, tableID: 11, cellType: 0, count: 0, percent: 0, hidden: true},
+      Blasts: {name: 'Blasts', character: 0, tableCellID: '#pbTableCell2', tableRowID: '#pbTableRow2', cellType: 5, count: 0, percent: 0, hidden: true},
+      Neuts: {name: 'Neuts', character: 4, tableCellID: '#pbTableCell6', tableRowID: '#pbTableRow6', cellType: 1, count: 0, percent: 0, hidden: false},
+      NRBCs: {name: 'NRBCs', character: 1, tableCellID: '#pbTableCell12', tableRowID: '#pbTableRow12', cellType: 4, count: 0, percent: 0, hidden: true},
+      Lymphs: {name: 'Lymphs', character: 5, tableCellID: '#pbTableCell7', tableRowID: '#pbTableRow7', cellType: 0, count: 0, percent: 0, hidden: false},
+      Monos: {name: 'Monos', character: 6, tableCellID: '#pbTableCell8', tableRowID: '#pbTableRow8', cellType: 2, count: 0, percent: 0, hidden: false},
+      Metas: {name: 'Metas', character: 7, tableCellID: '#pbTableCell5', tableRowID: '#pbTableRow5', cellType: 1, count: 0, percent: 0, hidden: true},
+      Myelo: {name: 'Myelo', character: 8, tableCellID: '#pbTableCell4', tableRowID: '#pbTableRow4', cellType: 1, count: 0, percent: 0, hidden: true},
+      Promyelo: {name: 'Promyelo', character: -1, tableCellID: '#pbTableCell3', tableRowID: '#pbTableRow3', cellType: 1, count: 0, percent: 0, hidden: true},
+      Plasma: {name: 'Plasma', character: 9, tableCellID: '#pbTableCell11', tableRowID: '#pbTableRow11', cellType: 0, count: 0, percent: 0, hidden: true},
+      Eos: {name: 'Eos', character: 2, tableCellID: '#pbTableCell9', tableRowID: '#pbTableRow9', cellType: 2, count: 0, percent: 0, hidden: false},
+      Basos: {name: 'Basos', character: 3, tableCellID: '#pbTableCell10', tableRowID: '#pbTableRow10', cellType: 2, count: 0, percent: 0, hidden: false},
+      Atypical: {name: 'Atypical', character: -1, tableCellID: '#pbTableCell0', tableRowID: '#pbTableRow0', cellType: 0, count: 0, percent: 0, hidden: true},
+      Other: {name: 'Other', character: -1, tableCellID: '#pbTableCell1', tableRowID: '#pbTableRow1', cellType: 0, count: 0, percent: 0, hidden: true},
     }
     let aspCountTable = {
-      Blasts: {name: 'Blasts', character: 0, tableID: 10, cellType: 5, count: 0, percent: 0, hidden: false},
-      Neuts: {name: 'Neuts', character: 4, tableID: 4, cellType: 1, count: 0, percent: 0, hidden: false},
-      NRBCs: {name: 'NRBCs', character: 1, tableID: 9, cellType: 3, count: 0, percent: 0, hidden: false},
-      Lymphs: {name: 'Lymphs', character: 5, tableID: 5, cellType: 0, count: 0, percent: 0, hidden: false},
-      Monos: {name: 'Monos', character: 6, tableID: 6, cellType: 2, count: 0, percent: 0, hidden: false},
-      Metas: {name: 'Metas', character: 7, tableID: 3, cellType: 1, count: 0, percent: 0, hidden: false},
-      Promyelo: {name: 'Promyelo', character: -1, tableID: 1, cellType: 1, count: 0, percent: 0, hidden: true},
-      Myelo: {name: 'Myelo', character: 8, tableID: 2, cellType: 1, count: 0, percent: 0, hidden: false},
-      Plasma: {name: 'Plasma', character: 9, tableID: 0, cellType: 0, count: 0, percent: 0, hidden: false},
-      Eos: {name: 'Eos', character: 2, tableID: 7, cellType: 2, count: 0, percent: 0, hidden: false},
-      Basos: {name: 'Basos', character: 3, tableID: 8, cellType: 2, count: 0, percent: 0, hidden: false},
-      Atypical: {name: 'Atypical', character: -1, tableID: 11, cellType: 0, count: 0, percent: 0, hidden: true},
-      Other: {name: 'Other', character: -1, tableID: 12, cellType: 0, count: 0, percent: 0, hidden: true},
+      Blasts: {name: 'Blasts', character: 0, tableCellID: '#aspTableCell2', tableRowID: 'pbTableRow2', cellType: 5, count: 0, percent: 0, hidden: false},
+      Neuts: {name: 'Neuts', character: 4, tableCellID: '#aspTableCell3', tableRowID: 'pbTableRow2', cellType: 1, count: 0, percent: 0, hidden: false},
+      NRBCs: {name: 'NRBCs', character: 1, tableCellID: '#aspTableCell9', tableRowID: 'pbTableRow2', cellType: 3, count: 0, percent: 0, hidden: false},
+      Lymphs: {name: 'Lymphs', character: 5, tableCellID: '#aspTableCell7', tableRowID: 'pbTableRow2', cellType: 0, count: 0, percent: 0, hidden: false},
+      Monos: {name: 'Monos', character: 6, tableCellID: '#aspTableCell6', tableRowID: 'pbTableRow2', cellType: 2, count: 0, percent: 0, hidden: false},
+      Metas: {name: 'Metas', character: 7, tableCellID: '#aspTableCell3', tableRowID: 'pbTableRow2', cellType: 1, count: 0, percent: 0, hidden: false},
+      Promyelo: {name: 'Promyelo', character: -1, tableCellID: '#aspTableCell3', tableRowID: 'pbTableRow2', cellType: 1, count: 0, percent: 0, hidden: true},
+      Myelo: {name: 'Myelo', character: 8, tableCellID: '#aspTableCell3', tableRowID: 'pbTableRow2', cellType: 1, count: 0, percent: 0, hidden: false},
+      Plasma: {name: 'Plasma', character: 9, tableCellID: '#aspTableCell8', tableRowID: 'pbTableRow2', cellType: 0, count: 0, percent: 0, hidden: false},
+      Eos: {name: 'Eos', character: 2, tableCellID: '#aspTableCell4', tableRowID: 'pbTableRow2', cellType: 2, count: 0, percent: 0, hidden: false},
+      Basos: {name: 'Basos', character: 3, tableCellID: '#aspTableCell5', tableRowID: 'pbTableRow2', cellType: 2, count: 0, percent: 0, hidden: false},
+      Atypical: {name: 'Atypical', character: -1, tableCellID: '#aspTableCell0', tableRowID: 'pbTableRow2', cellType: 0, count: 0, percent: 0, hidden: true},
+      Other: {name: 'Other', character: -1, tableCellID: '#aspTableCell1', tableRowID: 'pbTableRow2', cellType: 0, count: 0, percent: 0, hidden: true},
     };
     let saveFileBM = JSON.parse(localStorage.getItem("saveFileBM"));
   if (saveFileBM != null) {
@@ -347,7 +348,6 @@ $(document).ready(function() {
   };
   return [pbCountTable,aspCountTable];
   };
-
   fillCounterLabels();
   fillSelects();
   
@@ -436,7 +436,7 @@ $(document).ready(function() {
       $(this).addClass("unclicked");
       $("#"+headerObject[this.id]).hide();
     });
-    $("#"+headerObject[this.id]).show();
+    $(`#${headerObject[this.id]}`).show();
     $(this).addClass("clicked")
     $(this).removeClass("unclicked")
   });
@@ -650,12 +650,10 @@ $(document).ready(function() {
         }
       } else if (stringArray[0].length > 2){
         for (i in stringArray[0]){
-          listString += `${stringArray[0][i]}${addCommas(stringArray[1][i])}`;
           if (i == 1){
             listString += ` with `;
-          } else if (stringArray[0]){
-
-          };
+          }
+          listString += `${stringArray[0][i]}${addCommas(stringArray[1][i])}`;
         }
       }
     }
@@ -719,23 +717,22 @@ $(document).ready(function() {
   }
 
   function countCells(id){
-    let table = typeObject[id]["table"];
+    let ccount = $(typeObject[id]["ccountID"]).val();
     let dcount =  $(typeObject[id]["dcountID"]).val();
     if (dcount == ""){
       dcount = parseInt($(typeObject[id]["dcountID"]).attr('placeholder'));
     }
-    let ccount = $(typeObject[id]["ccountID"]).val();
-    if($("#countExtra").prop('checked') == false && ccount == dcount){
+    if ($("#countExtra").prop('checked') == false && ccount == dcount){
       return;
     }
-    let totalCount = cellCounter(table, id);
+    let table = typeObject[id]["table"];
     let countSum = 0, myeloidSum = 0, erythroidSum = 0, neutSum = 0;
+    const totalCount = cellCounter(table, id);
     if (totalCount != 0) {
       $(typeObject[id]["tableDivID"]).show();
     } else {
       $(typeObject[id]["tableDivID"]).hide();
     }
-
     for (const i in table){
       if($("#roundDesired").prop('checked')){
         table[i]["percent"] = (Math.round((table[i]["count"] / totalCount) * dcount) / (dcount/100)).toFixed(1);
@@ -801,37 +798,37 @@ $(document).ready(function() {
             $(typeObject[id]["characterID"] + table[i]["character"]).val(table[i]["percent"] + "%");
           } else {
             $(typeObject[id]["characterID"] + table[i]["character"]).val(table[i]["percent"] + "%");
-            $(typeObject[id]["tableID"] + table[i]["tableID"]).html(table[i]["percent"] + "%");
+            $(table[i]["tableCellID"]).html(table[i]["percent"] + "%");
           }
         } else {
           $(typeObject[id]["characterID"] + table[i]["character"]).val(table[i]["percent"] + "%");
-          $(typeObject[id]["tableID"] + table[i]["tableID"]).html(table[i]["percent"] + "%");
+          $(table[i]["tableCellID"]).html(table[i]["percent"] + "%");
         }
        
       } else if (totalCount > 0) {
         $(typeObject[id]["characterID"] + table[i]["character"]).val(table[i]["percent"]);
-        $(typeObject[id]["tableID"] + table[i]["tableID"]).html(table[i]["percent"]);
+        $(table[i]["tableCellID"]).html(table[i]["percent"]);
       } else {
         $(typeObject[id]["characterID"] + table[i]["character"]).val("");
-        $(typeObject[id]["tableID"] + table[i]["tableID"]).html("");
+        $(table[i]["tableCellID"]).html("");
       }
-      if (table[i]["hidden"]) {
-        if(table[i]["count"] > 0){
-          $("#" + id + "_" + table[i]["name"].toLowerCase() + "_row").show();
+      if (table[i]['hidden']) {
+        if(table[i]['count'] > 0){
+          $(table[i]['tableRowID']).show();
         } else {
-          $("#" + id + "_" + table[i]["name"].toLowerCase() + "_row").hide();
+          $(table[i]['tableRowID']).hide();
         }
       }
     }
     if (id == "asp"){
       if (erythroidSum != 0){
         $('#meRatio').val((myeloidSum/erythroidSum).toFixed(1) + ":1");
-        $('#aspTable99').html((myeloidSum/erythroidSum).toFixed(1) + ":1");
+        $('#aspTableCell99').html((myeloidSum/erythroidSum).toFixed(1) + ":1");
       } else if (erythroidSum == 0){
         $('#meRatio').val("N/A");
-        $('#aspTable99').html("N/A");
+        $('#aspTableCell99').html("N/A");
       }
-      $('#aspTable4').html((neutSum).toFixed(1) + "%");
+      $('#aspTableCell3').html((neutSum).toFixed(1) + "%");
     }
     $(rightPanelFinal).show();
   };
@@ -941,6 +938,61 @@ $(document).ready(function() {
   });
 
   $('.form').change(function() {
+    fillReport();
+  });
+
+  $('#coreCellularity').keyup(function() {
+    if ($('#coreCellularity').val() == ''){
+      $('#hypocellular').prop('checked', false);
+      $('#normocellular').prop('checked', false);
+      $('#hypercellular').prop('checked', false);
+      $('#cellularityMarked').prop('checked', false);
+      $('#cellularityMild').prop('checked', false);
+    } else if (patientAge != -1){
+      if ($('#markedlyHypocellular').val() != '' && (100-patientAge-$('#coreCellularity').val())>=parseFloat($('#markedlyHypocellular').val())){
+        $('#hypocellular').prop('checked', true);
+        $('#normocellular').prop('checked', false);
+        $('#hypercellular').prop('checked', false);
+        $('#cellularityMarked').prop('checked', true);
+        $('#cellularityMild').prop('checked', false);
+      } else if ($('#mildlyHypocellularMax').val() != '' && (100-patientAge-$('#coreCellularity').val())>=parseFloat($('#mildlyHypocellularMax').val())){
+        $('#hypocellular').prop('checked', true);
+        $('#normocellular').prop('checked', false);
+        $('#hypercellular').prop('checked', false);
+        $('#cellularityMarked').prop('checked', false);
+        $('#cellularityMild').prop('checked', false);      
+      } else if ($('#mildlyHypocellularMin').val() != '' && (100-patientAge-$('#coreCellularity').val())>=parseFloat($('#mildlyHypocellularMin').val())){
+        $('#hypocellular').prop('checked', true);
+        $('#normocellular').prop('checked', false);
+        $('#hypercellular').prop('checked', false);
+        $('#cellularityMarked').prop('checked', false);
+        $('#cellularityMild').prop('checked', true);      
+      } else if ($('#mildlyHypercellularMin').val() != '' && 100-patientAge-$('#coreCellularity').val()>=parseFloat($('#mildlyHypercellularMin').val())*-1){
+        $('#hypocellular').prop('checked', false);
+        $('#normocellular').prop('checked', true);
+        $('#hypercellular').prop('checked', false);
+        $('#cellularityMarked').prop('checked', false);
+        $('#cellularityMild').prop('checked', false);      
+      } else if ($('#mildlyHypercellularMax').val() != '' && 100-patientAge-$('#coreCellularity').val()>=parseFloat($('#mildlyHypercellularMax').val())*-1){
+        $('#hypocellular').prop('checked', false);
+        $('#normocellular').prop('checked', false);
+        $('#hypercellular').prop('checked', true);
+        $('#cellularityMarked').prop('checked', false);
+        $('#cellularityMild').prop('checked', true);      
+      } else if ($('#markedlyHypercellular').val() != '' && 100-patientAge-$('#coreCellularity').val()>=parseFloat($('#markedlyHypercellular').val())*-1){
+        $('#hypocellular').prop('checked', false);
+        $('#normocellular').prop('checked', false);
+        $('#hypercellular').prop('checked', true);
+        $('#cellularityMarked').prop('checked', false);
+        $('#cellularityMild').prop('checked', false);      
+      } else if ($('#markedlyHypercellular').val() != '' && 100-patientAge-$('#coreCellularity').val()<=parseFloat($('#markedlyHypercellular').val())*-1){
+        $('#hypocellular').prop('checked', false);
+        $('#normocellular').prop('checked', false);
+        $('#hypercellular').prop('checked', true);
+        $('#cellularityMarked').prop('checked', true);
+        $('#cellularityMild').prop('checked', false);      
+      }
+    }
     fillReport();
   });
 
@@ -1396,6 +1448,8 @@ $(document).ready(function() {
           pbText += ' and mild nonspecific anisopoikilocytosis. ';
         } else if ($("#anisoMarked").prop("checked")){
           pbText += ' and marked nonspecific anisopoikilocytosis. ';
+        } else {
+          pbText += '. ';
         }
       }
     } else if ($("#anisoAbsent").prop("checked")){
@@ -1634,16 +1688,31 @@ $(document).ready(function() {
     }
 
     if ($('#hypocellular').prop('checked')){
-      coreText += "The marrow is hypocellular for age"
+      $('#cellularityMildMarked').show();
+      coreText += 'The marrow is '
+      if ($('#cellularityMild').prop('checked')){
+        coreText += 'mildly ';
+      } else if ($('#cellularityMarked').prop('checked')){
+        coreText += 'markedly ';
+      }
+      coreText += 'hypocellular for age'
     } else if ($('#normocellular').prop('checked')){
       coreText += "The marrow is normocellular for age"
+      $('#cellularityMildMarked').hide();
     } else if ($('#hypercellular').prop('checked')){
-      coreText += "The marrow is hypercellular for age"
+      $('#cellularityMildMarked').show();
+      coreText += 'The marrow is ';
+      if ($('#cellularityMild').prop('checked')){
+        coreText += 'mildly ';
+      } else if ($('#cellularityMarked').prop('checked')){
+        coreText += 'markedly ';
+      }
+      coreText += 'hypercellular for age'
     }
     
     if ($('#hypocellular').prop('checked') || $('#normocellular').prop('checked') || $('#hypercellular').prop('checked')){
       if ($.isNumeric($('#coreCellularity').val())){
-        coreText += " (" + $('#coreCellularity').val() + "% cellular). ";
+        coreText += ` (${$('#coreCellularity').val()}% cellular). `;
       } else {
         coreText += ". ";
       }
