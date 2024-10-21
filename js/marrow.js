@@ -20,9 +20,10 @@ $(document).ready(function() {
     settingTab: 'settingPanel',
     helpTab: 'helpPanel',
     infoTab: 'infoPanel',
-    refTab: 'refPanel',
-    diffTab: 'diffPanel',
-    miscellaneousTab: 'miscellaneousPanel',
+    differentialSettingsTab: 'differentialSettingsPanel',
+    bloodSettingsTab: 'bloodSettingsPanel',
+    aspSettingsTab: 'aspSettingsPanel',
+    coreSettingsTab: 'coreSettingsPanel',
     specTab: 'specPanel',
     pbTab: 'pbPanel',
     aspTab: 'aspPanel',
@@ -56,14 +57,20 @@ $(document).ready(function() {
   const degreeDescriptors = {class: "radio", descriptors: ["Slight", "Mild", "Marked"], value: ["slight ", "mild", "marked "]};
   const altDegreeDescriptors = {class: "radio", descriptors: ["Slight", "Mild", "Marked"], value: ["a slight ", "a mild ", "a marked "]};
   const dualDescriptors = {class: 'radio', descriptors: ['Positive', 'Negative'], value: ['positive', 'negative']}
-  const noneDescriptors = {class: "none", descriptors: "", value: []};
-  const stopDescriptors = {class: "stop", descriptors: "", value: []};
+  const noneDescriptors = {class: "none", descriptors: [], value: []};
+  const stopDescriptors = {class: "stop", descriptors: [], value: []};
+  const isDescriptors = {class: "hidden", descriptors: ['Is'], value: ['is ']};
+  const showsDescriptors = {class: "hidden", descriptors: ['Shows'], value: ['shows ']};
   const ironDescriptors = {class: "iron", descriptors: {'Storage Iron': ['Increased', 'Adequate', 'Decreased', 'Inadequate'], 'Ring Sideroblasts': ['Present', 'Absent', 'Inadequate']}, value: {'Storage Iron': ['increased', 'adequate', 'decreased', 'inadequate'], 'Ring Sideroblasts': ['present', 'absent', 'inadequate rings']},};
   const reticulinDescriptors = {class: 'radio', descriptors: ['MF-0', 'MF-1', 'MF-2', 'MF-3'], value: ['MF-0', 'MF-1', 'MF-2', 'MF-3']}
   const cd3Descriptors = {class: 'select', descriptors: ['','Interstitially scattered','Interstitially scattered and focal clusters'], value: ['','Highights interstitially scattered small T cells.','Highlights interstitially scattered and focal clusters of small T cells.']}
   const cd20Descriptors = {class: 'select', descriptors: ['','Interstitially scattered','Interstitially scattered and focal clusters'], value: ['','Highights interstitially scattered small B cells.','Highlights interstitially scattered and focal clusters of small B cells.']}
-  const cd34Descriptors = {class: 'select', descriptors: ['','Not increased','Increased'], value: ['','Shows no increase in blasts (*** of total cellularity).','Highlights increased blasts (*** of total cellularity).']}
+  const cd34Descriptors = {class: 'select', descriptors: ['','Not increased','Increased'], value: ['','Shows no increase in blasts (***% of total cellularity).','Highlights increased blasts (***% of total cellularity).']}
   const cd61Descriptors = {class: 'select', descriptors: ['','Adequate, regularly destributed, unremarkable morphology','Increased, regularly destributed'], value: ['','Highlights adequate, regularly distributed megakaryocytes with unremarkable morphology.','Highlights increased but regularly distributed megakaryocytes with unremarkable morphology.']}
+  const cd71Descriptors = {class: 'select', descriptors: ['','Adequate', 'Proliferation'], value: ['','Highlights adequate erytrhoid precurosrs.','Shows a proliferation of erythroid precursors.']}
+  const mpoDescriptors = {class: 'select', descriptors: ['','Adequate', 'Proliferation'], value: ['','Highlights adequate myeloid precurosrs.','Shows a proliferation of myeloid precursors.']}
+  const cd138Descriptors = {class: 'select', descriptors: ['','Not increased', 'Increased'], value: ['','Shows no increase in plasma cells (***% of total cellularity).','Highlights increased plasma cells (***% of total cellularity).']}
+  const kappalambdaDescriptors = {class: 'select', descriptors: ['','Polytypic', 'Kappa restriction', 'Lambda restriction'], value: ['','Highlights polytypic plasma cells.','Shows kappa restriction in plasma cells.','Shows lambda restriction in plasma cells.']}
 
   const rbcList = [
     "",
@@ -112,6 +119,12 @@ $(document).ready(function() {
     "Monotypic"
   ];
 
+  const monocyteList = [
+    "",
+    "Mature-appearing morphology",
+    "Shift to immaturity",
+  ];
+
   const plateletList = [
     "",
     "Hypogranular platelets",
@@ -156,13 +169,24 @@ $(document).ready(function() {
     "Shift to immaturity"
   ];
 
-  const megakaryocyteList = [
+  const aspMegList = [
     "",
     "Widely separated nuclear lobes",
     "Separation of nuclear lobes",
     "Hypolobated forms",
     "Small hypolobated forms",
     "Micromegakaryocytes",
+    "Large hypersegmented forms"
+  ];
+
+  const coreMegList = [
+    "",
+    "Widely separated nuclear lobes",
+    "Separation of nuclear lobes",
+    "Hypolobated forms",
+    "Small hypolobated forms",
+    "Micromegakaryocytes",
+    "Large hypersegmented forms"
   ];
 
   const aspirateSpecialStainsList = [
@@ -170,7 +194,7 @@ $(document).ready(function() {
     "Iron",
   ]
 
-  const coreSpecialStainsList = [
+  const specialStainsList = [
     "",
     "Iron",
     "Reticulin",
@@ -179,33 +203,17 @@ $(document).ready(function() {
     "AFB"
   ]
 
-  const clotSpecialStainsList = [
-    "",
-    "Iron",
-    "Reticulin",
-    "Congo red",
-    "GMS",
-    "AFB"
-  ]
-
-  const coreImmunostainsList = [
+  const immunostainsList = [
     "",
     "CD3",
     "CD20",
     "CD34",
     "CD61",
     "CD71",
+    'CD138',
+    'Kappa/Lambda ISH',
     "MPO",
-  ]
-
-  const clotImmunostainsList = [
-    "",
-    "CD3",
-    "CD20",
-    "CD34",
-    "CD61",
-    "CD71",
-    "MPO",
+    'Cytokeratin AE1/AE3'
   ]
 
   const descriptorList = {
@@ -225,6 +233,7 @@ $(document).ready(function() {
     "Macroovalocytes": {descriptorObject: quantDescriptors, templateText: "macroovalocytes"},
     "Ovalocytes": {descriptorObject: quantDescriptors, templateText: "ovalocytes"},
     "Schistocytes": {descriptorObject: quantDescriptors, templateText: "schistocytes"},
+    "Spherocytes": {descriptorObject: quantDescriptors, templateText: "spherocytes"},
     "Sickle cells": {descriptorObject: quantDescriptors, templateText: "sickle cells"},
     "Target cells": {descriptorObject: quantDescriptors, templateText: "target cells"},
     "Teardrop cells": {descriptorObject: quantDescriptors, templateText: "teardrop cells"},
@@ -234,6 +243,7 @@ $(document).ready(function() {
     "Hypersegmented forms": {descriptorObject: quantDescriptors, templateText: "hypogranular forms"}, 
     "Shift to immaturity": {descriptorObject: altDegreeDescriptors, templateText: "a shift to immaturity"},
     "Toxic changes": {descriptorObject: degreeDescriptors, templateText: "toxic changes"},
+    "Mature-appearing morphology": {descriptorObject: noneDescriptors, templateText: "mature-appearing morphology"}, 
     "Hypogranular platelets": {descriptorObject: quantDescriptors, templateText: "hypogranular platelets"},
     "Large platelets": {descriptorObject: quantDescriptors, templateText: "large platelets"},
     "Giant platelets": {descriptorObject: quantDescriptors, templateText: "giant platelets"},
@@ -250,12 +260,13 @@ $(document).ready(function() {
     "Separation of nuclear lobes": {descriptorObject: quantDescriptors, templateText: "separation of nuclear lobes"},
     "Small hypolobated forms": {descriptorObject: quantDescriptors, templateText: "small hypolobated forms"},
     "Micromegakaryocytes": {descriptorObject: quantDescriptors, templateText: "micromegakaryocytes"},
-    "Crush artifact": {descriptorObject: noneDescriptors, templateText: "crush artifact"},
-    "Aspiration artifact": {descriptorObject: noneDescriptors, templateText: "aspiration artifact"},
-    "Fragmented": {descriptorObject: noneDescriptors, templateText: "fragmented"},
-    "Subcortical": {descriptorObject: noneDescriptors, templateText: "subcortical"},
-    "Predominantly subcortical": {descriptorObject: noneDescriptors, templateText: "predominantly subcortical"},
-    "Small": {descriptorObject: noneDescriptors, templateText: "small"},
+    "Large hypersegmented forms": {descriptorObject: quantDescriptors, templateText: "large hypersegmented forms"},
+    "Crush artifact": {descriptorObject: showsDescriptors, templateText: "crush artifact"},
+    "Aspiration artifact": {descriptorObject: showsDescriptors, templateText: "aspiration artifact"},
+    "Fragmented": {descriptorObject: isDescriptors, templateText: "fragmented"},
+    "Subcortical": {descriptorObject: isDescriptors, templateText: "subcortical"},
+    "Predominantly subcortical": {descriptorObject: isDescriptors, templateText: "predominantly subcortical"},
+    "Small": {descriptorObject: isDescriptors, templateText: "small"},
     'Iron': {descriptorObject: ironDescriptors},
     'Reticulin': {descriptorObject: reticulinDescriptors},
     'Congo red': {descriptorObject: dualDescriptors},
@@ -265,6 +276,11 @@ $(document).ready(function() {
     'CD20': {descriptorObject: cd20Descriptors},
     'CD34': {descriptorObject: cd34Descriptors},
     'CD61': {descriptorObject: cd61Descriptors},
+    'CD71': {descriptorObject: cd71Descriptors},
+    'CD138': {descriptorObject: cd138Descriptors},
+    'Cytokeratin AE1/AE3': {descriptorObject: dualDescriptors},
+    'Kappa/Lambda ISH': {descriptorObject: kappalambdaDescriptors},
+    'MPO': {descriptorObject: mpoDescriptors},
   };
 
   const masterList = {
@@ -272,17 +288,19 @@ $(document).ready(function() {
     rbcSelect: rbcList,
     neutrophilSelect: neutrophilList,
     lymphocyteSelect: lymphocyteList,
+    monocyteSelect: monocyteList,
     plateletSelect: plateletList,
     adequacySelect: adequacyList,
     coreAdequacySelect: coreAdequacyList,
     erythroidSelect: erythroidList,
     myeloidSelect: myeloidList,
-    megakaryocyteSelect: megakaryocyteList,
+    aspMegSelect: aspMegList,
+    coreMegSelect: coreMegList,
     aspirateSpecialStainsSelect: aspirateSpecialStainsList,
-    coreSpecialStainsSelect: coreSpecialStainsList,
-    clotSpecialStainsSelect: clotSpecialStainsList,
-    coreImmunostainsSelect: coreImmunostainsList,
-    clotImmunostainsSelect: clotImmunostainsList,
+    coreSpecialStainsSelect: specialStainsList,
+    clotSpecialStainsSelect: specialStainsList,
+    coreImmunostainsSelect: immunostainsList,
+    clotImmunostainsSelect: immunostainsList,
     "pbCountTable": pbCountTable,
     "aspCountTable": aspCountTable
   };
@@ -566,12 +584,15 @@ $(document).ready(function() {
               }
             }
             selectHTML += '</select>';
+          } else if (dClass == 'hidden'){
+            const descriptor = descriptorObject["descriptors"][0];
+            const value = descriptorObject["value"][0];
+            selectHTML += `<label  style ="display: none" ><input type="${dClass}" class="descriptor ${id}${count}" id="${id}${count}${descriptor}" name="${id}${count}" value="${value}" checked>${descriptor}</label>`;
           }
           selectHTML += "</div></div>";
         }
         count++;
       })
-
     if (selectedList.filter(Boolean).length > 0 && addBlank){
       selectHTML += `<div><select id='${id}${count}' class='select ${id}'>`;
       for(i in selectedList){
@@ -639,21 +660,33 @@ $(document).ready(function() {
       }
       descriptorSelected = false;
     })
+    let semicolon = false;
+    for (i in stringArray[1]){
+      if (stringArray[1][i].length > 1){
+        semicolon = true;
+        break
+      }
+    }
     for (i in stringArray[0]){
       if (stringArray[0].length == 1){
         listString = `${stringArray[0][0]}${addCommas(stringArray[1][0])}`;
       } else if (stringArray[0].length == 2){
         if(stringArray[1][0].length == 1 && stringArray[1][1].length == 1){
           listString = `${stringArray[0][0]}${stringArray[1][0]} and ${stringArray[0][1]}${stringArray[1][1]}`;
+        } else if (id == 'coreAdequacySelect'){
+          listString = `${stringArray[0][0]}${addCommas(stringArray[1][0])} and ${stringArray[0][1]}${addCommas(stringArray[1][1])}`
         } else {
           listString = `${stringArray[0][0]}${addCommas(stringArray[1][0])} with ${stringArray[0][1]}${addCommas(stringArray[1][1])}`;
         }
       } else if (stringArray[0].length > 2){
-        for (i in stringArray[0]){
-          if (i == 1){
-            listString += ` with `;
+        if (i < stringArray[0].length - 1){
+          if (semicolon){
+            listString += `${stringArray[0][i]}${addCommas(stringArray[1][i])}; `;
+          } else {
+            listString += `${stringArray[0][i]}${addCommas(stringArray[1][i])}, `;
           }
-          listString += `${stringArray[0][i]}${addCommas(stringArray[1][i])}`;
+        } else if (i == stringArray[0].length - 1){
+          listString += `and ${stringArray[0][i]}${addCommas(stringArray[1][i])}`;
         }
       }
     }
@@ -743,13 +776,6 @@ $(document).ready(function() {
         countSum += parseFloat(table[i]["percent"]);
       }
     }
-    if (totalCount != 0){
-      if (dcount == totalCount){
-        new Audio('https://diffpath.github.io/media/Complete-Nice.mp3').play(); 
-      } else if ((totalCount % 100) == 0){
-        new Audio('https://diffpath.github.io/media/100-Soothing.mp3').play();
-      }
-    }   
     $(typeObject[id]["ccountID"]).val(totalCount);
     if($("#roundHundred").prop('checked')){
       if(countSum.toFixed(1) != 100 && ccount != dcount && totalCount > 0){
@@ -822,14 +848,39 @@ $(document).ready(function() {
     }
     if (id == "asp"){
       if (erythroidSum != 0){
-        $('#meRatio').val((myeloidSum/erythroidSum).toFixed(1) + ":1");
-        $('#aspTableCell99').html((myeloidSum/erythroidSum).toFixed(1) + ":1");
+        const meRatio = (myeloidSum/erythroidSum).toFixed(1);
+        console.log(meRatio)
+        $('#meRatio').val(`${meRatio}:1`);
+        $('#aspTableCell99').html(`${meRatio}:1`);
+        if ($('#erythroidPredomSetting').val() != '' && meRatio < parseFloat($('#erythroidPredomSetting').val())){
+          $('#myeloidPredominance').prop('checked', false);
+          $('#erythroidPredominance').prop('checked', true);
+          fillReport();
+        } else if ($('#myeloidPredomSetting').val() != '' && meRatio > parseFloat($('#myeloidPredomSetting').val())){
+          $('#myeloidPredominance').prop('checked', true);
+          $('#erythroidPredominance').prop('checked', false);
+          fillReport();
+        } else if ($('#erythroidPredomSetting').val() != '' && $('#myeloidPredomSetting').val() != ''){
+          $('#myeloidPredominance').prop('checked', false);
+          $('#erythroidPredominance').prop('checked', false);
+          fillReport();
+        }
       } else if (erythroidSum == 0){
         $('#meRatio').val("N/A");
         $('#aspTableCell99').html("N/A");
+        $('#myeloidPredominance').prop('checked', false);
+          $('#erythroidPredominance').prop('checked', false);
+          fillReport();
       }
       $('#aspTableCell3').html((neutSum).toFixed(1) + "%");
     }
+    if (totalCount != 0){
+      if (dcount == totalCount){
+        new Audio('https://diffpath.github.io/media/Complete-Nice.mp3').play(); 
+      } else if ((totalCount % 100) == 0){
+        new Audio('https://diffpath.github.io/media/100-Soothing.mp3').play();
+      }
+    }   
     $(rightPanelFinal).show();
   };
 
@@ -853,10 +904,6 @@ $(document).ready(function() {
     checkDuplicate(this.className,this.id,$(this).val());
   }
   );
-
-  $('#blastCheck').change(function(){
-    countCells("asp");
-  })
 
   function checkDuplicate(thisClass,id,val){
     let type = objectType[thisClass];
@@ -913,10 +960,13 @@ $(document).ready(function() {
     }
   });
 
+  $('#blastCheck').change(function(){
+    countCells("asp");
+  })
+
   $('input:radio').on('click', function() {
     unClickRadio(this.id, this.name);
     fillReport();
-
   });
 
   function unClickRadio (id, name){
@@ -941,7 +991,7 @@ $(document).ready(function() {
     fillReport();
   });
 
-  $('#coreCellularity').keyup(function() {
+  $('#coreCellularity').keydown(function() {
     if ($('#coreCellularity').val() == ''){
       $('#hypocellular').prop('checked', false);
       $('#normocellular').prop('checked', false);
@@ -1195,18 +1245,18 @@ $(document).ready(function() {
     }
 
     if (cbcObject["Absolute NRBCs"]["value"] > 0) {
-      if (cbcObject["Absolute NRBCs"]["value"] > $("#nrbcFrequent").val()){
-        $('#rbc_Nucleated_RBCs_Frequent').prop("checked", true);
-        $('#rbc_Nucleated_RBCs_Occasional').prop("checked", false);
-        $('#rbc_Nucleated_RBCs_Rare').prop("checked", false);
-      } else if (cbcObject["Absolute NRBCs"]["value"] > $("#nrbcOccasional").val()){
-        $('#rbc_Nucleated_RBCs_Frequent').prop("checked", false);
-        $('#rbc_Nucleated_RBCs_Occasional').prop("checked", true);
-        $('#rbc_Nucleated_RBCs_Rare').prop("checked", false);
-      } else if ($("#nrbcOccasional").val() != "" && $("#nrbcOccasional").val() != ""){
-        $('#rbc_Nucleated_RBCs_Frequent').prop("checked", false);
-        $('#rbc_Nucleated_RBCs_Occasional').prop("checked", false);
-        $('#rbc_Nucleated_RBCs_Rare').prop("checked", true);
+      if (cbcObject["Absolute NRBCs"]["value"] > $("#nrbcFrequentLimit").val()){
+        $('#nrbcFrequent').siblings('input[type="checkbox"]').prop('checked', false);
+        $('#nrbcFrequent').prop("checked", true);
+      } else if (cbcObject["Absolute NRBCs"]["value"] > $("#nrbcOccasionalLimit").val()){
+        $('#nrbcOccasional').siblings('input[type="checkbox"]').prop('checked', false);
+        $('#nrbcOccasional').prop("checked", true);
+      } else if ($("#nrbcFrequentLimit").val() != "" && $("#nrbcOccasionalLimit").val() != ""){
+        $('#nrbcRare').siblings('input[type="checkbox"]').prop('checked', false);
+        $('#nrbcRare').prop("checked", true);
+      } else {
+        $('#nrbcPresent').siblings('input[type="checkbox"]').prop('checked', false);
+        $('#nrbcPresent').prop("checked", true);
       }
     }
     
@@ -1481,6 +1531,8 @@ $(document).ready(function() {
       pbText += "Occasional nucleated red blood cells are identified. ";
     } else if ($("#nrbcFrequent").prop("checked")) {
       pbText += "Frequent nucleated red blood cells are identified. ";
+    } else if ($("#nrbcPresent").prop("checked")) {
+      pbText += "Nucleated red blood cells are identified. ";
     }
     
       if ($("#neutLow").prop("checked")) {
@@ -1548,6 +1600,26 @@ $(document).ready(function() {
 /*         pbText += " Lymphocytes show " + lymph_list_string.toLowerCase() + ". ";
  */      }
 
+      if ($("#monosLow").prop("checked")) {
+        $("#monosMildMarked").show();
+        pbText += "There is"
+        if ($('#monosMarked').prop("checked")) {
+          pbText += " marked";
+        } else if ($('#monosMild').prop("checked")) {
+          pbText += " mild";
+        }
+        pbText += " absolute monocytopenia. "
+      } else if ($("#monosHigh").prop("checked")) {
+        $("#monosMildMarked").show();
+        pbText += "There is";
+        if ($('#monosMarked').prop("checked")) {
+          pbText += " marked";
+        } else if ($('#monosMild').prop("checked")) {
+          pbText += " mild";
+        }
+        pbText += " absolute monocytosis. "
+      }
+
       if ($("#eosHigh").prop("checked") && $("#basoHigh").prop("checked")) {
         pbText += "There is absolute eosinophilia and basophilia. ";
       } else if ($("#eosHigh").prop("checked")){
@@ -1605,7 +1677,7 @@ $(document).ready(function() {
     const adequacyListString = listText("adequacySelect");
     const erythroidListString = listText("erythroidSelect").toLowerCase();
     const myeloidListString = listText("myeloidSelect").toLowerCase();
-    const megakaryocyteListString = listText("megakaryocyteSelect").toLowerCase();
+    const megakaryocyteListString = listText("aspMegSelect").toLowerCase();
 
     if (erythroidListString != ""){
       $("#erythroid_unremarkable").prop("checked", false);
@@ -1680,11 +1752,11 @@ $(document).ready(function() {
     if ($('#coreAdequate').prop("checked") && adequacyListString == "") {
       coreText += "The bone marrow core biopsy is adequate for interpretation. ";
     } else if ($('#coreAdequate').prop("checked")) {
-      coreText += "The bone marrow core biopsy is " + adequacyListString + " but overall adequate for interpretation. ";
+      coreText += "The bone marrow core biopsy " + adequacyListString + " but is overall adequate for interpretation. ";
     } else if ($('#coreInadequate').prop("checked") && adequacyListString == "") {
       coreText += "The bone marrow core biopsy is inadequate for interpretation. ";
     } else if ($('#coreInadequate').prop("checked")) {
-      coreText += "The bone marrow core biopsy is " + adequacyListString + " and overall inadequate for interpretation. ";
+      coreText += "The bone marrow core biopsy " + adequacyListString + " and is overall inadequate for interpretation. ";
     }
 
     if ($('#hypocellular').prop('checked')){
@@ -1829,11 +1901,27 @@ $(document).ready(function() {
       let stainArray = [];
       $(`.${key}`).each(function(){
         if ($(this).val() != ''){
-          let descriptorText = '';
-          $(`.${this.id}`).each(function(){
-            descriptorText = $(this).val();
-          })
-          stainArray.push([$(this).val(), descriptorText]);
+          if ($(this).val() == 'Cytokeratin AE1/AE3'){
+            let descriptorText = '';
+            let descriptor = ''
+            $(`.${this.id}`).each(function(){
+              if ($(this).prop('checked')){
+                descriptor = $(this).val();
+              }
+            })
+            if (descriptor == 'negative'){
+              descriptorText = 'Negative for metastatic carcinoma.';
+            } else if (descriptor == 'positive'){
+              descriptorText = 'Positive for metastatic carcinoma.';
+            }
+            stainArray.push([$(this).val(), descriptorText]);
+          } else {
+            let descriptorText = '';
+            $(`.${this.id}`).each(function(){
+              descriptorText = $(this).val();
+            })
+            stainArray.push([$(this).val(), descriptorText]);
+          } 
         }
       })
       if (stainArray.length != 0){
