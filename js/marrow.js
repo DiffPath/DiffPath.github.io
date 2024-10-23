@@ -34,6 +34,8 @@ $(document).ready(function() {
   let cbcObject = {}, radioObject = {};
   let pbCountTable = getSavedItems()[0];
   let aspCountTable = getSavedItems()[1];
+  let positiveLabel = 4;
+  let negativeLabel = 5;
 
   const objectType = {
     pbCounter: 'pb',
@@ -64,12 +66,12 @@ $(document).ready(function() {
   const ironDescriptors = {class: "iron", descriptors: {'Storage Iron': ['Increased', 'Adequate', 'Decreased', 'Inadequate'], 'Ring Sideroblasts': ['Present', 'Absent', 'Inadequate']}, value: {'Storage Iron': ['increased', 'adequate', 'decreased', 'inadequate'], 'Ring Sideroblasts': ['present', 'absent', 'inadequate rings']},};
   const reticulinDescriptors = {class: 'radio', descriptors: ['MF-0', 'MF-1', 'MF-2', 'MF-3'], value: ['MF-0', 'MF-1', 'MF-2', 'MF-3']}
   const cd3Descriptors = {class: 'select', descriptors: ['','Interstitially scattered','Interstitially scattered and focal clusters'], value: ['','Highights interstitially scattered small T cells.','Highlights interstitially scattered and focal clusters of small T cells.']}
-  const cd20Descriptors = {class: 'select', descriptors: ['','Interstitially scattered','Interstitially scattered and focal clusters'], value: ['','Highights interstitially scattered small B cells.','Highlights interstitially scattered and focal clusters of small B cells.']}
-  const cd34Descriptors = {class: 'select', descriptors: ['','Not increased','Increased'], value: ['','Shows no increase in blasts (***% of total cellularity).','Highlights increased blasts (***% of total cellularity).']}
+  const cd20Descriptors = {class: 'selectDualCount', descriptors: ['','Interstitially scattered','Interstitially scattered and focal clusters'], value: ['','Highights interstitially scattered small B cells.','Highlights interstitially scattered and focal clusters of small B cells.','A diffuse infiltrate of small B cells (***% of total cellularity)']}
+  const cd34Descriptors = {class: 'selectDualCount', descriptors: ['','Not increased','Increased'], value: ['','Shows no increase in blasts (***% of total cellularity).','Highlights increased blasts (***% of total cellularity).']}
   const cd61Descriptors = {class: 'select', descriptors: ['','Adequate, regularly destributed, unremarkable morphology','Increased, regularly destributed'], value: ['','Highlights adequate, regularly distributed megakaryocytes with unremarkable morphology.','Highlights increased but regularly distributed megakaryocytes with unremarkable morphology.']}
   const cd71Descriptors = {class: 'select', descriptors: ['','Adequate', 'Proliferation'], value: ['','Highlights adequate erytrhoid precurosrs.','Shows a proliferation of erythroid precursors.']}
   const mpoDescriptors = {class: 'select', descriptors: ['','Adequate', 'Proliferation'], value: ['','Highlights adequate myeloid precurosrs.','Shows a proliferation of myeloid precursors.']}
-  const cd138Descriptors = {class: 'select', descriptors: ['','Not increased', 'Increased'], value: ['','Shows no increase in plasma cells (***% of total cellularity).','Highlights increased plasma cells (***% of total cellularity).']}
+  const cd138Descriptors = {class: 'selectDualCount', descriptors: ['','Not increased', 'Increased'], value: ['','Shows no increase in plasma cells (***% of total cellularity).','Highlights increased plasma cells (***% of total cellularity).']}
   const kappalambdaDescriptors = {class: 'select', descriptors: ['','Polytypic', 'Kappa restriction', 'Lambda restriction'], value: ['','Highlights polytypic plasma cells.','Shows kappa restriction in plasma cells.','Shows lambda restriction in plasma cells.']}
 
   const rbcList = [
@@ -179,6 +181,11 @@ $(document).ready(function() {
     "Large hypersegmented forms"
   ];
 
+  const aspPlasmaList = [
+    "",
+    "Large, atypical forms with prominent nucleoli"
+  ];
+
   const coreMegList = [
     "",
     "Widely separated nuclear lobes",
@@ -241,7 +248,7 @@ $(document).ready(function() {
     "Hypogranular forms": {descriptorObject: quantDescriptors, templateText: "hypogranular forms"},
     "Hypolobated forms": {descriptorObject: quantDescriptors, templateText: "hypolobated forms"},
     "Hypersegmented forms": {descriptorObject: quantDescriptors, templateText: "hypogranular forms"}, 
-    "Shift to immaturity": {descriptorObject: altDegreeDescriptors, templateText: "a shift to immaturity"},
+    "Shift to immaturity": {descriptorObject: altDegreeDescriptors, templateText: "shift to immaturity"},
     "Toxic changes": {descriptorObject: degreeDescriptors, templateText: "toxic changes"},
     "Mature-appearing morphology": {descriptorObject: noneDescriptors, templateText: "mature-appearing morphology"}, 
     "Hypogranular platelets": {descriptorObject: quantDescriptors, templateText: "hypogranular platelets"},
@@ -261,23 +268,24 @@ $(document).ready(function() {
     "Small hypolobated forms": {descriptorObject: quantDescriptors, templateText: "small hypolobated forms"},
     "Micromegakaryocytes": {descriptorObject: quantDescriptors, templateText: "micromegakaryocytes"},
     "Large hypersegmented forms": {descriptorObject: quantDescriptors, templateText: "large hypersegmented forms"},
+    "Large, atypical forms with prominent nucleoli": {descriptorObject: quantDescriptors, templateText: "large, atypical forms with prominent nucleoli"},
     "Crush artifact": {descriptorObject: showsDescriptors, templateText: "crush artifact"},
     "Aspiration artifact": {descriptorObject: showsDescriptors, templateText: "aspiration artifact"},
     "Fragmented": {descriptorObject: isDescriptors, templateText: "fragmented"},
     "Subcortical": {descriptorObject: isDescriptors, templateText: "subcortical"},
     "Predominantly subcortical": {descriptorObject: isDescriptors, templateText: "predominantly subcortical"},
     "Small": {descriptorObject: isDescriptors, templateText: "small"},
-    'Iron': {descriptorObject: ironDescriptors},
+    'Iron': {descriptorObject: ironDescriptors, value: '', positive: 0, negative: 0, count: 0},
     'Reticulin': {descriptorObject: reticulinDescriptors},
     'Congo red': {descriptorObject: dualDescriptors},
     'GMS': {descriptorObject: dualDescriptors},
     'AFB': {descriptorObject: dualDescriptors},
     'CD3': {descriptorObject: cd3Descriptors},
-    'CD20': {descriptorObject: cd20Descriptors},
-    'CD34': {descriptorObject: cd34Descriptors},
+    'CD20': {descriptorObject: cd20Descriptors, value: '', positive: 0, negative: 0, count: 0},
+    'CD34': {descriptorObject: cd34Descriptors, value: '', positive: 0, negative: 0, count: 0},
     'CD61': {descriptorObject: cd61Descriptors},
     'CD71': {descriptorObject: cd71Descriptors},
-    'CD138': {descriptorObject: cd138Descriptors},
+    'CD138': {descriptorObject: cd138Descriptors, value: '', positive: 0, negative: 0, count: 0},
     'Cytokeratin AE1/AE3': {descriptorObject: dualDescriptors},
     'Kappa/Lambda ISH': {descriptorObject: kappalambdaDescriptors},
     'MPO': {descriptorObject: mpoDescriptors},
@@ -295,6 +303,7 @@ $(document).ready(function() {
     erythroidSelect: erythroidList,
     myeloidSelect: myeloidList,
     aspMegSelect: aspMegList,
+    plasmaSelect: aspPlasmaList,
     coreMegSelect: coreMegList,
     aspirateSpecialStainsSelect: aspirateSpecialStainsList,
     coreSpecialStainsSelect: specialStainsList,
@@ -318,8 +327,8 @@ $(document).ready(function() {
       Monos: {name: 'Monos', character: 6, tableCellID: '#pbTableCell8', tableRowID: '#pbTableRow8', cellType: 2, count: 0, percent: 0, hidden: false},
       Metas: {name: 'Metas', character: 7, tableCellID: '#pbTableCell5', tableRowID: '#pbTableRow5', cellType: 1, count: 0, percent: 0, hidden: true},
       Myelo: {name: 'Myelo', character: 8, tableCellID: '#pbTableCell4', tableRowID: '#pbTableRow4', cellType: 1, count: 0, percent: 0, hidden: true},
-      Promyelo: {name: 'Promyelo', character: -1, tableCellID: '#pbTableCell3', tableRowID: '#pbTableRow3', cellType: 1, count: 0, percent: 0, hidden: true},
-      Plasma: {name: 'Plasma', character: 9, tableCellID: '#pbTableCell11', tableRowID: '#pbTableRow11', cellType: 0, count: 0, percent: 0, hidden: true},
+      Promyelo: {name: 'Promyelo', character: 9, tableCellID: '#pbTableCell3', tableRowID: '#pbTableRow3', cellType: 1, count: 0, percent: 0, hidden: true},
+      Plasma: {name: 'Plasma', character: -1, tableCellID: '#pbTableCell11', tableRowID: '#pbTableRow11', cellType: 0, count: 0, percent: 0, hidden: true},
       Eos: {name: 'Eos', character: 2, tableCellID: '#pbTableCell9', tableRowID: '#pbTableRow9', cellType: 2, count: 0, percent: 0, hidden: false},
       Basos: {name: 'Basos', character: 3, tableCellID: '#pbTableCell10', tableRowID: '#pbTableRow10', cellType: 2, count: 0, percent: 0, hidden: false},
       Atypical: {name: 'Atypical', character: -1, tableCellID: '#pbTableCell0', tableRowID: '#pbTableRow0', cellType: 0, count: 0, percent: 0, hidden: true},
@@ -518,7 +527,7 @@ $(document).ready(function() {
     let count = 0;
     let addBlank = true;
     $("."+ id).each(function(){
-      let descriptorValue = "";
+      let descriptorValue = '';
       if ($(this).val() != "" && selectedList.includes($(this).val())){
         selectHTML += `<div class='flex'><div><select id='${id}${count}' class='select ${id}'>`;
         const descriptorObject = descriptorList[$(this).val()]["descriptorObject"];
@@ -570,7 +579,8 @@ $(document).ready(function() {
               selectHTML += '</div>'
             }
             if (descriptorValue == 'present' && id == 'aspirateSpecialStainsSelect'){
-              selectHTML += "<div><textarea class='extend' id='pbCBC' rows='1' placeholder='Count Here'></textarea></div>"
+              selectHTML += `<div><textarea class='dualCounter Iron extend' id='ironCounter' rows='1' placeholder='Count Here'>${descriptorList.Iron.value}</textarea></div>`;
+              selectHTML += `<div id='ironCounterResults'><b>${positiveLabel}. Positive:&nbsp</b>${descriptorList.Iron.positive}<b>&nbsp${negativeLabel}. Negative:&nbsp</b>${descriptorList.Iron.negative}<b>&nbspTotal:&nbsp</b>${descriptorList.Iron.count}</div>`
             }
           } else if (dClass == 'select'){
             const descriptorSelect = descriptorList[$(this).val()]['descriptorObject']['descriptors'];
@@ -584,6 +594,20 @@ $(document).ready(function() {
               }
             }
             selectHTML += '</select>';
+          } else if (dClass == 'selectDualCount'){
+            const descriptorSelect = descriptorList[$(this).val()]['descriptorObject']['descriptors'];
+            const value = descriptorList[$(this).val()]['descriptorObject']['value'];
+            selectHTML += `<select id='${id}${count}select' class='selectDescriptor ${id}${count}' value='${value}'>`;
+            for(i in descriptorSelect){
+              if (value[i] == $(`#${id}${count}select`).val()){
+                selectHTML += `<option value='${value[i]}' selected>${descriptorSelect[i]}</option>`;
+              } else {
+                selectHTML += `<option value='${value[i]}'>${descriptorSelect[i]}</option>`;
+              }
+            }
+            selectHTML += '</select>';
+            selectHTML += `<div><textarea class='dualCounter ${$(this).val()} extend' id='${$(this).val()}Counter' rows='1' placeholder='Count Here'>${descriptorList[$(this).val()]['value']}</textarea></div>`;
+            selectHTML += `<div id='${$(this).val()}CounterResults'><b>${positiveLabel}. Positive:&nbsp</b>${descriptorList[$(this).val()]['positive']}<b>&nbsp${negativeLabel}. Negative:&nbsp</b>${descriptorList[$(this).val()]['negative']}<b>&nbspTotal:&nbsp</b>${descriptorList[$(this).val()]['count']}</div>`         
           } else if (dClass == 'hidden'){
             const descriptor = descriptorObject["descriptors"][0];
             const value = descriptorObject["value"][0];
@@ -617,6 +641,27 @@ $(document).ready(function() {
   $('.selectDiv').on('change', '.selectDescriptor', function(){
     fillReport();
   })
+
+  $('.selectDiv').on('keydown', '.dualCounter', function(e){
+    countNoise(e);
+  })
+
+  $('.selectDiv').on('keyup', '.dualCounter', function(e){
+    window.keypressed[e.which] = false;
+    countDual(this.className.split(' ')[1],this.id);
+    fillReport();
+  })
+
+  function countDual(counterClass, counterId) {
+    descriptorList[counterClass]['value'] = $(`#${counterId}`).val();
+    let positiveCount = ($(`#${counterId}`).val().match(new RegExp(positiveLabel, "g")) || []).length;
+    let negativeCount = ($(`#${counterId}`).val().match(new RegExp(negativeLabel, "g")) || []).length;
+    let totalCount = positiveCount + negativeCount;
+    $(`#${counterId}Results`).html(`<div><b>${positiveLabel}. Positive:&nbsp</b>${positiveCount}<b>&nbsp${negativeLabel}. Negative:&nbsp</b>${negativeCount}<b>&nbspTotal:&nbsp</b>${totalCount}</div>`)
+    descriptorList[counterClass]['positive'] = positiveCount;
+    descriptorList[counterClass]['negative'] = negativeCount;
+    descriptorList[counterClass]['count'] = totalCount;
+  }
   
   function listText(id) {
     let listString = "";
@@ -728,6 +773,7 @@ $(document).ready(function() {
     window.keypressed[e.which] = false;
     countCells(objectType[this.id]);
   });
+
 
   function countNoise(e) {
     if (window.keypressed[e.which]) {
@@ -849,7 +895,6 @@ $(document).ready(function() {
     if (id == "asp"){
       if (erythroidSum != 0){
         const meRatio = (myeloidSum/erythroidSum).toFixed(1);
-        console.log(meRatio)
         $('#meRatio').val(`${meRatio}:1`);
         $('#aspTableCell99').html(`${meRatio}:1`);
         if ($('#erythroidPredomSetting').val() != '' && meRatio < parseFloat($('#erythroidPredomSetting').val())){
@@ -1678,6 +1723,7 @@ $(document).ready(function() {
     const erythroidListString = listText("erythroidSelect").toLowerCase();
     const myeloidListString = listText("myeloidSelect").toLowerCase();
     const megakaryocyteListString = listText("aspMegSelect").toLowerCase();
+    const plasmaListString = listText("plasmaSelect").toLowerCase();
 
     if (erythroidListString != ""){
       $("#erythroid_unremarkable").prop("checked", false);
@@ -1729,9 +1775,26 @@ $(document).ready(function() {
     }
 
     if ($('#blast_adequate').prop("checked")) {
-      aspText += "Blasts are not increased. ";
+      if ($('#plasmaAdequate').prop("checked")){
+        aspText += "Blasts and plasma cells are not increased. ";
+      } else {
+        aspText += "Blasts are not increased. ";
+      }
     } else if ($('#blast_increased').prop("checked")){
       aspText += "Blasts are significantly increased. ";
+    }
+
+    if ($('#plasmaAdequate').prop("checked") && !$('#blast_adequate').prop("checked")) {
+      aspText += "Plasma cells are not increased. ";
+    } else if ($('#plasmaIncreased').prop("checked")){
+      aspText += "Plasma cells are significantly increased";
+      if (plasmaListString != ''){
+        aspText += ` and show ${plasmaListString}`;
+        $('#plasmaUnremarkable').prop("checked", false)
+      } else if ($('#plasmaUnremarkable').prop("checked")){
+        aspText += ' but show unremarkable morphology'
+      }
+      aspText += '. '
     }
 
     return aspText;
@@ -1842,7 +1905,12 @@ $(document).ready(function() {
               descriptorText += 'There are too few spicules for assessment of storage iron and too few erythroid precursors for assessment of ring sideroblasts. '
             }
             if (descriptorArray.indexOf('present') != -1){
-              descriptorText += 'Ring sideroblasts are identified. '
+              descriptorText += 'Ring sideroblasts are identified'
+              if (descriptorList.Iron.positive != 0){
+                let positivePercent = (100 * descriptorList.Iron.positive / (descriptorList.Iron.positive + descriptorList.Iron.negative)).toFixed(0);
+                descriptorText += ` (~${positivePercent}% of erythroid precursors)`;
+              };
+              descriptorText += '. ';
             } else if (descriptorArray.indexOf('absent') != -1){
               descriptorText += 'No ring sideroblasts are identified. '
             } else if (descriptorArray.indexOf('inadequate rings') != -1 && descriptorArray.indexOf('inadequate') == -1){
@@ -1920,6 +1988,12 @@ $(document).ready(function() {
             $(`.${this.id}`).each(function(){
               descriptorText = $(this).val();
             })
+            if (descriptorText.indexOf('***') != -1){
+              if (descriptorList[$(this).val()]['positive'] != 0){
+                let positivePercent = (100 * descriptorList[$(this).val()]['positive'] / (descriptorList[$(this).val()]['positive'] + descriptorList[$(this).val()]['negative'])).toFixed(0);
+                descriptorText = descriptorText.replace('***', positivePercent)
+              }
+            }
             stainArray.push([$(this).val(), descriptorText]);
           } 
         }
