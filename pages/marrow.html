@@ -509,7 +509,7 @@
                                     </div>
                                 </div>
                                 <div id="aspMegSelect" class="selectDiv">
-                                    <select id="megakaryocyteSelect0" class="select megakaryocyteSelect"></select>
+                                    <select id="aspMegSelect0" class="select aspMegSelect"></select>
                                 </div>
                             </div>
                             <div>
@@ -523,6 +523,29 @@
                                     <input type="radio" class="form" id="blast_increased" name="asp_blast"><label for="blast_increased">Increased</label>
                                 </div>
                             </div>
+                            <div>
+                                <b>Plasma Cells:</b>
+                            </div>
+                            <div>
+                                <div class="flex">
+                                    <div>
+                                        <input type="radio" class="form" id="plasmaAdequate" name="asp_blast"><label for="plasmaAdequate">Not increased</label>
+                                    </div>
+                                    <div>
+                                        <input type="radio" class="form" id="plasmaIncreased" name="asp_blast"><label for="plasmaIncreased">Increased</label>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex">
+                                        <div>
+                                            <input type="checkbox" class="form unremarkable" id="plasmaUnremarkable" name="plasma"><label for="plasmaUnremarkable">Unremarkable</label>
+                                        </div>
+                                    </div>
+                                    <div id="plasmaSelect" class="selectDiv">
+                                        <select id="plasmaSelect0" class="select plasmaSelect"></select>
+                                    </div>
+                                </div>
+                            </div>                            
                             <div>
                                 <b>Touch Preparation:</b>
                             </div>
@@ -976,11 +999,11 @@
                         <div>
                             <div>
                                 <b>Mild anemia:</b>
-                                <input type="number" class="saveInput" id="cbcHgbLowMild" size="2">
+                                <input type="number" class="saveInput" id="cbcHgbLowMild" size="2" value="12.0">
                             </div>
                             <div>
                                 <b>Marked anemia:</b>
-                                <input type="number" class="saveInput" id="cbcHgbLowMarked" size="2">
+                                <input type="number" class="saveInput" id="cbcHgbLowMarked" size="2" value="7.0">
                             </div>
                             <div>
                                 <b>Mild polycythemia:</b>
@@ -993,19 +1016,19 @@
                             <br>
                             <div>
                                 <b>Mild neutropenia:</b>
-                                <input type="number" class="saveInput" id="cbcNeutLowMild" size="2">
+                                <input type="number" class="saveInput" id="cbcNeutLowMild" size="2" value="1.2">
                             </div>
                             <div>
                                 <b>Marked neutropenia:</b>
-                                <input type="number" class="saveInput" id="cbcNeutLowMarked" size="2">
+                                <input type="number" class="saveInput" id="cbcNeutLowMarked" size="2" value="0.5">
                             </div>
                             <div>
                                 <b>Mild neutrophilia:</b>
-                                <input type="number" class="saveInput" id="cbcNeutHighMild" size="2">
+                                <input type="number" class="saveInput" id="cbcNeutHighMild" size="2" value="10.0">
                             </div>
                             <div>
                                 <b>Marked neutrophilia:</b>
-                                <input type="number" class="saveInput" id="cbcNeutHighMarked" size="2">
+                                <input type="number" class="saveInput" id="cbcNeutHighMarked" size="2" value="20.0">
                             </div>
                             <br>
                             <div>
@@ -1014,42 +1037,42 @@
                             </div>
                             <div>
                                 <b>Marked lymphopenia:</b>
-                                <input type="number" class="saveInput" id="cbcLymphLowMarked" size="2">
+                                <input type="number" class="saveInput" id="cbcLymphLowMarked" size="2" value="0.2">
                             </div>
                             <div>
                                 <b>Mild lymphocytosis:</b>
-                                <input type="number" class="saveInput" id="cbcLymphHighMild" size="2">
+                                <input type="number" class="saveInput" id="cbcLymphHighMild" size="2" value="6.0">
                             </div>
                             <div>
                                 <b>Marked lymphocytosis:</b>
-                                <input type="number" class="saveInput" id="cbcLymphHighMarked" size="2">
+                                <input type="number" class="saveInput" id="cbcLymphHighMarked" size="2" value="15.0">
                             </div>
                             <br>
                             <div>
                                 <b>Mild thrombocytopenia:</b>
-                            <input type="number" class="saveInput" id="cbcPltLowMild" size="2"></input>
+                            <input type="number" class="saveInput" id="cbcPltLowMild" size="2" value="120"></input>
                             </div>
                             <div>
                                 <b>Marked thrombocytopenia:</b>
-                                <input type="number" class="saveInput" id="cbcPltLowMarked" size="2"></input>
+                                <input type="number" class="saveInput" id="cbcPltLowMarked" size="2" value="30"></input>
                             </div>
                             <div>
                                 <b>Mild thrombocytosis:</b>
-                                <input type="number" class="saveInput" id="cbcPltHighMild" size="2">
+                                <input type="number" class="saveInput" id="cbcPltHighMild" size="2" value="450">
                             </div>
                             <div>
                                 <b>Marked thrombocytosis:</b>
-                                <input type="number" class="saveInput" id="cbcPltHighMarked" size="2">
+                                <input type="number" class="saveInput" id="cbcPltHighMarked" size="2" value="800.0">
                             </div>
                             <br>
                             <div>
                                 <b>Frequent NRBCs ></b>
-                                <input type="number" class="saveInput" id="nrbcFrequentLimit" size="2">
+                                <input type="number" class="saveInput" id="nrbcFrequentLimit" size="2" value="1.0">
                                 <b>K/uL</b>
                             </div>
                             <div>
                                 <b>Occasional NRBCs ></b>
-                                <input type="number" class="saveInput" id="nrbcOccasionalLimit" size="2">
+                                <input type="number" class="saveInput" id="nrbcOccasionalLimit" size="2" value="0.3">
                                 <b>K/uL</b>
                             </div>
                             <button type="button" class="saveButton">Save</button>
@@ -1060,13 +1083,13 @@
                             <b>Myeloid Predominance M:E ratio:</b>
                         </div>
                         <div>
-                            <input type="number" class="saveInput aspSettings" id="myeloidPredomSetting" size="2">:1.
+                            Greater than or equal to <input type="number" class="saveInput aspSettings" id="myeloidPredomSetting" size="2" value="4">:1.
                         </div>
                         <div>
                             <b>Erythroid Predominance M:E ratio:</b>
                         </div>
                         <div>
-                            <input type="number" class="saveInput aspSettings" id="erythroidPredomSetting" size="2">:1.
+                            Less than or equal to <input type="number" class="saveInput aspSettings" id="erythroidPredomSetting" size="2" value="1">:1.
                         </div>
                         <button type="button" class="saveButton">Save</button>
                     </div>  
@@ -1075,25 +1098,25 @@
                             <b>Markedly hypocellular cutoff:</b>
                         </div>
                         <div>
-                            ≥<input type="number" class="saveInput miscellaneous" id="markedlyHypocellular" size="2">% below expected.
+                            ≥<input type="number" class="saveInput miscellaneous" id="markedlyHypocellular" size="2" value="30">% below expected.
                         </div>
                         <div>
                             <b>Mildly hypocellular cutoff:</b>
                         </div>
                         <div>
-                            ≥<input type="number" class="saveInput miscellaneous" id="mildlyHypocellularMin" size="2">% but less than <input type="number" class="saveInput miscellaneous" id="mildlyHypocellularMax" size="2">% below expected.
+                            ≥<input type="number" class="saveInput miscellaneous" id="mildlyHypocellularMin" size="2" value="10">% but less than <input type="number" class="saveInput miscellaneous" id="mildlyHypocellularMax" size="2" value="15">% below expected.
                         </div>
                         <div>
                             <b>Markedly hypercellular cutoff:</b>
                         </div>
                         <div>
-                            ≥<input type="number" class="saveInput miscellaneous" id="markedlyHypercellular" size="2">% above expected.
+                            ≥<input type="number" class="saveInput miscellaneous" id="markedlyHypercellular" size="2" value="30">% above expected.
                         </div>
                         <div>
                             <b>Mildly hypocellular cutoff:</b>
                         </div>
                         <div>
-                            ≥<input type="number" class="saveInput miscellaneous" id="mildlyHypercellularMin" size="2">% but less than <input type="number" class="saveInput miscellaneous" id="mildlyHypercellularMax" size="2">% above expected.
+                            ≥<input type="number" class="saveInput miscellaneous" id="mildlyHypercellularMin" size="2" value="10">% but less than <input type="number" class="saveInput miscellaneous" id="mildlyHypercellularMax" size="2" value="15">% above expected.
                         </div>
                         <button type="button" class="saveButton">Save</button>
                     </div>  
