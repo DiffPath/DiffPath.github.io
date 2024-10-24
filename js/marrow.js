@@ -1036,7 +1036,7 @@ $(document).ready(function() {
     fillReport();
   });
 
-  $('#coreCellularity').keydown(function() {
+  $('#coreCellularity').keyup(function() {
     if ($('#coreCellularity').val() == ''){
       $('#hypocellular').prop('checked', false);
       $('#normocellular').prop('checked', false);
