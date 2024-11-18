@@ -104,7 +104,7 @@ $(document).ready(function() {
             caseLog[i]["Protocols"] = caseLog[i]["Protocols"].split("\n");
             for (j in caseLog[i]["Protocols"]){
                 if (!(caseLog[i]["Protocols"][j] in caseTypes)){
-                    caseTypes[caseLog[i]["Protocols"][j]] = {Multiplier: 1, Compatibility: ["Cytology", "Bigs", "Huntley"]};
+                    caseTypes[caseLog[i]["Protocols"][j]] = {Multiplier: 1, Compatibility: []};
                 }
             }
             caseLog[i]["#Slides"] = parseInt(caseLog[i]["#Slides"]);
