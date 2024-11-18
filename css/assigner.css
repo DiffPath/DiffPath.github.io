@@ -21,7 +21,6 @@ body {
 .panelContainer {
     display: flex;
     align-items: flex-start;
-    justify-content: space-evenly;
     gap: 10px;
     margin: 10px;
 }
@@ -34,12 +33,17 @@ body {
     flex-basis: 0;
 }
 
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
 .left {
-    flex-basis: 30%;
+    flex: 0 0 500px;
 }
 
 .right {
-    flex-basis: 70%;
+    flex: 1 1 0%;
 }
 
 .panelBody {
