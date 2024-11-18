@@ -11,7 +11,7 @@ $(document).ready(function() {
     let pathologistCode = {
         "Moravek, Michael Robert, MD (Staff Pathologist)": "Dr. Moravek",
         "Mujeeb, Imaad Bin, MD (Staff Pathologist)": "Dr. Mujeeb",
-        "Rehman, Jamaal, MD (Staff Pathologist)": "Dr. Rehman",
+        "Rehman, Jamaal A., MD (Staff Pathologist)": "Dr. Rehman",
         "Bertram, Heidi, MD (Staff Pathologist)": "Dr. Bertram",
     }
 
