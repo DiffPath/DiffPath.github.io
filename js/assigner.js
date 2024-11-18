@@ -27,7 +27,7 @@ $(document).ready(function() {
         "Stomach, portion": {Multiplier: 1, Compatibility: ["Lake Forest", "Bigs", "Huntley"]},
         "Stomach, biopsy": {Multiplier: 1, Compatibility: ["Lake Forest", "Huntley", "Work from Home"]},
         "Finger(s), amputation, non-traumatic": {Multiplier: 1, Compatibility: ["Lake Forest", "Bigs", "Huntley"]},
-        "Colon polyp": {Multiplier: 1, Compatibility: ["Lake Forest", "Bigs", "Huntley", "Work from Home"]},
+        "Colon polyp": {Multiplier: 1, Compatibility: ["Lake Forest", "Huntley", "Work from Home"]},
         "Esophagus, biopsy": {Multiplier: 1, Compatibility: ["Lake Forest", "Huntley", "Work from Home"]},
         "Esophagus, GE Junction": {Multiplier: 1, Compatibility: ["Lake Forest", "Huntley", "Work from Home"]},    
         "Two Blocks Specimen": {Multiplier: 1, Compatibility: ["Bigs", "Huntley"]},
