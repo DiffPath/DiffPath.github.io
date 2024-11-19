@@ -21,24 +21,27 @@ $(document).ready(function() {
     const caseTypes = {
         "Body Fluid": {Multiplier: 1, Compatibility: ["Cytology"]},
         "FNA": {Multiplier: 1, Compatibility: ["Cytology"]},
+        "Needle Core Biopsy": {Multiplier: 1, Compatibility: ["Cytology"]},
         "Thyroid FNA": {Multiplier: 1, Compatibility: ["Cytology"]},
         "Bronchial Washing": {Multiplier: 1, Compatibility: ["Cytology"]},
         "Brushing, Slides Received": {Multiplier: 1, Compatibility: ["Cytology"]},
         "Stomach, portion": {Multiplier: 1, Compatibility: ["Lake Forest", "Bigs", "Huntley"]},
         "Stomach, biopsy": {Multiplier: 1, Compatibility: ["Lake Forest", "Huntley", "Work from Home"]},
         "Finger(s), amputation, non-traumatic": {Multiplier: 1, Compatibility: ["Lake Forest", "Bigs", "Huntley"]},
+        "Toe(s), amputation, non-traumatic": {Multiplier: 1, Compatibility: ["Lake Forest", "Bigs", "Huntley"]},
         "Colon polyp": {Multiplier: 1, Compatibility: ["Lake Forest", "Huntley", "Work from Home"]},
         "Esophagus, biopsy": {Multiplier: 1, Compatibility: ["Lake Forest", "Huntley", "Work from Home"]},
         "Esophagus, GE Junction": {Multiplier: 1, Compatibility: ["Lake Forest", "Huntley", "Work from Home"]},    
-        "Two Blocks Specimen": {Multiplier: 1, Compatibility: ["Bigs", "Huntley"]},
+        "Two Blocks Specimen": {Multiplier: 1, Compatibility: ["Huntley"]},
         "Uterus and cervix": {Multiplier: 1, Compatibility: ["Lake Forest", "Bigs", "Huntley"]},
+        "Uterus, fibroid": {Multiplier: 1, Compatibility: ["Lake Forest", "Bigs", "Huntley"]},
         "Placenta": {Multiplier: 1, Compatibility: ["Lake Forest", "Bigs", "Huntley"]},
         "Colon Random (NWR)": {Multiplier: 1, Compatibility: ["Lake Forest", "Huntley", "Work from Home"]},
         "Biopsy,Terminal Ileum": {Multiplier: 1, Compatibility: ["Lake Forest", "Huntley", "Work from Home"]},
         "Duodenal, biopsy": {Multiplier: 1, Compatibility: ["Lake Forest", "Huntley", "Work from Home"]},
         "Products of conception": {Multiplier: 1, Compatibility: ["Lake Forest", "Huntley", "Work from Home"]},
         "Stomach, gastric polyp": {Multiplier: 1, Compatibility: ["Lake Forest", "Huntley", "Work from Home"]},
-        "Fallopian tube, bilateral": {Multiplier: 1, Compatibility: ["Lake Forest", "Bigs", "Huntley", "Work from Home"]},
+        "Fallopian tube, bilateral": {Multiplier: 1, Compatibility: ["Lake Forest", "Huntley", "Work from Home"]},
         "Gallbladder": {Multiplier: 1, Compatibility: ["Lake Forest", "Huntley", "Work from Home"]},
         "Appendix": {Multiplier: 1, Compatibility: ["Lake Forest", "Huntley", "Work from Home"]},
         "Tonsil": {Multiplier: 1, Compatibility: ["Lake Forest", "Huntley", "Work from Home"]},
@@ -47,17 +50,30 @@ $(document).ready(function() {
         "Nasal contents": {Multiplier: 1, Compatibility: ["Lake Forest", "Huntley"]},
         "Nasal septum": {Multiplier: 1, Compatibility: ["Lake Forest", "Huntley"]},
         "Uvula": {Multiplier: 1, Compatibility: ["Lake Forest", "Huntley"]},
+        "Hemorrhoids": {Multiplier: 1, Compatibility: ["Lake Forest", "Huntley"]},
+        "Carotid artery, plaque": {Multiplier: 1, Compatibility: ["Lake Forest", "Huntley"]},
         "Ganglion": {Multiplier: 1, Compatibility: ["Lake Forest", "Huntley"]},
         "Bone Fragment(s)": {Multiplier: 1, Compatibility: ["Lake Forest", "Huntley", "Work from Home"]},
+        "Bone Biopsy": {Multiplier: 1, Compatibility: []},
+        "Plantar wart": {Multiplier: 1, Compatibility: ["Lake Forest", "Huntley"]},
         "Colon Resection (NWR)": {Multiplier: 1, Compatibility: ["Lake Forest", "Bigs"]},
         "Colon Resection, Malignant NWR": {Multiplier: 1, Compatibility: ["Bigs"]},
-        "Biopsy H&E 3 Levels (NWR)": {Multiplier: 1, Compatibility: ["Bigs"]},
+        "Soft Tissue": {Multiplier: 1, Compatibility: ["Lake Forest"]},
+        "Foot Amputation": {Multiplier: 1, Compatibility: ["Bigs"]},
+        "Biopsy H&E 3 Levels (NWR)": {Multiplier: 1, Compatibility: []},
         "Bladder, transurethral resection": {Multiplier: 1, Compatibility: ["Lake Forest", "Huntley"]},
-        "Lung bronchoscopic biopsy": {Multiplier: 1, Compatibility: ["Bigs", "Huntley"]},
+        "Lung bronchoscopic biopsy": {Multiplier: 1, Compatibility: ["Huntley"]},
         "Kidney stone": {Multiplier: 1, Compatibility: ["Cytology", "Bigs", "Huntley"]},
         "Ureteral stone": {Multiplier: 1, Compatibility: ["Cytology", "Bigs", "Huntley"]},
         "Tenosynovium": {Multiplier: 1, Compatibility: ["Lake Forest", "Huntley", "Work from Home"]},
-        "Mouth, biopsy": {Multiplier: 1, Compatibility: ["Bigs", "Huntley", "Work from Home"]},
+        "Mouth, biopsy": {Multiplier: 1, Compatibility: ["Huntley", "Work from Home"]},
+        "Bone Marrow Aspirate": {Multiplier: 2, Compatibility: []},
+        "Bone Marrow Biopsy": {Multiplier: 2, Compatibility: []},
+        "Brain, Biopsy": {Multiplier: 1, Compatibility: []},
+        "Brain, for tumor resection": {Multiplier: 1, Compatibility: []},
+        "Breast Core Biopsy": {Multiplier: 1, Compatibility: ["Bigs"]},
+        "Prostate biopsy": {Multiplier: 1, Compatibility: ["Huntley"]},
+        "Skin, biopsy": {Multiplier: 1, Compatibility: ["Lake Forest", "Huntley"]},
     }
 
     fillNames();
@@ -180,10 +196,79 @@ $(document).ready(function() {
             slide total will be updated. */
             for (i in tempCaseLog){
                 if (tempCaseLog[i]['Assigned Users'] != ''){
-                    pathologists[pathologistCode[tempCaseLog[i]['Assigned Users']]]['Case List'].push(i)
+                    pathologists[pathologistCode[tempCaseLog[i]['Assigned Users']]]['Case List'].push(i);
                     pathologists[pathologistCode[tempCaseLog[i]['Assigned Users']]]['Slide Count'] += tempCaseLog[i]['#Slides'];
                     finalCaseLog[i]['Pathologist'] = pathologistCode[tempCaseLog[i]['Assigned Users']];
                     delete tempCaseLog[i]; 
+                }
+            }
+            if (pathologistList.indexOf('Dr. Moravek') != -1){
+                for (i in tempCaseLog){
+                    let compatible = false;
+                    for (j in tempCaseLog[i]['Protocols']){
+                        if (tempCaseLog[i]['Protocols'][j] == "Bone Marrow Biopsy" || tempCaseLog[i]['Protocols'][j] == "Bone Marrow Aspirate"){
+                            compatible = true;
+                        }
+                    }
+                    if (compatible){
+                        pathologists["Dr. Moravek"]['Case List'].push(i)
+                        pathologists["Dr. Moravek"]['Slide Count'] += tempCaseLog[i]['#Slides'];
+                        finalCaseLog[i]['Pathologist'] = "Dr. Moravek";
+                        delete tempCaseLog[i]; 
+                    }
+                }
+            } else if (pathologistList.indexOf('Dr. Rehman') != -1){
+                for (i in tempCaseLog){
+                    let compatible = false;
+                    for (j in tempCaseLog[i]['Protocols']){
+                        if (tempCaseLog[i]['Protocols'][j] == "Bone Marrow Biopsy" || tempCaseLog[i]['Protocols'][j] == "Bone Marrow Aspirate"){
+                            compatible = true;
+                        }
+                    }
+                    if (compatible){
+                        pathologists["Dr. Rehman"]['Case List'].push(i)
+                        pathologists["Dr. Rehman"]['Slide Count'] += tempCaseLog[i]['#Slides'];
+                        finalCaseLog[i]['Pathologist'] = "Dr. Rehman";
+                        delete tempCaseLog[i]; 
+                    }
+                }
+            } else if (pathologistList.indexOf('Dr. Mujeeb') != -1){
+                for (i in tempCaseLog){
+                    let compatible = false;
+                    for (j in tempCaseLog[i]['Protocols']){
+                        if (tempCaseLog[i]['Protocols'][j] == "Bone Marrow Biopsy" || tempCaseLog[i]['Protocols'][j] == "Bone Marrow Aspirate"){
+                            compatible = true;
+                        }
+                    }
+                    if (compatible){
+                        pathologists["Dr. Mujeeb"]['Case List'].push(i)
+                        pathologists["Dr. Mujeeb"]['Slide Count'] += tempCaseLog[i]['#Slides'];
+                        finalCaseLog[i]['Pathologist'] = "Dr. Mujeeb";
+                        delete tempCaseLog[i]; 
+                    }
+                }
+            }
+            /* If there is a pathologist on cytology service, this code will 
+            assign all cytology cases to that pathologist */
+            if ($('#cyto').val() != ''){
+                for (i in tempCaseLog){
+                    let compatible = false;
+                    for (j in tempCaseLog[i]['Protocols']){
+                        if (caseTypes[tempCaseLog[i]['Protocols'][j]]['Compatibility'].indexOf("Cytology") != -1){
+                            compatible = true;
+                        }
+                    }
+                    if (compatible){
+                        pathologists[$('#cyto').val()]['Case List'].push(i)
+                        pathologists[$('#cyto').val()]['Slide Count'] += tempCaseLog[i]['#Slides'];
+                        finalCaseLog[i]['Pathologist'] = $('#cyto').val();
+                        delete tempCaseLog[i]; 
+                    }
+                }
+                if(pathologists[$('#cyto').val()]['Slide Count'] > slideAverage && pathologistCount > 1){
+                    pathologistCount--;
+                    slideCount-= pathologists[$('#cyto').val()]['Slide Count'];
+                    slideAverage = slideCount / pathologistCount;
                 }
             }
             /* If there is a work from home pathologist, this code will assign 
@@ -240,29 +325,6 @@ $(document).ready(function() {
                 if (pathologistCount > 1){
                     pathologistCount--;
                     slideCount-= pathologists["Lake Forest"]['Slide Count'];
-                    slideAverage = slideCount / pathologistCount;
-                }
-            }
-            /* If there is a pathologist on cytology service, this code will 
-            assign all cytology cases to that pathologist */
-            if ($('#cyto').val() != ''){
-                for (i in tempCaseLog){
-                    let compatible = false;
-                    for (j in tempCaseLog[i]['Protocols']){
-                        if (caseTypes[tempCaseLog[i]['Protocols'][j]]['Compatibility'].indexOf("Cytology") != -1){
-                            compatible = true;
-                        }
-                    }
-                    if (compatible){
-                        pathologists[$('#cyto').val()]['Case List'].push(i)
-                        pathologists[$('#cyto').val()]['Slide Count'] += tempCaseLog[i]['#Slides'];
-                        finalCaseLog[i]['Pathologist'] = $('#cyto').val();
-                        delete tempCaseLog[i]; 
-                    }
-                }
-                if(pathologists[$('#cyto').val()]['Slide Count'] > slideAverage && pathologistCount > 1){
-                    pathologistCount--;
-                    slideCount-= pathologists[$('#cyto').val()]['Slide Count'];
                     slideAverage = slideCount / pathologistCount;
                 }
             }
