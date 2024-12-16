@@ -12,7 +12,7 @@ $(document).ready(function() {
         "Moravek, Michael Robert, MD (Staff Pathologist)": "Dr. Moravek",
         "Mujeeb, Imaad Bin, MD (Staff Pathologist)": "Dr. Mujeeb",
         "Rehman, Jamaal A., MD (Staff Pathologist)": "Dr. Rehman",
-        "Bertram, Heidi, MD (Staff Pathologist)": "Dr. Bertram",
+        "Bertram, Heidi C., MD (Staff Pathologist)": "Dr. Bertram",
     }
 
 
@@ -24,6 +24,7 @@ $(document).ready(function() {
         "Needle Core Biopsy": {Multiplier: 1, Compatibility: ["Cytology"]},
         "Thyroid FNA": {Multiplier: 1.5, Compatibility: ["Cytology"]},
         "Bronchial Washing": {Multiplier: 1, Compatibility: ["Cytology"]},
+        "Washing": {Multiplier: 3, Compatibility: ["Cytology"]},
         "Brushing, Slides Received": {Multiplier: 1, Compatibility: ["Cytology"]},
         "Cerebrospinal Fluid Cytology": {Multiplier: 1, Compatibility: ["Cytology"]},
         "Kidney Biopsy": {Multiplier: 1, Compatibility: ["Cytology"]},
@@ -31,14 +32,14 @@ $(document).ready(function() {
         "Stomach, biopsy": {Multiplier: 1, Compatibility: ["Lake Forest", "Huntley", "Work from Home"]},
         "Finger(s), amputation, non-traumatic": {Multiplier: 1, Compatibility: ["Lake Forest", "Bigs", "Huntley"]},
         "Toe(s), amputation, non-traumatic": {Multiplier: 1, Compatibility: ["Lake Forest", "Bigs", "Huntley"]},
-        "Colon polyp": {Multiplier: 0.8, Compatibility: ["Lake Forest", "Huntley", "Work from Home"]},
+        "Colon polyp": {Multiplier: 0.5, Compatibility: ["Lake Forest", "Huntley", "Work from Home"]},
         "Esophagus, biopsy": {Multiplier: 1, Compatibility: ["Lake Forest", "Huntley", "Work from Home"]},
         "Esophagus, GE Junction": {Multiplier: 1, Compatibility: ["Lake Forest", "Huntley", "Work from Home"]},
         "Biopsy, GE Junction": {Multiplier: 1, Compatibility: ["Lake Forest", "Huntley", "Work from Home"]},        
         "Two Blocks Specimen": {Multiplier: 1, Compatibility: ["Huntley"]},
-        "Uterus and cervix": {Multiplier: 1, Compatibility: ["Lake Forest", "Bigs", "Huntley"]},
-        "Uterus, fibroid": {Multiplier: 1, Compatibility: ["Lake Forest", "Bigs", "Huntley"]},
-        "Uterus, bilateral tubes and ovaries": {Multiplier: 1, Compatibility: ["Lake Forest", "Bigs", "Huntley"]},
+        "Uterus and cervix": {Multiplier: 1, Compatibility: ["Lake Forest", "Bigs"]},
+        "Uterus, fibroid": {Multiplier: 1, Compatibility: ["Lake Forest", "Bigs"]},
+        "Uterus, bilateral tubes and ovaries": {Multiplier: 1, Compatibility: ["Lake Forest", "Bigs"]},
         "Vaginal mucosa": {Multiplier: 1, Compatibility: ["Huntley"]},
         "Cervical LEEP": {Multiplier: 1, Compatibility: ["Bigs"]},
         "Parathyroid": {Multiplier: 1, Compatibility: ["Bigs"]},
@@ -54,26 +55,27 @@ $(document).ready(function() {
         "Fallopian tube": {Multiplier: 0.8, Compatibility: ["Lake Forest", "Huntley", "Work from Home"]},
         "Gallbladder": {Multiplier: 1, Compatibility: ["Lake Forest", "Huntley", "Work from Home"]},
         "Appendix": {Multiplier: 0.8, Compatibility: ["Lake Forest", "Huntley", "Work from Home"]},
-        "Hernia sac": {Multiplier: 1, Compatibility: ["Lake Forest", "Huntley"]},
-        "Tonsil": {Multiplier: 1, Compatibility: ["Lake Forest", "Huntley", "Work from Home"]},
-        "Tonsils, bilateral": {Multiplier: 1, Compatibility: ["Lake Forest", "Huntley", "Work from Home"]},
-        "Tonsil and adenoids": {Multiplier: 1, Compatibility: ["Lake Forest", "Huntley", "Work from Home"]},
-        "Adenoids": {Multiplier: 1, Compatibility: ["Lake Forest", "Huntley", "Work from Home"]},
+        "Appendix, incidental": {Multiplier: 0.8, Compatibility: ["Lake Forest", "Huntley", "Work from Home"]},
+        "Hernia sac": {Multiplier: 0.8, Compatibility: ["Lake Forest", "Huntley"]},
+        "Tonsil": {Multiplier: 0.7, Compatibility: ["Lake Forest", "Huntley", "Work from Home"]},
+        "Tonsils, bilateral": {Multiplier: 0.7, Compatibility: ["Lake Forest", "Huntley", "Work from Home"]},
+        "Tonsil and adenoids": {Multiplier: 0.7, Compatibility: ["Lake Forest", "Huntley", "Work from Home"]},
+        "Adenoids": {Multiplier: 0.7, Compatibility: ["Lake Forest", "Huntley", "Work from Home"]},
         "Palate": {Multiplier: 1, Compatibility: ["Lake Forest", "Huntley"]},
         "Nasal contents": {Multiplier: 1, Compatibility: ["Lake Forest", "Huntley"]},
-        "Nasal septum": {Multiplier: 1, Compatibility: ["Lake Forest", "Huntley"]},
+        "Nasal septum": {Multiplier: 0.5, Compatibility: ["Lake Forest", "Huntley"]},
         "Ethmoid": {Multiplier: 1, Compatibility: ["Lake Forest", "Huntley"]},
         "Uvula": {Multiplier: 1, Compatibility: ["Lake Forest", "Huntley"]},
         "Hemorrhoids": {Multiplier: 1, Compatibility: ["Lake Forest", "Huntley"]},
-        "Carotid artery, plaque": {Multiplier: 1, Compatibility: ["Lake Forest", "Huntley"]},
+        "Carotid artery, plaque": {Multiplier: 0.5, Compatibility: ["Lake Forest", "Huntley"]},
         "Ganglion": {Multiplier: 1, Compatibility: ["Lake Forest", "Huntley"]},
         "Hydrocele": {Multiplier: 1, Compatibility: ["Lake Forest", "Huntley"]},
-        "Vas deferens": {Multiplier: 1, Compatibility: ["Lake Forest", "Huntley"]},
+        "Vas deferens": {Multiplier: 0.8, Compatibility: ["Lake Forest", "Huntley"]},
         "Bone Fragment(s)": {Multiplier: 1, Compatibility: ["Lake Forest", "Huntley", "Work from Home"]},
         "Bone Biopsy": {Multiplier: 1, Compatibility: []},
         "Plantar wart": {Multiplier: 1, Compatibility: ["Lake Forest", "Huntley"]},
         "Colon Resection (NWR)": {Multiplier: 1, Compatibility: ["Lake Forest", "Bigs"]},
-        "Small bowel Resection": {Multiplier: 1, Compatibility: ["Lake Forest", "Bigs"]},
+        "Small bowel resection": {Multiplier: 1, Compatibility: ["Lake Forest", "Bigs"]},
         "Colon Resection, Malignant NWR": {Multiplier: 1, Compatibility: ["Bigs"]},
         "Omentum": {Multiplier: 1, Compatibility: ["Bigs"]},
         "Soft Tissue": {Multiplier: 1, Compatibility: ["Lake Forest"]},
@@ -83,8 +85,8 @@ $(document).ready(function() {
         "Breast Margin": {Multiplier: 1, Compatibility: ["Bigs"]},
         "Breast reduction": {Multiplier: 1, Compatibility: ["Bigs"]},
         "Sentinel node": {Multiplier: 1, Compatibility: ["Bigs"]},
-        "Lymph node": {Multiplier: 1, Compatibility: ["Bigs"]},
-        "Lunge wedge biopsy": {Multiplier: 1.5, Compatibility: ["Bigs"]},
+        "Lymph node": {Multiplier: 2, Compatibility: ["Bigs"]},
+        "Lung wegde biopsy": {Multiplier: 1.5, Compatibility: ["Bigs"]},
         "Lunge lobectomy or segmental resection": {Multiplier: 1.5, Compatibility: ["Bigs"]},
         "Biopsy H&E 3 Levels (NWR)": {Multiplier: 1, Compatibility: []},
         "Bladder, transurethral resection": {Multiplier: 1.5, Compatibility: ["Lake Forest", "Huntley"]},
@@ -102,7 +104,7 @@ $(document).ready(function() {
         "Brain, Biopsy": {Multiplier: 1, Compatibility: []},
         "Brain, for tumor resection": {Multiplier: 1, Compatibility: []},
         "Breast Core Biopsy": {Multiplier: 1, Compatibility: ["Bigs"]},
-        "Prostate biopsy": {Multiplier: 1, Compatibility: ["Lake Forest", "Huntley", "Work from Home"]},
+        "Prostate biopsy": {Multiplier: 0.8, Compatibility: ["Lake Forest", "Huntley", "Work from Home"]},
         "Prostate TUR": {Multiplier: 1, Compatibility: ["Lake Forest", "Huntley"]},
         "Skin, biopsy": {Multiplier: 2, Compatibility: ["Lake Forest", "Huntley"]},
         "Scalp": {Multiplier: 2, Compatibility: ["Lake Forest", "Huntley"]},
@@ -126,6 +128,7 @@ $(document).ready(function() {
 
     $('#caseLogInput').bind('input', function(){
         const rows = this.value.split("\t");
+        console.log(rows)
         let headers = [];
         let caseNumber = "";
         for (i in rows){
@@ -148,7 +151,9 @@ $(document).ready(function() {
             } else {
                 caseObject[headers[counter]] = rows[i].split("\n")[0].replace(/['"]+/g, '');
                 caseLog[caseNumber] = caseObject;
-                caseNumber = rows[i].split("\n")[1].replace(/['"]+/g, '');
+                if (i != rows.length - 1){
+                    caseNumber = rows[i].split("\n")[1].replace(/['"]+/g, '');
+                }
                 counter = 1;
                 caseObject = {};
             }
@@ -164,7 +169,7 @@ $(document).ready(function() {
             }
             let caseMult = caseSum / caseLog[i]["Protocols"].length
             caseLog[i]["#Slides"] = parseInt(caseLog[i]["#Slides"]);
-            caseLog[i]["Workload"] = caseLog[i]["#Slides"] ** (2/3) * caseMult * 100;
+            caseLog[i]["Workload"] = caseLog[i]["#Slides"] ** (1/2) * caseMult * 100;
             console.log(caseLog[i]["Protocols"])
             console.log(caseLog[i]["#Slides"])
             console.log(caseLog[i]["Workload"])
@@ -242,11 +247,21 @@ $(document).ready(function() {
             will be continue to be assigned to that pathologist and the pathologists
             slide total will be updated. */
             for (i in tempCaseLog){
-                if (tempCaseLog[i]['Assigned Users'] != ''){
+                if (tempCaseLog[i]['Assigned Users'] != '' && tempCaseLog[i]['Assigned Users'] in pathologistCode){
                     pathologists[pathologistCode[tempCaseLog[i]['Assigned Users']]]['Case List'].push(i);
                     pathologists[pathologistCode[tempCaseLog[i]['Assigned Users']]]['Slide Count'] += tempCaseLog[i]['#Slides'];
                     pathologists[pathologistCode[tempCaseLog[i]['Assigned Users']]]['Workload'] += tempCaseLog[i]['Workload'];
                     finalCaseLog[i]['Pathologist'] = pathologistCode[tempCaseLog[i]['Assigned Users']];
+                    delete tempCaseLog[i]; 
+                } else if (tempCaseLog[i]['Assigned Users'] != ''){
+                    pathologists[tempCaseLog[i]['Assigned Users']] = {};
+                    pathologists[tempCaseLog[i]['Assigned Users']]['Case List'] = [];
+                    pathologists[tempCaseLog[i]['Assigned Users']]['Slide Count'] = 0;
+                    pathologists[tempCaseLog[i]['Assigned Users']]['Workload'] += 0;
+                    pathologists[tempCaseLog[i]['Assigned Users']]['Case List'].push(i);
+                    pathologists[tempCaseLog[i]['Assigned Users']]['Slide Count'] += tempCaseLog[i]['#Slides'];
+                    pathologists[tempCaseLog[i]['Assigned Users']]['Workload'] += tempCaseLog[i]['Workload'];
+                    finalCaseLog[i]['Pathologist'] = tempCaseLog[i]['Assigned Users'];
                     delete tempCaseLog[i]; 
                 }
             }
