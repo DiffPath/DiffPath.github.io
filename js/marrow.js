@@ -31,7 +31,7 @@ $(document).ready(function() {
     stainTab: 'stainPanel'    
   };
 
-  let cbcObject = {}, radioObject = {};
+  let radioObject = {};
   let pbCountTable = getSavedItems()[0];
   let aspCountTable = getSavedItems()[1];
   let positiveLabel = 4;
@@ -53,8 +53,23 @@ $(document).ready(function() {
 
   let patientAge = -1;
 
-  const cbcVariables = ["WBC", "RBC", "HGB", "MCV", "MCHC", "PLT", "NRBC", "Absolute Neutrophils", "Absolute Lymphocytes", "Absolute Monocytes", "Absolute Eosinophils", "Absolute Basophils", "Absolute NRBCs"];
-  
+  let cbcVar = ["WBC", "RBC", "HGB", "MCV", "MCHC", "PLT", "NRBC", "Absolute Neutrophils", "Absolute Lymphocytes", "Absolute Monocytes", "Absolute Eosinophils", "Absolute Basophils", "Absolute NRBCs"];
+
+  let cbcObject = {
+    "WBC": {value: ""},
+    "RBC": {value: ""},
+    "HGB": {value: "", low: "hgbLow", normal: "hgbNormal", high: "hgbHigh"},
+    "MCV": {value: "", low: "mcvLow", normal: "mcvNormal", high: "mcvHigh"},
+    "MCHC": {value: "", low: "hypochromic"},
+    "PLT": {value: "", low: "pltLow", normal: "pltNormal", high: "pltHigh"},
+    "Absolute Neutrophils": {value: "", low: "neutLow", normal: "neutNormal", high: "neutHigh"},
+    "Absolute Lymphocytes": {value: "", low: "lymphLow", normal: "lymphNormal", high: "lymphHigh"},
+    "Absolute Monocytes": {value: "", low: "monosLow", high: "monosHigh"},
+    "Absolute Eosinophils": {value: "", high: "eosHigh"},
+    "Absolute Basophils": {value: "", high: "basoHigh"},
+    "Absolute NRBCs": {value: "", high: "nrbcPresent"}
+  }
+
   const quantDescriptors = {class: "radio", descriptors: ["Rare", "Occasional", "Frequent"], value: ["rare ", "occasional ", "frequent "]};
   const degreeDescriptors = {class: "radio", descriptors: ["Slight", "Mild", "Marked"], value: ["slight ", "mild", "marked "]};
   const altDegreeDescriptors = {class: "radio", descriptors: ["Slight", "Mild", "Marked"], value: ["a slight ", "a mild ", "a marked "]};
@@ -65,8 +80,8 @@ $(document).ready(function() {
   const showsDescriptors = {class: "hidden", descriptors: ['Shows'], value: ['shows ']};
   const ironDescriptors = {class: "iron", descriptors: {'Storage Iron': ['Increased', 'Adequate', 'Decreased', 'Inadequate'], 'Ring Sideroblasts': ['Present', 'Absent', 'Inadequate']}, value: {'Storage Iron': ['increased', 'adequate', 'decreased', 'inadequate'], 'Ring Sideroblasts': ['present', 'absent', 'inadequate rings']},};
   const reticulinDescriptors = {class: 'radio', descriptors: ['MF-0', 'MF-1', 'MF-2', 'MF-3'], value: ['MF-0', 'MF-1', 'MF-2', 'MF-3']}
-  const cd3Descriptors = {class: 'select', descriptors: ['','Interstitially scattered','Interstitially scattered and focal clusters'], value: ['','Highlights interstitially scattered small T cells.','Highlights interstitially scattered and focal clusters of small T cells.']}
-  const cd20Descriptors = {class: 'selectDualCount', descriptors: ['','Interstitially scattered','Interstitially scattered and focal clusters'], value: ['','Highlights interstitially scattered small B cells.','Highlights interstitially scattered and focal clusters of small B cells.','A diffuse infiltrate of small B cells (***% of total cellularity)']}
+  const cd3Descriptors = {class: 'select', descriptors: ['','Interstitially scattered','Interstitially scattered and focal clusters'], value: ['','Highights interstitially scattered small T cells.','Highlights interstitially scattered and focal clusters of small T cells.']}
+  const cd20Descriptors = {class: 'selectDualCount', descriptors: ['','Interstitially scattered','Interstitially scattered and focal clusters'], value: ['','Highights interstitially scattered small B cells.','Highlights interstitially scattered and focal clusters of small B cells.','A diffuse infiltrate of small B cells (***% of total cellularity)']}
   const cd34Descriptors = {class: 'selectDualCount', descriptors: ['','Not increased','Increased'], value: ['','Shows no increase in blasts (***% of total cellularity).','Highlights increased blasts (***% of total cellularity).']}
   const cd61Descriptors = {class: 'select', descriptors: ['','Adequate, regularly destributed, unremarkable morphology','Increased, regularly destributed'], value: ['','Highlights adequate, regularly distributed megakaryocytes with unremarkable morphology.','Highlights increased but regularly distributed megakaryocytes with unremarkable morphology.']}
   const cd71Descriptors = {class: 'select', descriptors: ['','Adequate', 'Proliferation'], value: ['','Highlights adequate erytrhoid precurosrs.','Shows a proliferation of erythroid precursors.']}
@@ -488,7 +503,6 @@ $(document).ready(function() {
 
   $('#pbCBC').bind('input', function() {
     let cbcFinal = [];
-    let cbcVar = [...cbcVariables];
     const cbcLines = $('#pbCBC').val().split("\n");
     let toggle = true;
     for (let i = 0; i < cbcLines.length; i++) {
@@ -497,11 +511,10 @@ $(document).ready(function() {
     for (i in cbcFinal) {
       for (j in cbcVar){
         if (cbcFinal[i][0] == cbcVar[j]){
-          cbcObject[cbcVar[j]] = {};
-          cbcObject[cbcVar[j]]["min"] = parseFloat(cbcFinal[parseInt(i)+1][0].replace(/10\W3/g,'').replace(/10\W6/g,'').replace(/[^0-9.\-]/g, '').split('-')[0]);
-          cbcObject[cbcVar[j]]["max"] = parseFloat(cbcFinal[parseInt(i)+1][0].replace(/10\W3/g,'').replace(/10\W6/g,'').replace(/[^0-9.\-]/g, '').split("-")[1]);
-          cbcObject[cbcVar[j]]["value"] = parseFloat(cbcFinal[parseInt(i)+1][1]);
-          delete cbcVar[j];
+          cbcObject[cbcVar[j]]["value"] = cbcFinal[i][1];
+          if(cbcFinal[i][1] != ""){
+            delete cbcVar[j];
+          }
         }
       }
       
@@ -1124,216 +1137,14 @@ $(document).ready(function() {
   });
 
   function fillInputs() {
-    if (cbcObject["HGB"] !== undefined) {
-      if (cbcObject["HGB"]["value"] > cbcObject["HGB"]["min"] && cbcObject["HGB"]["value"] < cbcObject["HGB"]["max"]) {
-        $('#hgbNormal').prop("checked", true);
-        $('#hgbMild').prop("checked", false);
-        $('#hgbMarked').prop("checked", false);
-      } else if (cbcObject["HGB"]["value"] < cbcObject["HGB"]["min"]) {
-        $('#hgbLow').prop("checked", true);
-        if (cbcObject["HGB"]["value"] < $("#cbcHgbLowMarked").val() && $("#cbcHgbLowMarked").val() != '') {
-          $('#hgbMarked').prop("checked", true);
-          $('#hgbMild').prop("checked", false);
-        } else if (cbcObject["HGB"]["value"] > $("#cbcHgbLowMild").val() && $("#cbcHgbLowMild").val() != '') {
-          $('#hgbMild').prop("checked", true);
-          $('#hgbMarked').prop("checked", false);
-        } else {
-          $('#hgbMild').prop("checked", false);
-          $('#hgbMarked').prop("checked", false);
-        }
-      } else if (cbcObject["HGB"]["value"] > cbcObject["HGB"]["max"]) {
-        $('#hgbHigh').prop("checked", true);
-        if (cbcObject["HGB"]["value"] > $("#cbcHgbHighMarked").val() && $("#cbcHgbHighMarked").val() != '') {
-          $('#hgbMarked').prop("checked", true);
-          $('#hgbMild').prop("checked", false);
-        } else if (cbcObject["HGB"]["value"] < $("#cbcHgbHighMild").val() && $("#cbcHgbHighMild").val() != '') {
-          $('#hgbMild').prop("checked", true);
-          $('#hgbMarked').prop("checked", false);
-        } else {
-          $('#hgbMild').prop("checked", false);
-          $('#hgbMarked').prop("checked", false);
-        }
-      }
-    }
-    if (cbcObject["MCV"] !== undefined) {
-      if (cbcObject["MCV"]["value"] > cbcObject["MCV"]["min"] && cbcObject["MCV"]["value"] < cbcObject["MCV"]["max"]) {
-        $('#mcvNormal').prop("checked", true);
-      } else if (cbcObject["MCV"]["value"] < cbcObject["MCV"]["min"]) {
-        $('#mcvLow').prop("checked", true);
-      } else if (cbcObject["MCV"]["value"] > cbcObject["MCV"]["max"]) {
-        $('#mcvHigh').prop("checked", true);
-      }
-    }
-    if (cbcObject["Absolute Neutrophils"] !== undefined) {
-      if (cbcObject["Absolute Neutrophils"]["value"] > cbcObject["Absolute Neutrophils"]["min"] && cbcObject["Absolute Neutrophils"]["value"] < cbcObject["Absolute Neutrophils"]["max"]) {
-        $('#neutNormal').prop("checked", true);
-        $('#neutMild').prop("checked", false);
-        $('#neutMarked').prop("checked", false);
-      } else if (cbcObject["Absolute Neutrophils"]["value"] < cbcObject["Absolute Neutrophils"]["min"]) {
-        $('#neutLow').prop("checked", true);
-        if (cbcObject["Absolute Neutrophils"]["value"] < $("#cbcNeutLowMarked").val() && $("#cbcNeutLowMarked").val() != '') {
-          $('#neutMarked').prop("checked", true);
-          $('#neutMild').prop("checked", false);
-        } else if (cbcObject["Absolute Neutrophils"]["value"] > $("#cbcNeutLowMild").val() && $("#cbcNeutLowMild").val() != '') {
-          $('#neutMild').prop("checked", true);
-          $('#neutMarked').prop("checked", false);
-        } else {
-          $('#neutMild').prop("checked", false);
-          $('#neutMarked').prop("checked", false);
-        }
-      } else if (cbcObject["Absolute Neutrophils"]["value"] > cbcObject["Absolute Neutrophils"]["max"]) {
-        $('#neutHigh').prop("checked", true);
-        if (cbcObject["Absolute Neutrophils"]["value"] > $("#cbcNeutHighMarked").val() && $("#cbcNeutHighMarked").val() != '') {
-          $('#neutMarked').prop("checked", true);
-          $('#neutMild').prop("checked", false);
-        } else if (cbcObject["Absolute Neutrophils"]["value"] < $("#cbcNeutHighMild").val() && $("#cbcNeutHighMild").val() != '') {
-          $('#neutMild').prop("checked", true);
-          $('#neutMarked').prop("checked", false);
-        } else {
-          $('#neutMild').prop("checked", false);
-          $('#neutMarked').prop("checked", false);
-        }
-      }
-    }
-    if (cbcObject["Absolute Lymphocytes"] !== undefined) {
-      if (cbcObject["Absolute Lymphocytes"]["value"] >= cbcObject["Absolute Lymphocytes"]["min"] && cbcObject["Absolute Lymphocytes"]["value"] <= cbcObject["Absolute Lymphocytes"]["max"]) {
-        $('#lymphNormal').prop("checked", true);
-        $('#lymphMild').prop("checked", false);
-        $('#lymphMarked').prop("checked", false);
-      } else if (cbcObject["Absolute Lymphocytes"]["value"] < cbcObject["Absolute Lymphocytes"]["min"]) {
-        $('#lymphLow').prop("checked", true);
-        if (cbcObject["Absolute Lymphocytes"]["value"] < $("#cbcLymphLowMarked").val() && $("#cbcLymphLowMarked").val() != '') {
-          $('#lymphMarked').prop("checked", true);
-          $('#lymphMild').prop("checked", false);
-        } else if (cbcObject["Absolute Lymphocytes"]["value"] > $("#cbcLymphLowMild").val() && $("#cbcLymphLowMild").val() != '') {
-          $('#lymphMild').prop("checked", true);
-          $('#lymphMarked').prop("checked", false);
-        } else {
-          $('#lymphMild').prop("checked", false);
-          $('#lymphMarked').prop("checked", false);
-        }
-      } else if (cbcObject["Absolute Lymphocytes"]["value"] > cbcObject["Absolute Lymphocytes"]["max"]) {
-        $('#lymphHigh').prop("checked", true);
-        if (cbcObject["Absolute Lymphocytes"]["value"] > $("#cbcLymphHighMarked").val() && $("#cbcLymphHighMarked").val() != '') {
-          $('#lymphMarked').prop("checked", true);
-          $('#lymphMild').prop("checked", false);
-        } else if (cbcObject["Absolute Lymphocytes"]["value"] < $("#cbcLymphHighMild").val() && $("#cbcLymphHighMild").val() != '') {
-          $('#lymphMild').prop("checked", true);
-          $('#lymphMarked').prop("checked", false);
-        } else {
-          $('#lymphMild').prop("checked", false);
-          $('#lymphMarked').prop("checked", false);
-        }
-      }
-    }
-    if (cbcObject["Absolute Eosinophils"] !== undefined) {
-      if (cbcObject["Absolute Eosinophils"]["value"] >= cbcObject["Absolute Eosinophils"]["min"] && cbcObject["Absolute Eosinophils"]["value"] <= cbcObject["Absolute Eosinophils"]["max"]) {
-        $('#eosNormal').prop("checked", true);
-        $('#eosMild').prop("checked", false);
-        $('#eosMarked').prop("checked", false);
-      } else if (cbcObject["Absolute Eosinophils"]["value"] < cbcObject["Absolute Eosinophils"]["min"]) {
-        $('#eosLow').prop("checked", true);
-        if (cbcObject["Absolute Eosinophils"]["value"] > $("#cbcEosHighMarked").val()) {
-          $('#eosMarked').prop("checked", true);
-          $('#eosMild').prop("checked", false);
-        } else if (cbcObject["Absolute Eosinophils"]["value"] < $("#cbcEosHighMild").val()) {
-          $('#eosMild').prop("checked", true);
-          $('#eosMarked').prop("checked", false);
-        } else {
-          $('#eosMild').prop("checked", false);
-          $('#eosMarked').prop("checked", false);
-        }
-      } else if (cbcObject["Absolute Eosinophils"]["value"] > cbcObject["Absolute Eosinophils"]["max"]) {
-        $('#eosHigh').prop("checked", true);
-        if (cbcObject["Absolute Eosinophils"]["value"] > $("#cbcEosHighMarked").val()) {
-          $('#eosMarked').prop("checked", true);
-          $('#eosMild').prop("checked", false);
-        } else if (cbcObject["Absolute Eosinophils"]["value"] < $("#cbcEosHighMild").val()) {
-          $('#eosMild').prop("checked", true);
-          $('#eosMarked').prop("checked", false);
-        } else {
-          $('#eosMild').prop("checked", false);
-          $('#eosMarked').prop("checked", false);
-        }
-      }
-    }
-    if (cbcObject["Absolute Basophils"] !== undefined) {
-      if (cbcObject["Absolute Basophils"]["value"] >= cbcObject["Absolute Basophils"]["min"] && cbcObject["Absolute Basophils"]["value"] <= cbcObject["Absolute Basophils"]["max"]) {
-        $('#basoNormal').prop("checked", true);
-        $('#basoMild').prop("checked", false);
-        $('#basoMarked').prop("checked", false);
-      } else if (cbcObject["Absolute Basophils"]["value"] < cbcObject["Absolute Basophils"]["min"]) {
-        $('#basoLow').prop("checked", true);
-        if (cbcObject["Absolute Basophils"]["value"] > $("#cbcBasoHighMarked").val()) {
-          $('#basoMarked').prop("checked", true);
-          $('#basoMild').prop("checked", false);
-        } else if (cbcObject["Absolute Basophils"]["value"] < $("#cbcBasoHighMild").val()) {
-          $('#basoMild').prop("checked", true);
-          $('#basoMarked').prop("checked", false);
-        } else {
-          $('#basoMild').prop("checked", false);
-          $('#basoMarked').prop("checked", false);
-        }
-      } else if (cbcObject["Absolute Basophils"]["value"] > cbcObject["Absolute Basophils"]["max"]) {
-        $('#basoHigh').prop("checked", true);
-        if (cbcObject["Absolute Basophils"]["value"] > $("#cbcBasoHighMarked").val()) {
-          $('#basoMarked').prop("checked", true);
-          $('#basoMild').prop("checked", false);
-        } else if (cbcObject["Absolute Basophils"]["value"] < $("#cbcBasoHighMild").val()) {
-          $('#basoMild').prop("checked", true);
-          $('#basoMarked').prop("checked", false);
-        } else {
-          $('#basoMild').prop("checked", false);
-          $('#basoMarked').prop("checked", false);
-        }
-      }
-    }
-
-    if (cbcObject["Absolute NRBCs"]["value"] > 0) {
-      if (cbcObject["Absolute NRBCs"]["value"] > $("#nrbcFrequentLimit").val()){
-        $('#nrbcFrequent').siblings('input[type="checkbox"]').prop('checked', false);
-        $('#nrbcFrequent').prop("checked", true);
-      } else if (cbcObject["Absolute NRBCs"]["value"] > $("#nrbcOccasionalLimit").val()){
-        $('#nrbcOccasional').siblings('input[type="checkbox"]').prop('checked', false);
-        $('#nrbcOccasional').prop("checked", true);
-      } else if ($("#nrbcFrequentLimit").val() != "" && $("#nrbcOccasionalLimit").val() != ""){
-        $('#nrbcRare').siblings('input[type="checkbox"]').prop('checked', false);
-        $('#nrbcRare').prop("checked", true);
+  console.log(cbcObject)
+    for (i in cbcObject){
+      if (cbcObject[i]["value"].indexOf('High') != -1){
+        $(`#${cbcObject[i]["high"]}`).prop('checked', true);
+      } else if (cbcObject[i]["value"].indexOf('Low') != -1){
+        $(`#${cbcObject[i]["low"]}`).prop('checked', true);
       } else {
-        $('#nrbcPresent').siblings('input[type="checkbox"]').prop('checked', false);
-        $('#nrbcPresent').prop("checked", true);
-      }
-    }
-    
-    if (cbcObject.PLT !== undefined) {
-      if (cbcObject["PLT"]["value"] > cbcObject["PLT"]["min"] && cbcObject["PLT"]["value"] < cbcObject["PLT"]["max"]) {
-        $('#pltNormal').prop("checked", true);
-        $('#pltMild').prop("checked", false);
-        $('#pltMarked').prop("checked", false);
-      } else if (cbcObject["PLT"]["value"] < cbcObject["PLT"]["min"]) {
-        $('#pltLow').prop("checked", true);
-        if (cbcObject["PLT"]["value"] < parseFloat($("#cbcPltLowMarked").val())) {
-          $('#pltMarked').prop("checked", true);
-          $('#pltMild').prop("checked", false);
-        } else if (cbcObject["PLT"]["value"] > parseFloat($("#cbcPltLowMild").val())) {
-          $('#pltMild').prop("checked", true);
-          $('#pltMarked').prop("checked", false);
-        } else {
-          $('#pltMild').prop("checked", false);
-          $('#pltMarked').prop("checked", false);
-        }
-      } else if (cbcObject["PLT"]["value"] > cbcObject["PLT"]["max"]) {
-        $('#pltHigh').prop("checked", true);
-        if (cbcObject["PLT"]["value"] > parseFloat($("#cbcPltHighMarked").val())) {
-          $('#pltMarked').prop("checked", true);
-          $('#pltMild').prop("checked", false);
-        } else if (cbcObject["PLT"]["value"] < parseFloat($("#cbcPltHighMild").val())) {
-          $('#pltMild').prop("checked", true);
-          $('#pltMarked').prop("checked", false);
-        } else {
-          $('#pltMild').prop("checked", false);
-          $('#pltMarked').prop("checked", false);
-        }
+        $(`#${cbcObject[i]["normal"]}`).prop('checked', true);
       }
     }
     fillReport();
