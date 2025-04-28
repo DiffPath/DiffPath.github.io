@@ -40,6 +40,8 @@
                     <div class="templateTab headerTab underline unclicked" id="aspTab"><i class="fas fa-syringe headerIcon"></i>Aspirate</div>
                     <div class="templateTab headerTab underline unclicked" id="coreTab"><i class="fas fa-bone headerIcon"></i>Core</div>
                     <div class="templateTab headerTab underline unclicked" id="stainTab"><i class="fas fa-palette headerIcon"></i>Stains</div>
+                    <div class="templateTab headerTab underline unclicked" id="diagnosisTab"><i class="fas fa-comment-medical headerIcon"></i>Diagnosis</div>
+
                 </div>
                 <div>
                     <div class="panelBody" id="specPanel">
@@ -135,15 +137,15 @@
                             </div>
                             <div class="gridCell">
                                 <b>Desired Count</b>
-                                <input id="pbDCount" list="pbDList" size="2" placeholder="200">
-                                <datalist id="pbDList">
-                                    <option value="100"></option>
-                                    <option value="200"></option>
-                                    <option value="300"></option>
-                                    <option value="400"></option>
-                                    <option value="500"></option>
-                                    <option value="1000"></option>
-                                </datalist>
+                                <select id="pbDCount">
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                    <option value="200" selected>200</option>
+                                    <option value="300">300</option>
+                                    <option value="400">400</option>
+                                    <option value="500">500</option>
+                                    <option value="1000">1000</option>
+                                </select>
                             </div>
                             <div class="gridCell">
                                 <b>Total %</b>
@@ -355,11 +357,17 @@
                                 <select id="plateletSelect0" class="select plateletSelect"></select>
                             </div>
                             <div>
+                                <b>Blasts:</b>
+                            </div>
+                            <div>
+                                <input type="checkbox" class="form" id="circulatingBlast" name="blast"><label for="circulatingBlast">None</label>  
+                            </div> 
+                            <div>
                                 <b>Plasma cells:</b>
                             </div>
                             <div>
                                 <input type="checkbox" class="form" id="circulatingPlasma" name="plasma"><label for="circulatingPlasma">None</label>  
-                            </div>                            
+                            </div>                        
                         </div>
                     </div>
                     <div class="panelBody" id="aspPanel" style="display: none">
@@ -426,15 +434,15 @@
                                 </div>
                                 <div class="gridCell">
                                     <b>Desired Count</b>
-                                    <input id="aspDCount" list="aspDList" maxlength="4" size="3" placeholder="500">
-                                    <datalist id="aspDList">
-                                        <option value="100"></option>
-                                        <option value="200"></option>
-                                        <option value="300"></option>
-                                        <option value="400"></option>
-                                        <option value="500"></option>
-                                        <option value="1000"></option>
-                                    </datalist>
+                                    <select id="aspDCount">
+                                        <option value="50">50</option>
+                                        <option value="100">100</option>
+                                        <option value="200">200</option>
+                                        <option value="300">300</option>
+                                        <option value="400">400</option>
+                                        <option value="500" selected>500</option>
+                                        <option value="1000">1000</option>
+                                    </select>
                                 </div>
                                 <div class="gridCell">
                                     <b>M:E ratio</b>
@@ -454,8 +462,9 @@
                                 <b>Adequacy:</b>
                             </div>
                             <div>
-                                <input type="radio" class="form" id="asp_adequate" name="adequacy"><label for="asp_adequate">Adequate</label>
-                                <input type="radio" class="form" id="asp_inadequate" name="adequacy"><label for="asp_inadequate">Inadequate</label>
+                                <input type="radio" class="form" id="aspAdequate" name="adequacy"><label for="aspAdequate">Adequate</label>
+                                <input type="radio" class="form" id="aspSuboptimal" name="adequacy"><label for="aspSuboptimal">Suboptimal</label>
+                                <input type="radio" class="form" id="aspInadequate" name="adequacy"><label for="aspInadequate">Inadequate</label>
                                 <div id="adequacySelect" class="selectDiv">
                                     <select id="adequacySelect0" class="select adequacySelect"></select>
                                 </div>
@@ -684,11 +693,11 @@
                         </div>
                     </div>
                     <div id="microscopicContainer">
+                        <div id="diffCount" style="display: none">
+                            <b>Differential Count</b>
+                        </div>
                         <div class="pb" id="pbTableDiv" style="display: none">
                             <div class="panelFormat">
-                                <div>
-                                    <b>Differential Count</b>
-                                </div>
                                 <table class="templateTable" style="width:440px; font-size:11pt">
                                     <tr>
                                       <th style="width:50%" id="pbTableCountHeader">Peripheral Blood (200 cells)</th>
@@ -879,44 +888,44 @@
                             </div>
                             <div>
                                 <b>7.</b>
-                                <select class="pbCounterTemplate" id="pbTemplate7"></select>
+                                <select class="pbCounterTemplate diffSetting" id="pbTemplate7"></select>
                             </div>
                             <div>
                                 <b>8.</b>
-                                <select class="pbCounterTemplate" id="pbTemplate8"></select>
+                                <select class="pbCounterTemplate diffSetting" id="pbTemplate8"></select>
                             </div>
                             <div>
                                 <b>9.</b>
-                                <select class="pbCounterTemplate" id="pbTemplate9"></select>
+                                <select class="pbCounterTemplate diffSetting" id="pbTemplate9"></select>
                             </div>
                             <div>
                                 <b>4.</b>
-                                <select class="pbCounterTemplate" id="pbTemplate4"></select>
+                                <select class="pbCounterTemplate diffSetting" id="pbTemplate4"></select>
                             </div>
                             <div>
                                 <b>5.</b>
-                                <select class="pbCounterTemplate" id="pbTemplate5"></select>
+                                <select class="pbCounterTemplate diffSetting" id="pbTemplate5"></select>
                             </div>
                             <div>
                                 <b>6.</b>
-                                <select class="pbCounterTemplate" id="pbTemplate6"></select>
+                                <select class="pbCounterTemplate diffSetting" id="pbTemplate6"></select>
                             </div>
                             <div>
                                 <b>1.</b>
-                                <select class="pbCounterTemplate" id="pbTemplate1"></select>
+                                <select class="pbCounterTemplate diffSetting" id="pbTemplate1"></select>
                             </div>
                             <div>
                                 <b>2.</b>
-                                <select class="pbCounterTemplate" id="pbTemplate2"></select>
+                                <select class="pbCounterTemplate diffSetting" id="pbTemplate2"></select>
                             </div>
                             <div>
                                 <b>3.</b>
-                                <select class="pbCounterTemplate" id="pbTemplate3"></select>
+                                <select class="pbCounterTemplate diffSetting" id="pbTemplate3"></select>
                             </div>
                             <div></div>
                             <div>
                                 <b>0.</b>
-                                <select class="pbCounterTemplate" id="pbTemplate0"></select>
+                                <select class="pbCounterTemplate diffSetting" id="pbTemplate0"></select>
                             </div>
                         </div>
                         <br>
@@ -926,58 +935,51 @@
                             </div>
                             <div>
                                 <b>7.</b>
-                                <select class="aspCounterTemplate" id="aspTemplate7"></select>
+                                <select class="aspCounterTemplate diffSetting" id="aspTemplate7"></select>
                             </div>
                             <div>
                                 <b>8.</b>
-                                <select class="aspCounterTemplate" id="aspTemplate8"></select>
+                                <select class="aspCounterTemplate diffSetting" id="aspTemplate8"></select>
                             </div>
                             <div>
                                 <b>9.</b>
-                                <select class="aspCounterTemplate" id="aspTemplate9"></select>
+                                <select class="aspCounterTemplate diffSetting" id="aspTemplate9"></select>
                             </div>
                             <div>
                                 <b>4.</b>
-                                <select class="aspCounterTemplate" id="aspTemplate4"></select>
+                                <select class="aspCounterTemplate diffSetting" id="aspTemplate4"></select>
                             </div>
                             <div>
                                 <b>5.</b>
-                                <select class="aspCounterTemplate" id="aspTemplate5"></select>
+                                <select class="aspCounterTemplate diffSetting" id="aspTemplate5"></select>
                             </div>
                             <div>
                                 <b>6.</b>
-                                <select class="aspCounterTemplate" id="aspTemplate6"></select>
+                                <select class="aspCounterTemplate diffSetting" id="aspTemplate6"></select>
                             </div>
                             <div>
                                 <b>1.</b>
-                                <select class="aspCounterTemplate" id="aspTemplate1"></select>
+                                <select class="aspCounterTemplate diffSetting" id="aspTemplate1"></select>
                             </div>
                             <div>
                                 <b>2.</b>
-                                <select class="aspCounterTemplate" id="aspTemplate2"></select>
+                                <select class="aspCounterTemplate diffSetting" id="aspTemplate2"></select>
                             </div>
                             <div>
                                 <b>3.</b>
-                                <select class="aspCounterTemplate" id="aspTemplate3"></select>
+                                <select class="aspCounterTemplate diffSetting" id="aspTemplate3"></select>
                             </div>
                             <div></div>
                             <div>
                                 <b>0.</b>
-                                <select class="aspCounterTemplate" id="aspTemplate0"></select>
+                                <select class="aspCounterTemplate diffSetting" id="aspTemplate0"></select>
                             </div>
                         </div>
                         <br>
                         <div>
                             <table class="settingsTable">
                                 <tr>
-                                    <td style="font-size:11pt">Minimize rounding error when current count does not equal desired count</td>
-                                    <td><label class="switch">
-                                        <input type="checkbox" class="diffSetting" id="roundHundred" checked>
-                                        <span class="slider round"></span>
-                                      </label></td>
-                                </tr>
-                                <tr>
-                                    <td style="font-size:11pt">Round counts based on desired count total</td>
+                                    <td style="font-size:11pt">Round numbers based on desired differential count</td>
                                     <td><label class="switch">
                                         <input type="checkbox" class="diffSetting" id="roundDesired" checked>
                                         <span class="slider round"></span>
@@ -1125,4 +1127,3 @@
 
     </body>
 </html>
-
