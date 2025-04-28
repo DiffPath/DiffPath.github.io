@@ -1,20 +1,4 @@
-$(document).ready(function() {
-
-  /*
-    The variables pbCountTable and aspCountTable are utilized to calculate
-    the percentages of each cell type when the user performs a differential.
-    The array syntax is as follows: ['cell type', 'character associated with
-    the cell type', corresponding HTML ID number, cell type handler (explained 
-    below), number of cells already counted for given cell type (baseline = 0),
-    row hidden value (1 = yes, 2 = no)]
-  
-    0 = No special type
-    1 = Myeloid cell for M:E ratio calculation
-    2 = Erythroid cell for M:E ratio calculation
-    3 = Circulating NRBC
-    4 = Blast
-    */
-  
+$(document).ready(function() { 
   let headerObject = {
     templateTab: 'templatePanel',
     settingTab: 'settingPanel',
@@ -53,7 +37,7 @@ $(document).ready(function() {
 
   let patientAge = -1;
 
-  let cbcVar = ["WBC", "RBC", "HGB", "MCV", "MCHC", "PLT", "NRBC", "Absolute Neutrophils", "Absolute Lymphocytes", "Absolute Monocytes", "Absolute Eosinophils", "Absolute Basophils", "Absolute NRBCs"];
+  let cbcVar = ["WBC", "RBC", "HGB", "MCV", "MCHC", "PLT", "NRBC's", "Absolute Neutrophils", "Absolute Lymphocytes", "Absolute Monocytes", "Absolute Eosinophils", "Absolute Basophils", "Absolute NRBCs"];
 
   let cbcObject = {
     "WBC": {value: ""},
@@ -62,6 +46,7 @@ $(document).ready(function() {
     "MCV": {value: "", low: "mcvLow", normal: "mcvNormal", high: "mcvHigh"},
     "MCHC": {value: "", low: "hypochromic"},
     "PLT": {value: "", low: "pltLow", normal: "pltNormal", high: "pltHigh"},
+    "NRBC's": {value: "", high: "nrbcPresent"},
     "Absolute Neutrophils": {value: "", low: "neutLow", normal: "neutNormal", high: "neutHigh"},
     "Absolute Lymphocytes": {value: "", low: "lymphLow", normal: "lymphNormal", high: "lymphHigh"},
     "Absolute Monocytes": {value: "", low: "monosLow", high: "monosHigh"},
@@ -334,18 +319,34 @@ $(document).ready(function() {
   }
 
   function getSavedItems(){
+      /*
+    The variables pbCountTable and aspCountTable are utilized to calculate
+    the percentages of each cell type when the user performs a differential.
+    The array syntax is as follows: ['cell type', 'character associated with
+    the cell type', corresponding HTML ID number, cell type handler (explained 
+    below), number of cells already counted for given cell type (baseline = 0),
+    row hidden value (1 = yes, 2 = no)]
+  
+    0 = No special type
+    1 = Neutrophils and precursors on aspirate
+    2 = Other myeloid cell for M:E ratio calculation
+    3 = Erythroid cell for M:E ratio calculation
+    4 = Circulating NRBC
+    5 = Blast
+    */
+
     let pbCountTable = {
       Blasts: {name: 'Blasts', character: 0, tableCellID: '#pbTableCell2', tableRowID: '#pbTableRow2', cellType: 5, count: 0, percent: 0, hidden: true},
-      Neuts: {name: 'Neuts', character: 4, tableCellID: '#pbTableCell6', tableRowID: '#pbTableRow6', cellType: 1, count: 0, percent: 0, hidden: false},
+      Neuts: {name: 'Neuts', character: 4, tableCellID: '#pbTableCell6', tableRowID: '#pbTableRow6', cellType: 0, count: 0, percent: 0, hidden: false},
       NRBCs: {name: 'NRBCs', character: 1, tableCellID: '#pbTableCell12', tableRowID: '#pbTableRow12', cellType: 4, count: 0, percent: 0, hidden: true},
       Lymphs: {name: 'Lymphs', character: 5, tableCellID: '#pbTableCell7', tableRowID: '#pbTableRow7', cellType: 0, count: 0, percent: 0, hidden: false},
-      Monos: {name: 'Monos', character: 6, tableCellID: '#pbTableCell8', tableRowID: '#pbTableRow8', cellType: 2, count: 0, percent: 0, hidden: false},
-      Metas: {name: 'Metas', character: 7, tableCellID: '#pbTableCell5', tableRowID: '#pbTableRow5', cellType: 1, count: 0, percent: 0, hidden: true},
-      Myelo: {name: 'Myelo', character: 8, tableCellID: '#pbTableCell4', tableRowID: '#pbTableRow4', cellType: 1, count: 0, percent: 0, hidden: true},
-      Promyelo: {name: 'Promyelo', character: 9, tableCellID: '#pbTableCell3', tableRowID: '#pbTableRow3', cellType: 1, count: 0, percent: 0, hidden: true},
+      Monos: {name: 'Monos', character: 6, tableCellID: '#pbTableCell8', tableRowID: '#pbTableRow8', cellType: 0, count: 0, percent: 0, hidden: false},
+      Metas: {name: 'Metas', character: 7, tableCellID: '#pbTableCell5', tableRowID: '#pbTableRow5', cellType: 0, count: 0, percent: 0, hidden: true},
+      Myelo: {name: 'Myelo', character: 8, tableCellID: '#pbTableCell4', tableRowID: '#pbTableRow4', cellType: 0, count: 0, percent: 0, hidden: true},
+      Promyelo: {name: 'Promyelo', character: 9, tableCellID: '#pbTableCell3', tableRowID: '#pbTableRow3', cellType: 0, count: 0, percent: 0, hidden: true},
       Plasma: {name: 'Plasma', character: -1, tableCellID: '#pbTableCell11', tableRowID: '#pbTableRow11', cellType: 0, count: 0, percent: 0, hidden: true},
-      Eos: {name: 'Eos', character: 2, tableCellID: '#pbTableCell9', tableRowID: '#pbTableRow9', cellType: 2, count: 0, percent: 0, hidden: false},
-      Basos: {name: 'Basos', character: 3, tableCellID: '#pbTableCell10', tableRowID: '#pbTableRow10', cellType: 2, count: 0, percent: 0, hidden: false},
+      Eos: {name: 'Eos', character: 2, tableCellID: '#pbTableCell9', tableRowID: '#pbTableRow9', cellType: 0, count: 0, percent: 0, hidden: false},
+      Basos: {name: 'Basos', character: 3, tableCellID: '#pbTableCell10', tableRowID: '#pbTableRow10', cellType: 0, count: 0, percent: 0, hidden: false},
       Atypical: {name: 'Atypical', character: -1, tableCellID: '#pbTableCell0', tableRowID: '#pbTableRow0', cellType: 0, count: 0, percent: 0, hidden: true},
       Other: {name: 'Other', character: -1, tableCellID: '#pbTableCell1', tableRowID: '#pbTableRow1', cellType: 0, count: 0, percent: 0, hidden: true},
     }
@@ -504,20 +505,20 @@ $(document).ready(function() {
   $('#pbCBC').bind('input', function() {
     let cbcFinal = [];
     const cbcLines = $('#pbCBC').val().split("\n");
+    let cbcList = [...cbcVar]
     let toggle = true;
     for (let i = 0; i < cbcLines.length; i++) {
       cbcFinal.push(cbcLines[i].split('\t'))
     }
     for (i in cbcFinal) {
-      for (j in cbcVar){
-        if (cbcFinal[i][0] == cbcVar[j]){
-          cbcObject[cbcVar[j]]["value"] = cbcFinal[i][1];
+      for (j in cbcList){
+        if (cbcFinal[i][0] == cbcList[j]){
+          cbcObject[cbcList[j]]["value"] = cbcFinal[i][1];
           if(cbcFinal[i][1] != ""){
-            delete cbcVar[j];
+            delete cbcList[j];
           }
         }
-      }
-      
+      } 
       if (toggle){
         for (let j = 0; j < cbcFinal[i].length; j++){
           if (cbcFinal[i][j].indexOf("DOB:")!= -1){
@@ -665,6 +666,11 @@ $(document).ready(function() {
     fillReport();
   })
 
+  $('.diffSetting').change(function(){
+    countCells("pb");
+    countCells("asp");
+  })
+
   function countDual(counterClass, counterId) {
     descriptorList[counterClass]['value'] = $(`#${counterId}`).val();
     let positiveCount = ($(`#${counterId}`).val().match(new RegExp(positiveLabel, "g")) || []).length;
@@ -787,7 +793,6 @@ $(document).ready(function() {
     countCells(objectType[this.id]);
   });
 
-
   function countNoise(e) {
     if (window.keypressed[e.which]) {
       e.preventDefault();
@@ -809,59 +814,87 @@ $(document).ready(function() {
   }
 
   function countCells(id){
-    let ccount = $(typeObject[id]["ccountID"]).val();
-    let dcount =  $(typeObject[id]["dcountID"]).val();
-    if (dcount == ""){
-      dcount = parseInt($(typeObject[id]["dcountID"]).attr('placeholder'));
-    }
+    let ccount = parseInt($(typeObject[id]["ccountID"]).val());
+    let dcount = parseInt($(typeObject[id]["dcountID"]).val());
     if ($("#countExtra").prop('checked') == false && ccount == dcount){
       return;
     }
     let table = typeObject[id]["table"];
     let countSum = 0, myeloidSum = 0, erythroidSum = 0, neutSum = 0;
     const totalCount = cellCounter(table, id);
+    $(typeObject[id]["ccountID"]).val(totalCount);
+
     if (totalCount != 0) {
+      $('#diffCount').show();
       $(typeObject[id]["tableDivID"]).show();
     } else {
+      if($('#pbCCount').val() == 0 && $('#aspCCount').val() == 0){
+        $('#diffCount').hide();
+      }
       $(typeObject[id]["tableDivID"]).hide();
     }
-    for (const i in table){
-      if($("#roundDesired").prop('checked')){
+    
+    if ($("#roundDesired").prop('checked')){
+      let differenceArray = [];
+      for (const i in table){
         table[i]["percent"] = (Math.round((table[i]["count"] / totalCount) * dcount) / (dcount/100)).toFixed(1);
-      } else {
-        table[i]["percent"] = (100*table[i]["count"]/totalCount).toFixed(1);
+        if (table[i]["cellType"] != 4){
+          countSum += parseFloat(table[i]["percent"]);
+        }
       }
-      if (table[i]["cellType"] != 4){
-        countSum += parseFloat(table[i]["percent"]);
-      }
-    }
-    $(typeObject[id]["ccountID"]).val(totalCount);
-    if($("#roundHundred").prop('checked')){
-      if(countSum.toFixed(1) != 100 && ccount != dcount && totalCount > 0){
-        while (countSum.toFixed(1) != 100){
-          let x;
-          if (countSum.toFixed(1) < 100){
-            x = parseFloat((100/dcount).toFixed(1));
-          } else {
-            x = parseFloat(0-(100/dcount).toFixed(1));
-          }
-          if (Math.abs(100-countSum) < Math.abs(x*0.5)){
-            break
-          }
-          let minDifference = 100;
-          let minID;
+      let countDifference = (countSum - 100);
+      if (countDifference > 0){
+        while ((countDifference).toFixed(1) != 0){
           for (const i in table){
-            if (table[i]["percent"]-(100*table[i]["count"]/totalCount)<minDifference && table[i]["percent"] != 0){
-              minDifference = Math.abs(table[i]["percent"]-(100*table[i]["count"]/totalCount)-x);
-              minID = i;
+            if (table[i]["count"] > 0){
+              let differenceFactor = ((table[i]["count"] / totalCount) * 100 - table[i]["percent"] + 100/dcount) / table[i]["count"];
+              differenceArray.push({cellType: i, difference: differenceFactor})
             }
           }
-          table[minID]["percent"] = (parseFloat(table[minID]["percent"])+x).toFixed(1);
-          countSum += x;
+          for (i in differenceArray){
+            differenceArray.sort((a, b) => a.difference - b.difference);
+          }
+          table[differenceArray[0]["cellType"]]["percent"] = parseFloat((table[differenceArray[0]["cellType"]]["percent"]-100/dcount)).toFixed(1);
+          countDifference -= 100/dcount;
+          countSum -= 100/dcount;
+        }
+      } else if (countDifference < 0){
+        while ((countDifference).toFixed(1) != 0){
+          for (const i in table){
+            if (table[i]["count"] > 0){
+              let differenceFactor = ((table[i]["count"] / totalCount) * 100 - table[i]["percent"] - 100/dcount) / table[i]["count"];
+              differenceArray.push({cellType: i, difference: differenceFactor})
+            }
+          }
+          for (i in differenceArray){
+            differenceArray.sort((a, b) => b.difference - a.difference);
+          }
+          table[differenceArray[0]["cellType"]]["percent"] = parseFloat((table[differenceArray[0]["cellType"]]["percent"]+100/dcount)).toFixed(1);
+          countDifference += 100/dcount;
+          countSum += 100/dcount;
+        }
+      }
+    } else {
+      for (const i in table){
+        table[i]["percent"] = (Math.round((100*table[i]["count"]/totalCount)*10)/10).toFixed(1);
+        if (table[i]["cellType"] == 0 || table[i]["cellType"] == 5){
+          countSum += parseFloat(table[i]["percent"]);
+        } else if (table[i]["cellType"] == 1){
+          countSum += parseFloat(table[i]["percent"]);
+          myeloidSum += parseFloat(table[i]["percent"]);
+          neutSum += parseFloat(table[i]["percent"]);
+        } else if (table[i]["cellType"] == 2){
+          countSum += parseFloat(table[i]["percent"]);
+          myeloidSum += parseFloat(table[i]["percent"]);
+        } else if (table[i]["cellType"] == 3){
+          countSum += parseFloat(table[i]["percent"]);
+          erythroidSum += parseFloat(table[i]["percent"]);
         }
       }
     }
+     
     $(typeObject[id]["tcountID"]).val(countSum.toFixed(1)+"%")
+
     for (const i in table){
       if (id == "asp" && table[i]["percent"]>0){
         if (table[i]['cellType'] == 5 && $('#blastCheck').prop('checked')){
@@ -876,7 +909,6 @@ $(document).ready(function() {
           erythroidSum += parseFloat(table[i]["percent"]);
         }
       }
-      
       if (table[i]["cellType"] != 4 && totalCount > 0) {
         if (id == "asp"){
           if (table[i]["cellType"] == 1){
@@ -907,7 +939,7 @@ $(document).ready(function() {
     }
     if (id == "asp"){
       if (erythroidSum != 0){
-        const meRatio = (myeloidSum/erythroidSum).toFixed(1);
+        const meRatio = (Math.round((myeloidSum/erythroidSum)*10)/10).toFixed(1);
         $('#meRatio').val(`${meRatio}:1`);
         $('#aspTableCell99').html(`${meRatio}:1`);
         if ($('#erythroidPredomSetting').val() != '' && meRatio < parseFloat($('#erythroidPredomSetting').val())){
@@ -954,12 +986,12 @@ $(document).ready(function() {
   }
 
   $('.pbCounterTemplate').change(function(){
-    checkDuplicate(this.className,this.id,$(this).val());
+    checkDuplicate(this.className.split(' ')[0],this.id,$(this).val());
   }
   );
 
   $('.aspCounterTemplate').change(function(){
-    checkDuplicate(this.className,this.id,$(this).val());
+    checkDuplicate(this.className.split(' ')[0],this.id,$(this).val());
   }
   );
 
@@ -1016,6 +1048,7 @@ $(document).ready(function() {
     } else {
       $("#aspTableCountHeader").html("Aspirate Smear (" + dcount + " cells)")
     }
+    fillReport();
   });
 
   $('#blastCheck').change(function(){
@@ -1520,8 +1553,13 @@ $(document).ready(function() {
       } else if (pltListString != ""){
         pbText += pltListString.charAt(0).toUpperCase() + pltListString.slice(1) + " are seen. "
       }
-
-      if ($("#circulatingPlasma").prop("checked")){
+      if ($("#circulatingBlast").prop("checked")){
+        if ($("#circulatingPlasma").prop("checked")){
+          pbText += "No circulating blasts or plasma cells are identified. "
+        } else {
+          pbText += "No circulating blasts are identified. "
+        }
+      } else if ($("#circulatingPlasma").prop("checked")){
         pbText += "No circulating plasma cells are identified. "
       }
 
@@ -1548,13 +1586,33 @@ $(document).ready(function() {
       $("#megakaryocyte_unremarkable").prop("checked", false);
     }
     
-    if ($('#asp_adequate').prop("checked") && adequacyListString == "") {
+    if ($('#aspAdequate').prop("checked") && adequacyListString == "") {
       aspText += "The bone marrow aspirate smears are cellular and adequate for interpretation. ";
-    } else if ($('#asp_adequate').prop("checked")) {
+    } else if ($('#aspAdequate').prop("checked")) {
       aspText += "The bone marrow aspirate smears are " + adequacyListString + " but overall adequate for interpretation. ";
-    } else if ($('#asp_inadequate').prop("checked") && adequacyListString == "") {
+    } else if ($('#aspSuboptimal').prop("checked")) {
+      if (adequacyListString == ""){
+        aspText += "The bone marrow aspirate smears are suboptimal for evaluation, limiting the accuracy of a differential count. ";
+      } else {
+        aspText += "The bone marrow aspirate smears are " + adequacyListString + " limiting the accuracy of a differential count. "
+      }
+      if ($('#tpCheck').prop('checked')){
+        aspText += "The bone marrow touch preparations are cellular, and therefore, a ";
+        if ($('#aspDCount').val()>0 && $('#aspDCount').val()<500){
+          aspText += "limited ";
+        }
+        aspText += "differential count was performed on the touch preparations. "
+        tpMentioned = true;
+      } else if ($('#aspCCount').val()>0){
+        aspText += "Nevertheless, a "
+        if ($('#aspDCount').val()>0 && $('#aspDCount').val()<500){
+          aspText += "limited ";
+        }
+        aspText += "differential count was performed on the aspirate smears. "
+      }
+    } else if ($('#aspInadequate').prop("checked") && adequacyListString == "") {
       aspText += "The bone marrow aspirate smears are inadequate for interpretation. ";
-    } else if ($('#asp_inadequate').prop("checked")) {
+    } else if ($('#aspInadequate').prop("checked")) {
       aspText += "The bone marrow aspirate smears are " + adequacyListString + " precluding a meaningful marrow differential. ";
     }
 
@@ -1616,7 +1674,6 @@ $(document).ready(function() {
     if ($('#touchSimilar').prop("checked")){
       touchText += "The bone marrow touch preparations are cellular and show findings similar to the aspirate smears.";
     }
-
     return touchText;
   }
 
@@ -1731,11 +1788,11 @@ $(document).ready(function() {
             if (descriptorArray[0] == 'MF-0'){
               descriptorText = 'There is no increase in fibrosis (MF-0).';
             } else if (descriptorArray[0] == 'MF-1'){
-              descriptorText = 'There is mildly increased fibrosis (MF-1).';
+              descriptorText = 'Shows mildly increased fibrosis (MF-1).';
             } else if (descriptorArray[0] == 'MF-2'){
-              descriptorText = 'There is moderately increased fibrosis (MF-2).';
+              descriptorText = 'Shows moderately increased fibrosis (MF-2).';
             } else if (descriptorArray[0] == 'MF-3'){
-              descriptorText = 'There is markedly increased fibrosis (MF-3).';
+              descriptorText = 'Shows markedly increased fibrosis (MF-3).';
             }
           } else if ($(this).val() == 'Congo red'){
             if (descriptorArray[0] == 'negative'){
