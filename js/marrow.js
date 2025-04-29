@@ -65,11 +65,11 @@ $(document).ready(function() {
   const showsDescriptors = {class: "hidden", descriptors: ['Shows'], value: ['shows ']};
   const ironDescriptors = {class: "iron", descriptors: {'Storage Iron': ['Increased', 'Adequate', 'Decreased', 'Inadequate'], 'Ring Sideroblasts': ['Present', 'Absent', 'Inadequate']}, value: {'Storage Iron': ['increased', 'adequate', 'decreased', 'inadequate'], 'Ring Sideroblasts': ['present', 'absent', 'inadequate rings']},};
   const reticulinDescriptors = {class: 'radio', descriptors: ['MF-0', 'MF-1', 'MF-2', 'MF-3'], value: ['MF-0', 'MF-1', 'MF-2', 'MF-3']}
-  const cd3Descriptors = {class: 'select', descriptors: ['','Interstitially scattered','Interstitially scattered and focal clusters'], value: ['','Highights interstitially scattered small T cells.','Highlights interstitially scattered and focal clusters of small T cells.']}
-  const cd20Descriptors = {class: 'selectDualCount', descriptors: ['','Interstitially scattered','Interstitially scattered and focal clusters'], value: ['','Highights interstitially scattered small B cells.','Highlights interstitially scattered and focal clusters of small B cells.','A diffuse infiltrate of small B cells (***% of total cellularity)']}
+  const cd3Descriptors = {class: 'select', descriptors: ['','Interstitially scattered','Interstitially scattered and focal loose aggregates','Interstitially scattered and focal aggregates','Interstitially scattered and focal clusters','Interstitially scattered and clusters'], value: ['','Highlights interstitially scattered small T cells.','Highlights interstitially scattered and focal loose aggregates of small T cells.','Highlights interstitially scattered and focal aggregates of small T cells.','Highlights interstitially scattered and focal clusters of small T cells.','Highlights interstitially scattered and clusters of small T cells.']}
+  const cd20Descriptors = {class: 'selectDualCount', descriptors: ['','Interstitially scattered','Interstitially scattered and focal loose aggregates','Interstitially scattered and focal aggregates','Interstitially scattered and focal clusters','Interstitially scattered and clusters','Diffuse infiltrate of small B cells'], value: ['','Highlights interstitially scattered small B cells.','Highlights interstitially scattered and focal loose aggregates of small B cells.','Highlights interstitially scattered and focal aggregates of small B cells.','Highlights interstitially scattered and focal clusters of small B cells.','Highlights interstitially scattered and clusters of small B cells.','A diffuse infiltrate of small B cells (***% of total cellularity)']}
   const cd34Descriptors = {class: 'selectDualCount', descriptors: ['','Not increased','Increased'], value: ['','Shows no increase in blasts (***% of total cellularity).','Highlights increased blasts (***% of total cellularity).']}
   const cd61Descriptors = {class: 'select', descriptors: ['','Adequate, regularly destributed, unremarkable morphology','Increased, regularly destributed'], value: ['','Highlights adequate, regularly distributed megakaryocytes with unremarkable morphology.','Highlights increased but regularly distributed megakaryocytes with unremarkable morphology.']}
-  const cd71Descriptors = {class: 'select', descriptors: ['','Adequate', 'Proliferation'], value: ['','Highlights adequate erytrhoid precurosrs.','Shows a proliferation of erythroid precursors.']}
+  const cd71Descriptors = {class: 'select', descriptors: ['','Adequate', 'Proliferation'], value: ['','Highlights adequate erythroid precurosrs.','Shows a proliferation of erythroid precursors.']}
   const mpoDescriptors = {class: 'select', descriptors: ['','Adequate', 'Proliferation'], value: ['','Highlights adequate myeloid precurosrs.','Shows a proliferation of myeloid precursors.']}
   const cd138Descriptors = {class: 'selectDualCount', descriptors: ['','Not increased', 'Increased'], value: ['','Shows no increase in plasma cells (***% of total cellularity).','Highlights increased plasma cells (***% of total cellularity).']}
   const kappalambdaDescriptors = {class: 'select', descriptors: ['','Polytypic', 'Kappa restriction', 'Lambda restriction'], value: ['','Highlights polytypic plasma cells.','Shows kappa restriction in plasma cells.','Shows lambda restriction in plasma cells.']}
@@ -118,7 +118,7 @@ $(document).ready(function() {
     "Small mature",
     "Large granular",
     "Reactive",
-    "Monotypic"
+    "CLL-like"
   ];
 
   const monocyteList = [
@@ -250,6 +250,10 @@ $(document).ready(function() {
     "Hypersegmented forms": {descriptorObject: quantDescriptors, templateText: "hypogranular forms"}, 
     "Shift to immaturity": {descriptorObject: altDegreeDescriptors, templateText: "shift to immaturity"},
     "Toxic changes": {descriptorObject: degreeDescriptors, templateText: "toxic changes"},
+    "Small mature": {descriptorObject: quantDescriptors, templateText: "small, mature lymphocytes"},
+    "Large granular": {descriptorObject: quantDescriptors, templateText: "large granular lymphocytes"},
+    "Reactive": {descriptorObject: quantDescriptors, templateText: "reactive lymphocytes"},
+    "CLL-like": {descriptorObject: quantDescriptors, templateText: "small, mature lymphocytes with clumped chromatin"},
     "Mature-appearing morphology": {descriptorObject: noneDescriptors, templateText: "mature-appearing morphology"}, 
     "Hypogranular platelets": {descriptorObject: quantDescriptors, templateText: "hypogranular platelets"},
     "Large platelets": {descriptorObject: quantDescriptors, templateText: "large platelets"},
@@ -1317,6 +1321,7 @@ $(document).ready(function() {
     const neutListString = listText("neutrophilSelect");
     const anisoListString = listText('anisoSelect');
     const pltListString = listText("plateletSelect");
+    const monoListString = listText('monocyteSelect');
     
     if ($('#hgbNormal').prop("checked")) {
       $("#hgbMildMarked").hide();
@@ -1506,7 +1511,13 @@ $(document).ready(function() {
         } else if ($('#monosMild').prop("checked")) {
           pbText += " mild";
         }
-        pbText += " absolute monocytosis. "
+        if (monoListString == "") {
+          pbText += " absolute monocytosis. Monocytes show mature-appearing morphology. ";
+        } else {
+          pbText += " absolute monocytosis. Monocytes show " + monoListString + ". ";
+        }
+      } else if (monoListString != ""){
+        pbText += `Monocytes show ${monoListString}. `;
       }
 
       if ($("#eosHigh").prop("checked") && $("#basoHigh").prop("checked")) {
@@ -1672,7 +1683,13 @@ $(document).ready(function() {
   function fillTouch(){
     let touchText = "";
     if ($('#touchSimilar').prop("checked")){
-      touchText += "The bone marrow touch preparations are cellular and show findings similar to the aspirate smears.";
+      if ($('#touchPaucicellular').prop("checked") && $('#aspAdequate').prop("checked")){
+        touchText += "The bone marrow touch preparations are paucicellular but show findings otherwise similar to the aspirate smears.";
+      } else if ($('#touchPaucicellular').prop("checked")){
+        touchText += "The bone marrow touch preparations are paucicellular and show findings similar to the aspirate smears.";
+      } else {
+        touchText += "The bone marrow touch preparations are cellular and show findings similar to the aspirate smears.";
+      }
     }
     return touchText;
   }
@@ -1736,8 +1753,9 @@ $(document).ready(function() {
     let clotText = "";
     if ($('#clotSimilar').prop("checked")){
       clotText += "The bone marrow particle clot shows multiple marrow particles with findings similar to the core biopsy.";
+    } else if ($('#clotNone').prop("checked")){
+      clotText += "The bone marrow particle clot shows no marrow particles for evaluation.";
     }
-
     return clotText;
   }
 
