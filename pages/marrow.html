@@ -255,9 +255,7 @@
                                 <b>Neutrophil Descriptors:</b>
                             </div>
                             <div id="neutrophilSelect" class="selectDiv">
-                                <div>
-                                    <select id="neutrophilSelect0" class="select neutrophilSelect"></select>
-                                </div>
+                                <select id="neutrophilSelect0" class="select neutrophilSelect"></select>
                             </div>
                             <div>
                                 <b>Absolute Lymphocytes:</b>
@@ -281,7 +279,7 @@
                                 <b>Lymphocyte Descriptors:</b>
                             </div>
                             <div id="lymphocyteSelect" class="selectDiv">
-                                <select id="lymphocyteSelect" class="select lymphocyteSelect"></select>
+                                <select id="lymphocyteSelect0" class="select lymphocyteSelect"></select>
                             </div>
                             <div>
                                 <b>Absolute Monocytes:</b>
@@ -560,7 +558,10 @@
                             </div>
                             <div class="flex">
                                 <div>
-                                    <input type="checkbox" class="form" id="touchSimilar" name="asp_touch"><label for="touchSimilar">Similar to aspirate smear</label>
+                                    <input type="checkbox" class="form" id="touchSimilar" name="aspTouch"><label for="touchSimilar">Similar to aspirate smear</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" class="form" id="touchPaucicellular" name="aspTouch"><label for="touchPaucicellular">Paucicellular</label>
                                 </div>
                             </div>
                         </div>                        
@@ -630,6 +631,7 @@
                             <div class="flex">
                                 <div>
                                     <input type="checkbox" class="form" id="clotSimilar" name="coreClot"><label for="clotSimilar">Similar to core biopsy</label>
+                                    <input type="checkbox" class="form" id="clotNone" name="coreClot"><label for="clotNone">No marrow particles</label>
                                 </div>
                             </div> 
                         </div>  
