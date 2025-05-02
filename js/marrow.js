@@ -68,7 +68,7 @@ $(document).ready(function() {
   const cd3Descriptors = {class: 'select', descriptors: ['','Interstitially scattered','Interstitially scattered and focal loose aggregates','Interstitially scattered and focal aggregates','Interstitially scattered and focal clusters','Interstitially scattered and clusters'], value: ['','Highlights interstitially scattered small T cells.','Highlights interstitially scattered and focal loose aggregates of small T cells.','Highlights interstitially scattered and focal aggregates of small T cells.','Highlights interstitially scattered and focal clusters of small T cells.','Highlights interstitially scattered and clusters of small T cells.']}
   const cd20Descriptors = {class: 'selectDualCount', descriptors: ['','Interstitially scattered','Interstitially scattered and focal loose aggregates','Interstitially scattered and focal aggregates','Interstitially scattered and focal clusters','Interstitially scattered and clusters','Diffuse infiltrate of small B cells'], value: ['','Highlights interstitially scattered small B cells.','Highlights interstitially scattered and focal loose aggregates of small B cells.','Highlights interstitially scattered and focal aggregates of small B cells.','Highlights interstitially scattered and focal clusters of small B cells.','Highlights interstitially scattered and clusters of small B cells.','A diffuse infiltrate of small B cells (***% of total cellularity)']}
   const cd34Descriptors = {class: 'selectDualCount', descriptors: ['','Not increased','Increased'], value: ['','Shows no increase in blasts (***% of total cellularity).','Highlights increased blasts (***% of total cellularity).']}
-  const cd61Descriptors = {class: 'select', descriptors: ['','Adequate, regularly destributed, unremarkable morphology','Increased, regularly destributed'], value: ['','Highlights adequate, regularly distributed megakaryocytes with unremarkable morphology.','Highlights increased but regularly distributed megakaryocytes with unremarkable morphology.']}
+  const cd61Descriptors = {class: 'select', descriptors: ['','Adequate, regularly destributed','Increased, regularly destributed'], value: ['','Highlights adequate, regularly distributed megakaryocytes.','Highlights increased but regularly distributed megakaryocytes with unremarkable morphology.']}
   const cd71Descriptors = {class: 'select', descriptors: ['','Adequate', 'Proliferation'], value: ['','Highlights adequate erythroid precurosrs.','Shows a proliferation of erythroid precursors.']}
   const mpoDescriptors = {class: 'select', descriptors: ['','Adequate', 'Proliferation'], value: ['','Highlights adequate myeloid precurosrs.','Shows a proliferation of myeloid precursors.']}
   const cd138Descriptors = {class: 'selectDualCount', descriptors: ['','Not increased', 'Increased'], value: ['','Shows no increase in plasma cells (***% of total cellularity).','Highlights increased plasma cells (***% of total cellularity).']}
@@ -488,12 +488,18 @@ $(document).ready(function() {
     $(this).removeClass("unclicked")
   });
 
+  $(".laterality").change(function() {
+    $(".specimen").each(function() {
+      $(this).prop("checked", true);
+    });
+  });
+
   $(".specimen").change(function() {
     $(specAll).prop("checked", false)
     radioObject.specAll = 0;
   });
 
-  $('#specAll').click(function() {
+  $('#specAll').change(function() {
     if ($(specAll).prop('checked')) {
       $(".specimen").each(function() {
         $(this).prop("checked", true);
@@ -1086,8 +1092,26 @@ $(document).ready(function() {
     fillReport();
   });
 
-  $('#coreCellularity').keyup(function() {
-    if ($('#coreCellularity').val() == ''){
+  $('.cellularityDiv').keyup(function(){
+    let showID = "";
+    $(this).children().each(function(){
+      if (this.value != ""){
+        showID = $(this).parent().attr('id');
+      }
+    });  
+    $('.cellularityDiv').each(function(){
+      console.log(this.id + " " + showID)
+      if (showID != "" && this.id != showID){
+        $(this).hide();
+      } else if (showID == ""){
+        $(this).show();
+      }
+    })
+  })
+
+
+  $('.cellularity').keyup(function() {
+    if ($('#coreCellularity').val() == '' && $('#coreCellularityRangeLow').val() == '' && $('#coreCellularityRangeHigh').val() == ''){
       $('#hypocellular').prop('checked', false);
       $('#normocellular').prop('checked', false);
       $('#hypercellular').prop('checked', false);
@@ -1707,34 +1731,60 @@ $(document).ready(function() {
       coreText += "The bone marrow core biopsy " + adequacyListString + " and is overall inadequate for interpretation. ";
     }
 
-    if ($('#hypocellular').prop('checked')){
-      $('#cellularityMildMarked').show();
-      coreText += 'The marrow is '
-      if ($('#cellularityMild').prop('checked')){
-        coreText += 'mildly ';
-      } else if ($('#cellularityMarked').prop('checked')){
-        coreText += 'markedly ';
+    if ($.isNumeric($('#coreCellularityVariableLow').val()) && $.isNumeric($('#coreCellularityVariableHigh').val()) && parseFloat($('#coreCellularityVariableHigh').val()) > parseFloat($('#coreCellularityVariableLow').val())){
+      coreText += `The marrow is variably cellular (ranging from ${$('#coreCellularityVariableLow').val()}-${$('#coreCellularityVariableHigh').val()}% cellular) `;
+      if ($('#hypocellular').prop('checked')){
+        $('#cellularityMildMarked').show();
+        coreText += 'and overall '
+        if ($('#cellularityMild').prop('checked')){
+          coreText += 'mildly ';
+        } else if ($('#cellularityMarked').prop('checked')){
+          coreText += 'markedly ';
+        }
+        coreText += 'hypocellular for age'
+      } else if ($('#normocellular').prop('checked')){
+        coreText += "and overall normocellular for age"
+        $('#cellularityMildMarked').hide();
+      } else if ($('#hypercellular').prop('checked')){
+        $('#cellularityMildMarked').show();
+        coreText += 'and overall ';
+        if ($('#cellularityMild').prop('checked')){
+          coreText += 'mildly ';
+        } else if ($('#cellularityMarked').prop('checked')){
+          coreText += 'markedly ';
+        }
+        coreText += 'hypercellular for age'
       }
-      coreText += 'hypocellular for age'
-    } else if ($('#normocellular').prop('checked')){
-      coreText += "The marrow is normocellular for age"
-      $('#cellularityMildMarked').hide();
-    } else if ($('#hypercellular').prop('checked')){
-      $('#cellularityMildMarked').show();
-      coreText += 'The marrow is ';
-      if ($('#cellularityMild').prop('checked')){
-        coreText += 'mildly ';
-      } else if ($('#cellularityMarked').prop('checked')){
-        coreText += 'markedly ';
+    } else {
+      if ($('#hypocellular').prop('checked')){
+        $('#cellularityMildMarked').show();
+        coreText += 'The marrow is '
+        if ($('#cellularityMild').prop('checked')){
+          coreText += 'mildly ';
+        } else if ($('#cellularityMarked').prop('checked')){
+          coreText += 'markedly ';
+        }
+        coreText += 'hypocellular for age'
+      } else if ($('#normocellular').prop('checked')){
+        coreText += "The marrow is normocellular for age"
+        $('#cellularityMildMarked').hide();
+      } else if ($('#hypercellular').prop('checked')){
+        $('#cellularityMildMarked').show();
+        coreText += 'The marrow is ';
+        if ($('#cellularityMild').prop('checked')){
+          coreText += 'mildly ';
+        } else if ($('#cellularityMarked').prop('checked')){
+          coreText += 'markedly ';
+        }
+        coreText += 'hypercellular for age'
       }
-      coreText += 'hypercellular for age'
     }
     
-    if ($('#hypocellular').prop('checked') || $('#normocellular').prop('checked') || $('#hypercellular').prop('checked')){
+    if ($('#hypocellular').prop('checked') || $('#normocellular').prop('checked') || $('#hypercellular').prop('checked')){   
       if ($.isNumeric($('#coreCellularity').val())){
-        coreText += ` (${$('#coreCellularity').val()}% cellular). `;
-      } else {
-        coreText += ". ";
+        coreText += ` (~${$('#coreCellularity').val()}% cellular). `;
+      } else if ($.isNumeric($('#coreCellularityRangeLow').val()) && $.isNumeric($('#coreCellularityRangeHigh').val()) && parseFloat($('#coreCellularityRangeHigh').val()) > parseFloat($('#coreCellularityRangeLow').val())){
+        coreText += ` (${$('#coreCellularityRangeLow').val()}-${$('#coreCellularityRangeHigh').val()}% cellular). `;
       }
     }
     
@@ -1743,7 +1793,7 @@ $(document).ready(function() {
     }   
 
     if ($('#coreMegUnremarkable').prop('checked')){
-      coreText += "Megakaryocytes are adequate and regularly distributed. "
+      coreText += "Megakaryocytes are adequate, regularly distributed, and show unremarkable morphology. "
     }
 
     return coreText;
@@ -1753,6 +1803,8 @@ $(document).ready(function() {
     let clotText = "";
     if ($('#clotSimilar').prop("checked")){
       clotText += "The bone marrow particle clot shows multiple marrow particles with findings similar to the core biopsy.";
+    } else if ($('#clotRare').prop("checked")){
+      clotText += "The bone marrow particle clot shows only rare marrow particles for evaluation.";
     } else if ($('#clotNone').prop("checked")){
       clotText += "The bone marrow particle clot shows no marrow particles for evaluation.";
     }
