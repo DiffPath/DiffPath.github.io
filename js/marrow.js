@@ -850,20 +850,24 @@ $(document).ready(function() {
         let minIndex = - 1; 
         if (countSum > 100){
           for (const i in table){
-          let diff = (Math.abs(((100*table[i]["count"] / totalCount) - (parseFloat(table[i]["percent"]) - 100/dcount)))/ table[i]["count"]);
-            if (diff < minDifference){
-              minIndex = i;
-              minDifference = diff;
+            if (table[i]["cellType"] != 4){
+              let diff = (Math.abs(((100*table[i]["count"] / totalCount) - (parseFloat(table[i]["percent"]) - 100/dcount)))/ table[i]["count"]);
+              if (diff < minDifference){
+                minIndex = i;
+                minDifference = diff;
+              }
             }
           }
           table[minIndex]["percent"] = (parseFloat(table[minIndex]["percent"]) - 100/dcount).toFixed(1);
           countSum -= 100/dcount;
         } else {
           for (const i in table){
-          let diff = (Math.abs(((100*table[i]["count"] / totalCount) - (parseFloat(table[i]["percent"]) + 100/dcount)))/ table[i]["count"]);
-            if (diff < minDifference){
-              minIndex = i;
-              minDifference = diff;
+            if (table[i]["cellType"] != 4){
+              let diff = (Math.abs(((100*table[i]["count"] / totalCount) - (parseFloat(table[i]["percent"]) + 100/dcount)))/ table[i]["count"]);
+              if (diff < minDifference){
+                minIndex = i;
+                minDifference = diff;
+              }
             }
           }
           table[minIndex]["percent"] = (parseFloat(table[minIndex]["percent"]) + 100/dcount).toFixed(1);
@@ -878,49 +882,11 @@ $(document).ready(function() {
         }
       }
     }
-    $(typeObject[id]["tcountID"]).val(countSum.toFixed(1)+"%")
 
-    if (id == "asp"){
-      if (erythroidSum != 0){
-        const meRatio = (Math.round((myeloidSum/erythroidSum)*10)/10).toFixed(1);
-        $('#meRatio').val(`${meRatio}:1`);
-        $('#aspTableCell99').html(`${meRatio}:1`);
-        if ($('#erythroidPredomSetting').val() != '' && meRatio < parseFloat($('#erythroidPredomSetting').val())){
-          $('#myeloidPredominance').prop('checked', false);
-          $('#erythroidPredominance').prop('checked', true);
-          fillReport();
-        } else if ($('#myeloidPredomSetting').val() != '' && meRatio > parseFloat($('#myeloidPredomSetting').val())){
-          $('#myeloidPredominance').prop('checked', true);
-          $('#erythroidPredominance').prop('checked', false);
-          fillReport();
-        } else if ($('#erythroidPredomSetting').val() != '' && $('#myeloidPredomSetting').val() != ''){
-          $('#myeloidPredominance').prop('checked', false);
-          $('#erythroidPredominance').prop('checked', false);
-          fillReport();
-        }
-      } else if (erythroidSum == 0){
-        $('#meRatio').val("N/A");
-        $('#aspTableCell99').html("N/A");
-        $('#myeloidPredominance').prop('checked', false);
-          $('#erythroidPredominance').prop('checked', false);
-          fillReport();
-      }
-      $('#aspTableCell3').html((neutSum).toFixed(1) + "%");
-    }
-    if (dcount == totalCount){
-      new Audio('https://diffpath.github.io/media/Complete-Nice.mp3').play(); 
-    } else if ((totalCount % 100) == 0){
-      new Audio('https://diffpath.github.io/media/100-Soothing.mp3').play();
-    } 
-    $(rightPanelFinal).show();
-    } else {
-      if($('#pbCCount').val() == 0 && $('#aspCCount').val() == 0){
-        $('#diffCount').hide();
-      }
-      $(typeObject[id]["tableDivID"]).hide();
-    }
+    $(typeObject[id]["tcountID"]).val(countSum.toFixed(1)+"%")
+    
     for (const i in table){
-      if (id == "asp" && table[i]["percent"]>0){
+      if (id == "asp" && table[i]["count"]>0){
         if (table[i]['cellType'] == 5 && $('#blastCheck').prop('checked')){
           myeloidSum += parseFloat(table[i]["percent"]);
         }
@@ -960,6 +926,53 @@ $(document).ready(function() {
           $(table[i]['tableRowID']).hide();
         }
       }
+    }
+
+    if (id == "asp"){
+      if (erythroidSum != 0){
+        const meRatio = (Math.round((myeloidSum/erythroidSum)*10)/10).toFixed(1);
+        $('#meRatio').val(`${meRatio}:1`);
+        $('#aspTableCell99').html(`${meRatio}:1`);
+        if ($('#erythroidPredomSetting').val() != '' && meRatio < parseFloat($('#erythroidPredomSetting').val())){
+          $('#myeloidPredominance').prop('checked', false);
+          $('#erythroidPredominance').prop('checked', true);
+          fillReport();
+        } else if ($('#myeloidPredomSetting').val() != '' && meRatio > parseFloat($('#myeloidPredomSetting').val())){
+          $('#myeloidPredominance').prop('checked', true);
+          $('#erythroidPredominance').prop('checked', false);
+          fillReport();
+        } else if ($('#erythroidPredomSetting').val() != '' && $('#myeloidPredomSetting').val() != ''){
+          $('#myeloidPredominance').prop('checked', false);
+          $('#erythroidPredominance').prop('checked', false);
+          fillReport();
+        }
+      } else if (erythroidSum == 0){
+        $('#meRatio').val("N/A");
+        $('#aspTableCell99').html("N/A");
+        $('#myeloidPredominance').prop('checked', false);
+        $('#erythroidPredominance').prop('checked', false);
+        fillReport();
+      }
+      $('#aspTableCell3').html((neutSum).toFixed(1) + "%");
+    }
+    if (dcount == totalCount){
+      new Audio('https://diffpath.github.io/media/Complete-Nice.mp3').play(); 
+    } else if ((totalCount % 100) == 0){
+      new Audio('https://diffpath.github.io/media/100-Soothing.mp3').play();
+    } 
+    $(rightPanelFinal).show();
+    } else {
+      for (const i in table){
+        $(typeObject[id]["characterID"] + table[i]["character"]).val("");
+        $(table[i]["tableCellID"]).html("");
+      }
+      if($('#pbCCount').val() == 0 && $('#aspCCount').val() == 0){
+        $('#diffCount').hide();
+      }
+      $('#erythroidPredominance').prop('checked', false);
+      $('#meRatio').val("");
+      $(typeObject[id]["tableDivID"]).hide();
+      fillReport();
     }
   };
 
