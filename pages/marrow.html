@@ -40,7 +40,7 @@
                     <div class="templateTab headerTab underline unclicked" id="aspTab"><i class="fas fa-syringe headerIcon"></i>Aspirate</div>
                     <div class="templateTab headerTab underline unclicked" id="coreTab"><i class="fas fa-bone headerIcon"></i>Core</div>
                     <div class="templateTab headerTab underline unclicked" id="stainTab"><i class="fas fa-palette headerIcon"></i>Stains</div>
-                    <div class="templateTab headerTab underline unclicked" id="diagnosisTab"><i class="fas fa-comment-medical headerIcon"></i>Diagnosis</div>
+                    <div class="templateTab headerTab underline unclicked" id="diagnosisTab"><i class="fas fa-stethoscope headerIcon"></i>Diagnosis</div>
 
                 </div>
                 <div>
@@ -51,18 +51,21 @@
                             <b>Laterality:</b>
                         </div>
                         <div>
-                            <input type="radio" class="form" id="latLeft" name="laterality"><label for="latLeft">Left</label>
-                            <input type="radio" class="form" id="latRight" name="laterality"><label for="latRight">Right</label>
-                            <input type="radio" class="form" id="latBilateral" name="laterality"><label for="latBilateral">Bilateral</label>
-                            <input type="radio" class="form" id="latNotSpecified" name="laterality"><label for="latNotSpecified">Not specified</label>
+                            <input type="radio" class="form laterality" id="latLeft" name="laterality"><label for="latLeft">Left</label>
+                            <input type="radio" class="form laterality" id="latRight" name="laterality"><label for="latRight">Right</label>
+                            <input type="radio" class="form laterality" id="latBilateral" name="laterality"><label for="latBilateral">Bilateral</label>
+                            <input type="radio" class="form laterality" id="latNotSpecified" name="laterality"><label for="latNotSpecified">Not specified</label>
                         </div>
                         <div>
                             <b>Specimens:</b>
                         </div>
                         <div>
                             <div>
-                                <input type="radio" class="form toggle" id="specAll"><label for="specAll">All specimens</label>  
+                                <input type="checkbox" class="form toggle" id="specAll"><label for="specAll">All specimens</label>  
                             </div>
+                        </div>
+                        <br>
+                        <div>
                             <div>
                                 <input type="checkbox" class="form specimen" id="specPB"><label for="specPB">Peripheral blood</label> 
                             </div>
@@ -573,22 +576,28 @@
                             <div>
                                 <b>Adequacy:</b>
                             </div>
-                            <div>
+                            <div style="padding-bottom: 10px">
                                 <input type="radio" class="form" id="coreAdequate" name="coreAdequacy"><label for="coreAdequate">Adequate</label>
                                 <input type="radio" class="form" id="coreInadequate" name="coreAdequacy"><label for="coreInadequate">Inadequate</label>
                                 <div id="coreAdequacySelect" class="selectDiv">
                                     <select id="coreAdequacySelect0" class="select coreAdequacySelect"></select>
                                 </div>
                             </div>
-                            <div>
+                            <div style="padding-bottom: 10px">
                                 <b>Cellularity:</b>
                             </div>
                             <div>
+                                <div class="cellularityDiv" id="cellularitySingleDiv">
+                                    Absolute: <input type="input" class="form cellularity" id="coreCellularity" size="2" maxlength="3">%
+                                </div>
+                                <div class="cellularityDiv" id="cellularityRangeDiv">
+                                    Range: <input type="input" class="form cellularity" id="coreCellularityRangeLow" size="2" maxlength="3">-<input type="input" class="form cellularity" id="coreCellularityRangeHigh" size="2" maxlength="3">%
+                                </div>
                                 <div>
-                                    <input type="input" class="form" id="coreCellularity" size="2" maxlength="3">%
+                                    Variable range: <input type="input" class="form cellularity" id="coreCellularityVariableLow" size="2" maxlength="3">-<input type="input" class="form cellularity" id="coreCellularityVariableHigh" size="2" maxlength="3">%
                                 </div>
                                 <div class='flex'>
-                                <div style="padding-right: 10px">
+                                <div style="padding-right: 10px; padding-bottom: 10px">
                                     <input type="radio" class="form" id="hypocellular" name="coreCellularity"><label for="hypocellular">Hypocellular</label>
                                     <input type="radio" class="form" id="normocellular" name="coreCellularity"><label for="normocellular">Normocellular</label>
                                     <input type="radio" class="form" id="hypercellular" name="coreCellularity"><label for="hypercellular">Hypercellular</label>
@@ -631,6 +640,7 @@
                             <div class="flex">
                                 <div>
                                     <input type="checkbox" class="form" id="clotSimilar" name="coreClot"><label for="clotSimilar">Similar to core biopsy</label>
+                                    <input type="checkbox" class="form" id="clotRare" name="coreClot"><label for="clotRare">Rare marrow particles</label>
                                     <input type="checkbox" class="form" id="clotNone" name="coreClot"><label for="clotNone">No marrow particles</label>
                                 </div>
                             </div> 
