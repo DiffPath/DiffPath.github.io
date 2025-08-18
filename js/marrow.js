@@ -166,7 +166,7 @@ $(document).ready(function() {
     "",
     "Hypogranular forms",
     "Monolobated forms",
-    "Hyposegmented forms",
+    "Hypolobated forms",
     "Hypersegmented forms",
     "Shift to immaturity"
   ];
@@ -837,74 +837,88 @@ $(document).ready(function() {
     if (totalCount != 0) {
       $('#diffCount').show();
       $(typeObject[id]["tableDivID"]).show();
-    } else {
-      if($('#pbCCount').val() == 0 && $('#aspCCount').val() == 0){
-        $('#diffCount').hide();
-      }
-      $(typeObject[id]["tableDivID"]).hide();
-    }
-    
+          
     if ($("#roundDesired").prop('checked')){
-      let differenceArray = [];
       for (const i in table){
         table[i]["percent"] = (Math.round((table[i]["count"] / totalCount) * dcount) / (dcount/100)).toFixed(1);
         if (table[i]["cellType"] != 4){
           countSum += parseFloat(table[i]["percent"]);
         }
       }
-      let countDifference = (countSum - 100);
-      if (countDifference > 0){
-        while ((countDifference).toFixed(1) != 0){
+      while (parseFloat(countSum.toFixed(1)) != 100){
+        let minDifference = 10;
+        let minIndex = - 1; 
+        if (countSum > 100){
           for (const i in table){
-            if (table[i]["count"] > 0){
-              let differenceFactor = ((table[i]["count"] / totalCount) * 100 - table[i]["percent"] + 100/dcount) / table[i]["count"];
-              differenceArray.push({cellType: i, difference: differenceFactor})
+          let diff = (Math.abs(((100*table[i]["count"] / totalCount) - (parseFloat(table[i]["percent"]) - 100/dcount)))/ table[i]["count"]);
+            if (diff < minDifference){
+              minIndex = i;
+              minDifference = diff;
             }
           }
-          for (i in differenceArray){
-            differenceArray.sort((a, b) => a.difference - b.difference);
-          }
-          table[differenceArray[0]["cellType"]]["percent"] = parseFloat((table[differenceArray[0]["cellType"]]["percent"]-100/dcount)).toFixed(1);
-          countDifference -= 100/dcount;
+          table[minIndex]["percent"] = (parseFloat(table[minIndex]["percent"]) - 100/dcount).toFixed(1);
           countSum -= 100/dcount;
-        }
-      } else if (countDifference < 0){
-        while ((countDifference).toFixed(1) != 0){
+        } else {
           for (const i in table){
-            if (table[i]["count"] > 0){
-              let differenceFactor = ((table[i]["count"] / totalCount) * 100 - table[i]["percent"] - 100/dcount) / table[i]["count"];
-              differenceArray.push({cellType: i, difference: differenceFactor})
+          let diff = (Math.abs(((100*table[i]["count"] / totalCount) - (parseFloat(table[i]["percent"]) + 100/dcount)))/ table[i]["count"]);
+            if (diff < minDifference){
+              minIndex = i;
+              minDifference = diff;
             }
           }
-          for (i in differenceArray){
-            differenceArray.sort((a, b) => b.difference - a.difference);
-          }
-          table[differenceArray[0]["cellType"]]["percent"] = parseFloat((table[differenceArray[0]["cellType"]]["percent"]+100/dcount)).toFixed(1);
-          countDifference += 100/dcount;
+          table[minIndex]["percent"] = (parseFloat(table[minIndex]["percent"]) + 100/dcount).toFixed(1);
           countSum += 100/dcount;
         }
       }
     } else {
       for (const i in table){
         table[i]["percent"] = (Math.round((100*table[i]["count"]/totalCount)*10)/10).toFixed(1);
-        if (table[i]["cellType"] == 0 || table[i]["cellType"] == 5){
+        if (table[i]["cellType"] != 4){
           countSum += parseFloat(table[i]["percent"]);
-        } else if (table[i]["cellType"] == 1){
-          countSum += parseFloat(table[i]["percent"]);
-          myeloidSum += parseFloat(table[i]["percent"]);
-          neutSum += parseFloat(table[i]["percent"]);
-        } else if (table[i]["cellType"] == 2){
-          countSum += parseFloat(table[i]["percent"]);
-          myeloidSum += parseFloat(table[i]["percent"]);
-        } else if (table[i]["cellType"] == 3){
-          countSum += parseFloat(table[i]["percent"]);
-          erythroidSum += parseFloat(table[i]["percent"]);
         }
       }
     }
-     
     $(typeObject[id]["tcountID"]).val(countSum.toFixed(1)+"%")
 
+    if (id == "asp"){
+      if (erythroidSum != 0){
+        const meRatio = (Math.round((myeloidSum/erythroidSum)*10)/10).toFixed(1);
+        $('#meRatio').val(`${meRatio}:1`);
+        $('#aspTableCell99').html(`${meRatio}:1`);
+        if ($('#erythroidPredomSetting').val() != '' && meRatio < parseFloat($('#erythroidPredomSetting').val())){
+          $('#myeloidPredominance').prop('checked', false);
+          $('#erythroidPredominance').prop('checked', true);
+          fillReport();
+        } else if ($('#myeloidPredomSetting').val() != '' && meRatio > parseFloat($('#myeloidPredomSetting').val())){
+          $('#myeloidPredominance').prop('checked', true);
+          $('#erythroidPredominance').prop('checked', false);
+          fillReport();
+        } else if ($('#erythroidPredomSetting').val() != '' && $('#myeloidPredomSetting').val() != ''){
+          $('#myeloidPredominance').prop('checked', false);
+          $('#erythroidPredominance').prop('checked', false);
+          fillReport();
+        }
+      } else if (erythroidSum == 0){
+        $('#meRatio').val("N/A");
+        $('#aspTableCell99').html("N/A");
+        $('#myeloidPredominance').prop('checked', false);
+          $('#erythroidPredominance').prop('checked', false);
+          fillReport();
+      }
+      $('#aspTableCell3').html((neutSum).toFixed(1) + "%");
+    }
+    if (dcount == totalCount){
+      new Audio('https://diffpath.github.io/media/Complete-Nice.mp3').play(); 
+    } else if ((totalCount % 100) == 0){
+      new Audio('https://diffpath.github.io/media/100-Soothing.mp3').play();
+    } 
+    $(rightPanelFinal).show();
+    } else {
+      if($('#pbCCount').val() == 0 && $('#aspCCount').val() == 0){
+        $('#diffCount').hide();
+      }
+      $(typeObject[id]["tableDivID"]).hide();
+    }
     for (const i in table){
       if (id == "asp" && table[i]["percent"]>0){
         if (table[i]['cellType'] == 5 && $('#blastCheck').prop('checked')){
@@ -947,41 +961,6 @@ $(document).ready(function() {
         }
       }
     }
-    if (id == "asp"){
-      if (erythroidSum != 0){
-        const meRatio = (Math.round((myeloidSum/erythroidSum)*10)/10).toFixed(1);
-        $('#meRatio').val(`${meRatio}:1`);
-        $('#aspTableCell99').html(`${meRatio}:1`);
-        if ($('#erythroidPredomSetting').val() != '' && meRatio < parseFloat($('#erythroidPredomSetting').val())){
-          $('#myeloidPredominance').prop('checked', false);
-          $('#erythroidPredominance').prop('checked', true);
-          fillReport();
-        } else if ($('#myeloidPredomSetting').val() != '' && meRatio > parseFloat($('#myeloidPredomSetting').val())){
-          $('#myeloidPredominance').prop('checked', true);
-          $('#erythroidPredominance').prop('checked', false);
-          fillReport();
-        } else if ($('#erythroidPredomSetting').val() != '' && $('#myeloidPredomSetting').val() != ''){
-          $('#myeloidPredominance').prop('checked', false);
-          $('#erythroidPredominance').prop('checked', false);
-          fillReport();
-        }
-      } else if (erythroidSum == 0){
-        $('#meRatio').val("N/A");
-        $('#aspTableCell99').html("N/A");
-        $('#myeloidPredominance').prop('checked', false);
-          $('#erythroidPredominance').prop('checked', false);
-          fillReport();
-      }
-      $('#aspTableCell3').html((neutSum).toFixed(1) + "%");
-    }
-    if (totalCount != 0){
-      if (dcount == totalCount){
-        new Audio('https://diffpath.github.io/media/Complete-Nice.mp3').play(); 
-      } else if ((totalCount % 100) == 0){
-        new Audio('https://diffpath.github.io/media/100-Soothing.mp3').play();
-      }
-    }   
-    $(rightPanelFinal).show();
   };
 
   function cellCounter(x, y) {
