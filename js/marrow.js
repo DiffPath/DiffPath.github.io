@@ -75,7 +75,6 @@ $(document).ready(function() {
   const kappalambdaDescriptors = {class: 'select', descriptors: ['','Polytypic', 'Kappa restriction', 'Lambda restriction'], value: ['','Highlights polytypic plasma cells.','Shows kappa restriction in plasma cells.','Shows lambda restriction in plasma cells.']}
   const cd5Descriptors = {class: 'select', descriptors: ['','Highlights T cells with no apparent coexpression in B cells','Negative in neoplastic B cells','Negative in B cells','Positive in neoplastic B cells'], value: ['','Highlights T cells with no apparent coexpression in B cells.','Negative in B cells.', 'Negative in neoplastic B cells.', 'Positive in neoplastic B cells.',]}
 
-
   const rbcList = [
     "",
     "Unremarkable",
@@ -216,13 +215,14 @@ $(document).ready(function() {
     "",
     "CD3",
     "CD20",
+    "CD5",
     "CD34",
     "CD61",
     "CD71",
     'CD138',
     'Kappa/Lambda ISH',
     "MPO",
-    'Cytokeratin AE1/AE3'
+    'Cytokeratin AE1/AE3',
   ]
 
   const descriptorList = {
@@ -288,6 +288,7 @@ $(document).ready(function() {
     'AFB': {descriptorObject: dualDescriptors},
     'CD3': {descriptorObject: cd3Descriptors},
     'CD20': {descriptorObject: cd20Descriptors, value: '', positive: 0, negative: 0, count: 0},
+    'CD5': {descriptorObject: cd5Descriptors},
     'CD34': {descriptorObject: cd34Descriptors, value: '', positive: 0, negative: 0, count: 0},
     'CD61': {descriptorObject: cd61Descriptors},
     'CD71': {descriptorObject: cd71Descriptors},
