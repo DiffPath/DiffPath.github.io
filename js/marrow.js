@@ -73,7 +73,7 @@ $(document).ready(function() {
   const mpoDescriptors = {class: 'select', descriptors: ['','Adequate', 'Proliferation'], value: ['','Highlights adequate myeloid precursors.','Shows a proliferation of myeloid precursors.']}
   const cd138Descriptors = {class: 'selectDualCount', descriptors: ['','Not increased', 'Increased'], value: ['','Shows no increase in plasma cells (***% of total cellularity).','Highlights increased plasma cells (***% of total cellularity).']}
   const kappalambdaDescriptors = {class: 'select', descriptors: ['','Polytypic', 'Kappa restriction', 'Lambda restriction'], value: ['','Highlights polytypic plasma cells.','Shows kappa restriction in plasma cells.','Shows lambda restriction in plasma cells.']}
-  const cd5Descriptors = {class: 'select', descriptors: ['','Highlights T cells with no apparent coexpression in B cells','Negative in neoplastic B cells','Negative in B cells','Positive in neoplastic B cells'], value: ['','Highlights T cells with no apparent coexpression in B cells.','Negative in B cells.', 'Negative in neoplastic B cells.', 'Positive in neoplastic B cells.',]}
+  const cd5Descriptors = {class: 'select', descriptors: ['','Highlights T cells with no apparent coexpression in B cells','Negative in B cells','Negative in neoplastic B cells','Positive in neoplastic B cells'], value: ['','Highlights T cells with no apparent coexpression in B cells.','Negative in B cells.', 'Negative in neoplastic B cells.', 'Positive in neoplastic B cells.',]}
 
   const rbcList = [
     "",
