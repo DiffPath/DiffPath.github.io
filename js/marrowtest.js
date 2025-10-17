@@ -81,19 +81,29 @@ $(document).ready(function() {
   let cbcVar = ["WBC", "RBC", "HGB", "MCV", "MCHC", "PLT", "NRBC's", "Absolute Neutrophils", "Absolute Lymphocytes", "Absolute Monocytes", "Absolute Eosinophils", "Absolute Basophils", "Absolute NRBCs"];
 
   let cbcObject = {
-    "WBC": {value: ""},
-    "RBC": {value: ""},
-    "HGB": {value: "", low: "hgbLow", normal: "hgbNormal", high: "hgbHigh", mild: "hgbMild", marked: "hgbMarked", mildLowSetting: "cbcHgbLowMild", mildHighSetting: "cbcHgbHighMild"},
-    "MCV": {value: "", low: "mcvLow", normal: "mcvNormal", high: "mcvHigh"},
-    "MCHC": {value: "", low: "hypochromic"},
-    "PLT": {value: "", low: "pltLow", normal: "pltNormal", high: "pltHigh", mild: "pltMild", marked: "pltMarked", mildLowSetting: "cbcPltLowMild", mildHighSetting: "cbcPltHighMild"},
-    "NRBC's": {value: "", high: "nrbcPresent"},
-    "Absolute Neutrophils": {value: "", low: "neutLow", normal: "neutNormal", high: "neutHigh", mild: "neutMild", marked: "neutMarked", mildLowSetting: "cbcNeutLowMild", mildHighSetting: "cbcNeutHighMild"},
-    "Absolute Lymphocytes": {value: "", low: "lymphLow", normal: "lymphNormal", high: "lymphHigh", mild: "lymphMild", marked: "lymphMarked", mildLowSetting: "cbcLymphLowMild", mildHighSetting: "cbcLymphHighMild"},
-    "Absolute Monocytes": {value: "", low: "monosLow", high: "monosHigh", mild: "monosMild", marked: "monosMarked"},
-    "Absolute Eosinophils": {value: "", high: "eosHigh"},
-    "Absolute Basophils": {value: "", high: "basoHigh"},
-    "Absolute NRBCs": {value: "", high: "nrbcPresent"}
+    "WBC": {value: "", unit: "10ˆ3/µL"},
+    "RBC": {value: "", unit: "10ˆ6/µL"},
+    "HGB": {value: "", unit: "g/dL", low: "hgbLow", normal: "hgbNormal", high: "hgbHigh", mild: "hgbMild", marked: "hgbMarked", mildLowSetting: "cbcHgbLowMild", mildHighSetting: "cbcHgbHighMild"},
+    "HCT": {value: "", unit: "%"},
+    "MCV": {value: "", unit: "fL", low: "mcvLow", normal: "mcvNormal", high: "mcvHigh"},
+    "MCH": {value: "", unit: "pg"},
+    "MCHC": {value: "", unit: "g/dL", low: "hypochromic"},
+    "PLT": {value: "", unit: "10ˆ3/µL", low: "pltLow", normal: "pltNormal", high: "pltHigh", mild: "pltMild", marked: "pltMarked", mildLowSetting: "cbcPltLowMild", mildHighSetting: "cbcPltHighMild"},
+    "RDW": {value: "", unit: "%"},
+    "NRBC's": {value: "", unit: "%", high: "nrbcPresent"},
+    "Neutrophils": {value: "", unit: "%"},
+    "Lymphocytes": {value: "", unit: "%"},
+    "Monocytes": {value: "", unit: "%"},
+    "Eosinophils": {value: "", unit: "%"},
+    "Basophils": {value: "", unit: "%"},
+    "Immature Granulocytes": {value: "", unit: "%"},
+    "Absolute Neutrophils": {value: "", unit: "10ˆ3/µL", low: "neutLow", normal: "neutNormal", high: "neutHigh", mild: "neutMild", marked: "neutMarked", mildLowSetting: "cbcNeutLowMild", mildHighSetting: "cbcNeutHighMild"},
+    "Absolute Lymphocytes": {value: "", unit: "10ˆ3/µL", low: "lymphLow", normal: "lymphNormal", high: "lymphHigh", mild: "lymphMild", marked: "lymphMarked", mildLowSetting: "cbcLymphLowMild", mildHighSetting: "cbcLymphHighMild"},
+    "Absolute Monocytes": {value: "", unit: "10ˆ3/µL", low: "monosLow", high: "monosHigh", mild: "monosMild", marked: "monosMarked"},
+    "Absolute Eosinophils": {value: "", unit: "10ˆ3/µL", high: "eosHigh"},
+    "Absolute Basophils": {value: "", unit: "10ˆ3/µL", high: "basoHigh"},
+    "Absolute NRBCs": {value: "", unit: "10ˆ3/µL", high: "nrbcPresent"},
+    "Absolute Immature Granulocytes": {value: "", unit: "10ˆ3/µL", high: "immature"}
   }
 
   const quantDescriptors = {class: "radio", descriptors: ["Rare", "Occasional", "Frequent"], value: ["rare ", "occasional ", "frequent "]};
@@ -158,9 +168,12 @@ $(document).ready(function() {
     "",
     "Unremarkable",
     "Small mature",
-    "Large granular",
+    "Small mature and large granular",
+    "Predominantly large granular",
+    "Polymorphous",
     "Reactive",
-    "CLL-like"
+    "Predominantly CLL-like",
+    "Subset CLL-like"
   ];
 
   const monocyteList = [
@@ -220,6 +233,7 @@ $(document).ready(function() {
     "Hypolobated forms",
     "Small hypolobated forms",
     "Micromegakaryocytes",
+    "Hypersegmented forms",
     "Large hypersegmented forms"
   ];
 
@@ -536,6 +550,7 @@ $(document).ready(function() {
     $(".specimen").each(function() {
       $(this).prop("checked", true);
     });
+    $('#specAll').prop("checked", true);
   });
 
   $(".specimen").change(function() {
@@ -559,15 +574,15 @@ $(document).ready(function() {
   $('#pbCBC').bind('input', function() {
     let cbcFinal = [];
     const cbcLines = $('#pbCBC').val().split("\n");
-    let cbcList = [...cbcVar]
+    let cbcList = {...cbcObject}
     let toggle = true;
     for (let i = 0; i < cbcLines.length; i++) {
       cbcFinal.push(cbcLines[i].split('\t'))
     }
     for (i in cbcFinal) {
       for (j in cbcList){
-        if (cbcFinal[i][0] == cbcList[j]){
-          cbcObject[cbcList[j]]["value"] = cbcFinal[i][1];
+        if (cbcFinal[i][0] == j){
+          cbcObject[j]["value"] = cbcFinal[i][1];
           if(cbcFinal[i][1] != ""){
             delete cbcList[j];
           }
@@ -1034,7 +1049,7 @@ $(document).ready(function() {
       }
       $('#erythroidPredominance').prop('checked', false);
       $('#meRatio').val("");
-      $(`${e}TableDiv`).hide();
+      $(`#${e}TableDiv`).hide();
       fillReport();
     }
   };
@@ -1162,6 +1177,10 @@ $(document).ready(function() {
   }
   });
 
+  $('.toggleDiv').click(function(){
+    $(`#${$(this).attr('data-id')}`).toggle();
+  })
+
   function fillInputs() {
     for (i in cbcObject){
       if (cbcObject[i]["value"].indexOf('High') != -1){
@@ -1196,7 +1215,9 @@ $(document).ready(function() {
   function fillReport(){
     let finalText = "";
     const specText = fillSpecimen();
+    console.log('ho')
     const clinicalText = fillClinical();
+    console.log('he')
     const pb = fillPB();
     const asp = fillAsp();
     const touch = fillTouch();
@@ -1287,10 +1308,12 @@ $(document).ready(function() {
         $('#finalDiv').html(finalText);
       }
     } else {
+      console.log('ho')
       $(rightPanelFinal).hide();
       $('#specDiv').html(specText);
       $('#finalDiv').html(finalText);
     }
+
   }
 
   function fillSpecimen() {
@@ -1328,8 +1351,15 @@ $(document).ready(function() {
 
   function fillClinical() {
     let clinicalText = "";
+    let clinicalTable = '<table class="templateTable" style="width:440px; font-size:10pt"><tr><th style="width:50%; text-align:left">Component</td><th style="width:17%; text-align:left">Result</td><th style="width:33%; text-align:left">Units</td></tr>';
+    let toggle = false;
+
     if (patientAge != -1){
-      clinicalText += "The patient is";
+      if ($('#toggleClinical').is(':hidden')){
+        clinicalText += "<b>Clinical Information</b><div id='toggleClinical' style='display: none'>The patient is";
+      } else {
+        clinicalText += "<b>Clinical Information</b><div id='toggleClinical'>The patient is";
+      }
       if (patientAge == 1 || patientAge == 8 || patientAge == 11 || patientAge == 18 || (patientAge >= 80 && patientAge <90) || patientAge >= 100){
         clinicalText += " an";
       } else {
@@ -1355,6 +1385,22 @@ $(document).ready(function() {
       }
       clinicalText += '<br><br>'
     }
+    for (i in cbcObject){
+      if (cbcObject[i]["value"] != ""){
+        if (cbcObject[i]["value"].indexOf("Low") != -1){
+        clinicalTable += `<tr style="background-color: lightblue"><td style="width:50%">${i}</td><td style="width:17%">${cbcObject[i]["value"].split(" ")[0]}</td><td style="width:33%">${cbcObject[i]["unit"]}</td></tr>`;
+        } else if (cbcObject[i]["value"].indexOf("High") != -1){
+        clinicalTable += `<tr style="background-color: lightcoral"><td style="width:50%">${i}</td><td style="width:17%">${cbcObject[i]["value"].split(" ")[0]}</td><td style="width:33%">${cbcObject[i]["unit"]}</td></tr>`;
+        } else {
+        clinicalTable += `<tr><td style="width:50%">${i}</td><td style="width:17%">${cbcObject[i]["value"].split(" ")[0]}</td><td style="width:33%">${cbcObject[i]["unit"]}</td></tr>`;
+        }
+        toggle = true;
+      }
+    }
+    if (toggle){
+      clinicalText += `<div class='toggleHeader'><b>CBC Results</b></div><div>${clinicalTable}</table></div>`;
+    }
+    clinicalText += '</div><br>';
     return clinicalText
   }
 
@@ -1517,7 +1563,7 @@ $(document).ready(function() {
           pbText += " mild";
         }
         pbText += " absolute lymphopenia. "
-        if ($('#lymphocyte_select').val() == "unremarkable") {
+        if ($('#lymphocyteSelect0').val() == "unremarkable") {
           pbText += "Lymphocytes show unremarkable morphology. ";
         }
       } else if ($("#lymphNormal").prop("checked") && $('#lymphocyte_select').val() == "unremarkable") {
@@ -1531,10 +1577,27 @@ $(document).ready(function() {
         } else if ($('#lymphMild').prop("checked")) {
           pbText += " mild";
         }
-        pbText += " absolute lymphocytosis. "
-      } else {
-/*         pbText += " Lymphocytes show " + lymph_list_string.toLowerCase() + ". ";
- */      }
+        pbText += " absolute lymphocytosis"
+        if ($('#lymphocyteSelect0').val() == "Unremarkable"){
+          pbText += ". Lymphocytes show unremarkable morphology. "
+        } else if ($('#lymphocyteSelect0').val() == "Small mature"){
+          pbText += " consisting of predominantly small mature lymphocytes. "
+        } else if ($('#lymphocyteSelect0').val() == "Small mature and large granular"){
+          pbText += " consisting of small mature lymphocytes and large granular lymphocytes. "
+        } else if ($('#lymphocyteSelect0').val() == "Predominantly large granular"){
+          pbText += " consisting of predominantly large granular lymphocytes. "
+        } else if ($('#lymphocyteSelect0').val() == "Polymorphous"){
+          pbText += " consisting of a polymorphous population of small mature lymphocytes, large granular lymphocytes, and reactive lymphocytes. "
+        } else if ($('#lymphocyteSelect0').val() == "Reactive"){
+          pbText += " consisting of predominantly reactive lymphocytes. "
+        } else if ($('#lymphocyteSelect0').val() == "Predominantly CLL-like"){
+          pbText += " consisting of predominantly small mature lymphocyte with clumped chromatin. "
+        } else if ($('#lymphocyteSelect0').val() == "Predominantly CLL-like"){
+          pbText += " with a subset of lymphocytes consisting of small mature forms with clumped chromatin. "
+        } else {
+          pbText += ". "
+        }
+      } 
 
       if ($("#monosLow").prop("checked")) {
         $("#monosMildMarked").show();
