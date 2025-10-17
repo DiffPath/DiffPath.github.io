@@ -7,7 +7,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
         <script src="/js/marrowtest.js"></script>
     </head>
-    <body>
+      <body>
         <div id="copyAlert"></div> 
         <div id="overlay"></div>  
         <nav id="navbar">
@@ -54,6 +54,7 @@
                             <input type="radio" class="form laterality" id="latBilateral" name="laterality"><label for="latBilateral">Bilateral</label>
                             <input type="radio" class="form laterality" id="latNotSpecified" name="laterality"><label for="latNotSpecified">Not specified</label>
                         </div>
+                        <br>
                         <div>
                             <b>Specimens:</b>
                         </div>
@@ -81,6 +82,9 @@
                             </div>
                         </div>
                         <br>
+                        <div>
+                            <b>CBC:</b>
+                        </div>
                         <div class="pbCBC">
                             <textarea class="extend" id="pbCBC" rows="1" placeholder='Paste CBC Here'></textarea>
                         </div>
@@ -237,8 +241,8 @@
                             <div style="padding-bottom: 10px">
                                 <b>Lymphocyte Descriptors:</b>
                             </div>
-                            <div id="lymphocyteSelect" class="selectDiv">
-                                <select id="lymphocyteSelect0" class="select lymphocyteSelect"></select>
+                            <div id="lymphocyteSelect">
+                                <select id="lymphocyteSelect0" class="form lymphocyteSelect"></select>
                             </div>
                             <div>
                                 <b>Absolute Monocytes:</b>
@@ -614,17 +618,17 @@
                         <div class="panelFormat" id="specDiv">
                         </div>
                     </div>
-                    <div id="clinicalContainer">
+                    <div class="toggleDiv" id="clinicalContainer" data-id="toggleClinical">
                         <div class="panelFormat" id="clinicalDiv">
                         </div>
                     </div>
                     <div id="microscopicContainer">
-                        <div id="diffCount" style="display: none">
+                        <div id="diffCount" style="display: none; font-size:10pt">
                             <b>Differential Count</b>
                         </div>
                         <div class="pb" id="pbTableDiv" style="display: none">
                             <div class="panelFormat">
-                                <table class="templateTable" style="width:440px; font-size:11pt">
+                                <table class="templateTable" style="width:440px; font-size:10pt">
                                     <tr>
                                       <th style="width:50%" id="pbTableCountHeader">Peripheral Blood (200 cells)</th>
                                       <th style="width:17%">Result</th>
@@ -700,8 +704,8 @@
                             </div>    
                         </div>
                         <div class="asp" id="aspTableDiv" style="display: none">
-                            <div class="panelFormat" style="font-size:11pt">
-                                <table class="templateTable" style="width:440px; font-size:11pt">
+                            <div class="panelFormat" style="font-size:10pt">
+                                <table class="templateTable" style="width:440px; font-size:10pt">
                                     <tr>
                                       <th style="width:50%" id="aspTableCountHeader">Aspirate Smear (500 cells)</td>
                                       <th style="width:17%">Result</td>
@@ -766,7 +770,7 @@
                                   <br>
                             </div>
                         </div>
-                        <div class="final panelFormat" id="finalDiv" style="font-size:11pt">
+                        <div class="final panelFormat" id="finalDiv" style="font-size:10pt">
                         </div>
                     </div>
                 </div>
