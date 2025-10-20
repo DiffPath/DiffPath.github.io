@@ -13,38 +13,39 @@ $(document).ready(function() {
   3 = Erythroid cell for M:E ratio calculation
   4 = Circulating NRBC
   5 = Blast
+  6 = Circulating Blast
   */
   
   let countTables = {
     'pbCountTable': {
-      Blasts: {name: 'Blasts', character: 0, gridID: "pbLayout9", tableCellID: '#pbTableCell2', tableRowID: '#pbTableRow2', cellType: 5, count: 0, percent: 0, hidden: true},
-      Neuts: {name: 'Neuts', character: 4, gridID: "pbLayout3", tableCellID: '#pbTableCell6', tableRowID: '#pbTableRow6', cellType: 0, count: 0, percent: 0, hidden: false},
-      NRBCs: {name: 'NRBCs', character: 1, gridID: "pbLayout6", tableCellID: '#pbTableCell12', tableRowID: '#pbTableRow12', cellType: 4, count: 0, percent: 0, hidden: true},
-      Lymphs: {name: 'Lymphs', character: 5, gridID: "pbLayout4", tableCellID: '#pbTableCell7', tableRowID: '#pbTableRow7', cellType: 0, count: 0, percent: 0, hidden: false},
-      Monos: {name: 'Monos', character: 6, gridID: "pbLayout5", tableCellID: '#pbTableCell8', tableRowID: '#pbTableRow8', cellType: 0, count: 0, percent: 0, hidden: false},
-      Metas: {name: 'Metas', character: 7, gridID: "pbLayout0", tableCellID: '#pbTableCell5', tableRowID: '#pbTableRow5', cellType: 0, count: 0, percent: 0, hidden: true},
-      Myelo: {name: 'Myelo', character: 8, gridID: "pbLayout1", tableCellID: '#pbTableCell4', tableRowID: '#pbTableRow4', cellType: 0, count: 0, percent: 0, hidden: true},
-      Promyelo: {name: 'Promyelo', character: 9, gridID: "pbLayout2", tableCellID: '#pbTableCell3', tableRowID: '#pbTableRow3', cellType: 0, count: 0, percent: 0, hidden: true},
-      Plasma: {name: 'Plasma', character: -1, gridID: "", tableCellID: '#pbTableCell11', tableRowID: '#pbTableRow11', cellType: 0, count: 0, percent: 0, hidden: true},
-      Eos: {name: 'Eos', character: 2, gridID: "pbLayout7", tableCellID: '#pbTableCell9', tableRowID: '#pbTableRow9', cellType: 0, count: 0, percent: 0, hidden: false},
-      Basos: {name: 'Basos', character: 3, gridID: "pbLayout8", tableCellID: '#pbTableCell10', tableRowID: '#pbTableRow10', cellType: 0, count: 0, percent: 0, hidden: false},
-      Atypical: {name: 'Atypical', character: -1, gridID: "", tableCellID: '#pbTableCell0', tableRowID: '#pbTableRow0', cellType: 0, count: 0, percent: 0, hidden: true},
-      Other: {name: 'Other', character: -1, gridID: "", tableCellID: '#pbTableCell1', tableRowID: '#pbTableRow1', cellType: 0, count: 0, percent: 0, hidden: true},
+      Blasts: {name: 'Blasts', character: 0, counterGridID: "#pbCounter9", layoutGridID: "pbLayout9", tableCellID: '#pbTableCell2', tableRowID: '#pbTableRow2', cellType: 6, count: 0, percent: 0, hidden: true},
+      Neuts: {name: 'Neuts', character: 4, counterGridID: "#pbCounter3", layoutGridID: "pbLayout3", tableCellID: '#pbTableCell6', tableRowID: '#pbTableRow6', cellType: 0, count: 0, percent: 0, hidden: false},
+      NRBCs: {name: 'NRBCs', character: 1, counterGridID: "#pbCounter6", layoutGridID: "pbLayout6", tableCellID: '#pbTableCell12', tableRowID: '#pbTableRow12', cellType: 4, count: 0, percent: 0, hidden: true},
+      Lymphs: {name: 'Lymphs', character: 5, counterGridID: "#pbCounter4", layoutGridID: "pbLayout4", tableCellID: '#pbTableCell7', tableRowID: '#pbTableRow7', cellType: 0, count: 0, percent: 0, hidden: false},
+      Monos: {name: 'Monos', character: 6, counterGridID: "#pbCounter5", layoutGridID: "pbLayout5", tableCellID: '#pbTableCell8', tableRowID: '#pbTableRow8', cellType: 0, count: 0, percent: 0, hidden: false},
+      Metas: {name: 'Metas', character: 7, counterGridID: "#pbCounter0", layoutGridID: "pbLayout0", tableCellID: '#pbTableCell5', tableRowID: '#pbTableRow5', cellType: 0, count: 0, percent: 0, hidden: true},
+      Myelo: {name: 'Myelo', character: 8, counterGridID: "#pbCounter1", layoutGridID: "pbLayout1", tableCellID: '#pbTableCell4', tableRowID: '#pbTableRow4', cellType: 0, count: 0, percent: 0, hidden: true},
+      Promyelo: {name: 'Promyelo', character: 9, counterGridID: "#pbCounter2", layoutGridID: "pbLayout2", tableCellID: '#pbTableCell3', tableRowID: '#pbTableRow3', cellType: 0, count: 0, percent: 0, hidden: true},
+      Plasma: {name: 'Plasma', character: -1, counterGridID: "", layoutGridID: "", tableCellID: '#pbTableCell11', tableRowID: '#pbTableRow11', cellType: 0, count: 0, percent: 0, hidden: true},
+      Eos: {name: 'Eos', character: 2, counterGridID: "#pbCounter7", layoutGridID: "pbLayout7", tableCellID: '#pbTableCell9', tableRowID: '#pbTableRow9', cellType: 0, count: 0, percent: 0, hidden: false},
+      Basos: {name: 'Basos', character: 3, counterGridID: "#pbCounter8", layoutGridID: "pbLayout8", tableCellID: '#pbTableCell10', tableRowID: '#pbTableRow10', cellType: 0, count: 0, percent: 0, hidden: false},
+      Atypical: {name: 'Atypical', character: -1, counterGridID: "", layoutGridID: "", tableCellID: '#pbTableCell0', tableRowID: '#pbTableRow0', cellType: 0, count: 0, percent: 0, hidden: true},
+      Other: {name: 'Other', character: -1, counterGridID: "", layoutGridID: "", tableCellID: '#pbTableCell1', tableRowID: '#pbTableRow1', cellType: 0, count: 0, percent: 0, hidden: true},
     },
     'aspCountTable': {
-      Blasts: {name: 'Blasts', character: 0, gridID: "aspLayout9", tableCellID: '#aspTableCell2', tableRowID: 'aspTableRow2', cellType: 5, count: 0, percent: 0, hidden: false},
-      Neuts: {name: 'Neuts', character: 4, gridID: "aspLayout3", tableCellID: '#aspTableCell3', tableRowID: 'aspTableRow2', cellType: 1, count: 0, percent: 0, hidden: false},
-      NRBCs: {name: 'NRBCs', character: 1, gridID: "aspLayout6", tableCellID: '#aspTableCell9', tableRowID: 'aspTableRow2', cellType: 3, count: 0, percent: 0, hidden: false},
-      Lymphs: {name: 'Lymphs', character: 5, gridID: "aspLayout4", tableCellID: '#aspTableCell7', tableRowID: 'aspTableRow2', cellType: 0, count: 0, percent: 0, hidden: false},
-      Monos: {name: 'Monos', character: 6, gridID: "aspLayout5", tableCellID: '#aspTableCell6', tableRowID: 'aspTableRow2', cellType: 2, count: 0, percent: 0, hidden: false},
-      Metas: {name: 'Metas', character: 7, gridID: "aspLayout0", tableCellID: '#aspTableCell3', tableRowID: 'aspTableRow2', cellType: 1, count: 0, percent: 0, hidden: false},
-      Promyelo: {name: 'Promyelo', character: ".", gridID: "aspLayout10", tableCellID: '#aspTableCell3', tableRowID: 'aspTableRow2', cellType: 1, count: 0, percent: 0, hidden: true},
-      Myelo: {name: 'Myelo', character: 8, gridID: "aspLayout1", tableCellID: '#aspTableCell3', tableRowID: 'aspTableRow2', cellType: 1, count: 0, percent: 0, hidden: false},
-      Plasma: {name: 'Plasma', character: 9, gridID: "aspLayout2", tableCellID: '#aspTableCell8', tableRowID: 'aspTableRow2', cellType: 0, count: 0, percent: 0, hidden: false},
-      Eos: {name: 'Eos', character: 2, gridID: "aspLayout7", tableCellID: '#aspTableCell4', tableRowID: 'aspTableRow2', cellType: 2, count: 0, percent: 0, hidden: false},
-      Basos: {name: 'Basos', character: 3, gridID: "aspLayout8", tableCellID: '#aspTableCell5', tableRowID: 'aspTableRow2', cellType: 2, count: 0, percent: 0, hidden: false},
-      Atypical: {name: 'Atypical', character: -1, gridID: "", tableCellID: '#aspTableCell0', tableRowID: 'aspTableRow2', cellType: 0, count: 0, percent: 0, hidden: true},
-      Other: {name: 'Other', character: -1, gridID: "", tableCellID: '#aspTableCell1', tableRowID: 'aspTableRow2', cellType: 0, count: 0, percent: 0, hidden: true},
+      Blasts: {name: 'Blasts', character: 0, counterGridID: "#aspCounter9", layoutGridID: "aspLayout9", tableCellID: '#aspTableCell2', tableRowID: 'aspTableRow2', cellType: 5, count: 0, percent: 0, hidden: false},
+      Neuts: {name: 'Neuts', character: 4, counterGridID: "#aspCounter3", layoutGridID: "aspLayout3", tableCellID: '#aspTableCell3', tableRowID: 'aspTableRow2', cellType: 1, count: 0, percent: 0, hidden: false},
+      NRBCs: {name: 'NRBCs', character: 1, counterGridID: "#aspCounter6", layoutGridID: "aspLayout6", tableCellID: '#aspTableCell9', tableRowID: 'aspTableRow2', cellType: 3, count: 0, percent: 0, hidden: false},
+      Lymphs: {name: 'Lymphs', character: 5, counterGridID: "#aspCounter4", layoutGridID: "aspLayout4", tableCellID: '#aspTableCell7', tableRowID: 'aspTableRow2', cellType: 0, count: 0, percent: 0, hidden: false},
+      Monos: {name: 'Monos', character: 6, counterGridID: "#aspCounter5", layoutGridID: "aspLayout5", tableCellID: '#aspTableCell6', tableRowID: 'aspTableRow2', cellType: 2, count: 0, percent: 0, hidden: false},
+      Metas: {name: 'Metas', character: 7, counterGridID: "#aspCounter0", layoutGridID: "aspLayout0", tableCellID: '#aspTableCell3', tableRowID: 'aspTableRow2', cellType: 1, count: 0, percent: 0, hidden: false},
+      Promyelo: {name: 'Promyelo', character: ".", counterGridID: "#aspCounter10", layoutGridID: "aspLayout10", tableCellID: '#aspTableCell3', tableRowID: 'aspTableRow2', cellType: 1, count: 0, percent: 0, hidden: true},
+      Myelo: {name: 'Myelo', character: 8, counterGridID: "#aspCounter1", layoutGridID: "aspLayout1", tableCellID: '#aspTableCell3', tableRowID: 'aspTableRow2', cellType: 1, count: 0, percent: 0, hidden: false},
+      Plasma: {name: 'Plasma', character: 9, counterGridID: "#aspCounter2", layoutGridID: "aspLayout2", tableCellID: '#aspTableCell8', tableRowID: 'aspTableRow2', cellType: 0, count: 0, percent: 0, hidden: false},
+      Eos: {name: 'Eos', character: 2, counterGridID: "#aspCounter7", layoutGridID: "aspLayout7", tableCellID: '#aspTableCell4', tableRowID: 'aspTableRow2', cellType: 2, count: 0, percent: 0, hidden: false},
+      Basos: {name: 'Basos', character: 3, counterGridID: "#aspCounter8", layoutGridID: "aspLayout8", tableCellID: '#aspTableCell5', tableRowID: 'aspTableRow2', cellType: 2, count: 0, percent: 0, hidden: false},
+      Atypical: {name: 'Atypical', character: -1, counterGridID: "", layoutGridID: "", tableCellID: '#aspTableCell0', tableRowID: 'aspTableRow2', cellType: 0, count: 0, percent: 0, hidden: true},
+      Other: {name: 'Other', character: -1, counterGridID: "", layoutGridID: "", tableCellID: '#aspTableCell1', tableRowID: 'aspTableRow2', cellType: 0, count: 0, percent: 0, hidden: true},
     }
   };
   if (saveFileBM != null){
@@ -430,7 +431,7 @@ $(document).ready(function() {
           if (gridTemplate[i][j] == -1){
             gridHTML += "<div></div>";
           } else {
-            gridHTML += `<div><b>${gridTemplate[i][j]}: </b><select class="counterTemplate" data-type="${layoutType}" data-character="${gridTemplate[i][j]}" id="${layoutType}Layout${idCount}"></select></div>`;
+            gridHTML += `<div><b>${gridTemplate[i][j]}: </b><select class="counterTemplate" data-type="${layoutType}" data-character="${gridTemplate[i][j]}" data-counter="${layoutType}Counter${idCount}" id="${layoutType}Layout${idCount}"></select></div>`;
             idCount++;
           }
         }
@@ -464,7 +465,7 @@ $(document).ready(function() {
       let id = this.id;
       selectDetect = false;
       $.each(countTable, function (i) {
-        if((this.gridID) == id){
+        if((this.layoutGridID) == id){
           $(`#${id}`).append($('<option>', {value: i, text : i, selected: "selected"}))
           selectDetect = true;
         } else {
@@ -496,7 +497,8 @@ $(document).ready(function() {
               if (gridTemplate[i][j] == -1){
                   gridHTML += "<div></div>"
               } else {
-              gridHTML += `<div class="gridCell"><b>${gridTemplate[i][j]}: ${cellName}</b><input class="${counterType}Counter" id="${counterType}Counter${idCount}" size="2"></div>`
+              gridHTML += `<div class="gridCell"><b>${gridTemplate[i][j]}: ${cellName}</b><input class="${counterType}Counter" id="${counterType}Counter${idCount}" size="2"></div>`;
+              idCount++;
               }
           }
       }
@@ -913,136 +915,124 @@ $(document).ready(function() {
     let countSum = 0, myeloidSum = 0, erythroidSum = 0, neutSum = 0;
     const totalCount = cellCounter(table, e);
     $(`#${e}CCount`).val(totalCount);
-    if (totalCount != 0) {
+    if (totalCount > 0) {
       $('#diffCount').show();
       $(`#${e}TableDiv`).show();  
-    if ($("#roundDesired").prop('checked')){
-      for (const i in table){
-        table[i]["percent"] = (Math.round((table[i]["count"] / totalCount) * dcount) / (dcount/100)).toFixed(1);
-        if (table[i]["cellType"] != 4){
-          countSum += parseFloat(table[i]["percent"]);
+      if ($("#roundDesired").prop('checked')){
+        for (const i in table){
+          table[i]["percent"] = (Math.round((table[i]["count"] / totalCount) * dcount) / (dcount/100)).toFixed(1);
+          if (table[i]["cellType"] != 4){
+            countSum += parseFloat(table[i]["percent"]);
+          }
         }
-      }
-      while (parseFloat(countSum.toFixed(1)) != 100){
-        let minDifference = 10;
-        let minIndex = - 1; 
-        if (countSum > 100){
-          for (const i in table){
-            if (table[i]["cellType"] != 4){
-              let diff = (Math.abs(((100*table[i]["count"] / totalCount) - (parseFloat(table[i]["percent"]) - 100/dcount)))/ table[i]["count"]);
-              if (diff < minDifference){
-                minIndex = i;
-                minDifference = diff;
+        while (parseFloat(countSum.toFixed(1)) != 100){
+          let minDifference = 10;
+          let minIndex = - 1; 
+          if (countSum > 100){
+            for (const i in table){
+              if (table[i]["cellType"] != 4){
+                let diff = (Math.abs(((100*table[i]["count"] / totalCount) - (parseFloat(table[i]["percent"]) - 100/dcount)))/ table[i]["count"]);
+                if (diff < minDifference){
+                  minIndex = i;
+                  minDifference = diff;
+                }
               }
             }
-          }
-          table[minIndex]["percent"] = (parseFloat(table[minIndex]["percent"]) - 100/dcount).toFixed(1);
-          countSum -= 100/dcount;
-        } else {
-          for (const i in table){
-            if (table[i]["cellType"] != 4){
-              let diff = (Math.abs(((100*table[i]["count"] / totalCount) - (parseFloat(table[i]["percent"]) + 100/dcount)))/ table[i]["count"]);
-              if (diff < minDifference){
-                minIndex = i;
-                minDifference = diff;
-              }
-            }
-          }
-          table[minIndex]["percent"] = (parseFloat(table[minIndex]["percent"]) + 100/dcount).toFixed(1);
-          countSum += 100/dcount;
-        }
-      }
-    } else {
-      for (const i in table){
-        table[i]["percent"] = (Math.round((100*table[i]["count"]/totalCount)*10)/10).toFixed(1);
-        if (table[i]["cellType"] != 4){
-          countSum += parseFloat(table[i]["percent"]);
-        }
-      }
-    }
-
-    $(`#${e}TCount`).val(countSum.toFixed(1)+"%")
-    
-    for (const i in table){
-      if (e == "asp" && table[i]["count"]>0){
-        if (table[i]['cellType'] == 5 && $('#blastCheck').prop('checked')){
-          myeloidSum += parseFloat(table[i]["percent"]);
-        }
-        if (table[i]['cellType'] == 1 || table[i]['cellType'] == 2){
-          myeloidSum += parseFloat(table[i]["percent"]);
-          if (table[i]['cellType'] == 1){
-            neutSum += parseFloat(table[i]["percent"]);
-          }
-        } else if (table[i]['cellType'] == 3){
-          erythroidSum += parseFloat(table[i]["percent"]);
-        }
-      }
-      if (table[i]["cellType"] != 4 && totalCount > 0) {
-        if (e == "asp"){
-          if (table[i]["cellType"] == 1){
-            $(table[i]["gridID"]).val(table[i]["percent"] + "%");
+            table[minIndex]["percent"] = (parseFloat(table[minIndex]["percent"]) - 100/dcount).toFixed(1);
+            countSum -= 100/dcount;
           } else {
-            $(table[i]["gridID"]).val(table[i]["percent"] + "%");
+            for (const i in table){
+              if (table[i]["cellType"] != 4){
+                let diff = (Math.abs(((100*table[i]["count"] / totalCount) - (parseFloat(table[i]["percent"]) + 100/dcount)))/ table[i]["count"]);
+                if (diff < minDifference){
+                  minIndex = i;
+                  minDifference = diff;
+                }
+              }
+            }
+            table[minIndex]["percent"] = (parseFloat(table[minIndex]["percent"]) + 100/dcount).toFixed(1);
+            countSum += 100/dcount;
+          }
+        }
+      } else {
+        for (const i in table){
+          table[i]["percent"] = (Math.round((100*table[i]["count"]/totalCount)*10)/10).toFixed(1);
+          if (table[i]["cellType"] != 4){
+            countSum += parseFloat(table[i]["percent"]);
+          }
+        }
+      }
+
+      $(`#${e}TCount`).val(countSum.toFixed(1)+"%")
+      
+      for (const i in table){
+        if (table[i]['character'] != -1){
+          if (e == "asp" && table[i]["count"]>0){
+            if ((table[i]['cellType'] == 5 && $('#blastCheck').prop('checked')) || table[i]['cellType'] == 1 || table[i]['cellType'] == 2){
+              myeloidSum += parseFloat(table[i]["percent"]);
+              if (table[i]['cellType'] == 1){
+                neutSum += parseFloat(table[i]["percent"]);
+              }
+            } else if (table[i]['cellType'] == 3){
+              erythroidSum += parseFloat(table[i]["percent"]);
+            }
+          }
+          if (table[i]["cellType"] == 4) {
+            $(table[i]["counterGridID"]).val(table[i]["percent"]);
+            $(table[i]["tableCellID"]).html(table[i]["percent"]);
+          } else if (table[i]["cellType"] == 1){
+            $(table[i]["counterGridID"]).val(table[i]["percent"] + "%");
+          } else {
+            $(table[i]["counterGridID"]).val(table[i]["percent"] + "%");
             $(table[i]["tableCellID"]).html(table[i]["percent"] + "%");
           }
-        } else {
-          $(table[i]["gridID"]).val(table[i]["percent"] + "%");
-          $(table[i]["tableCellID"]).html(table[i]["percent"] + "%");
-        }
-       
-      } else if (totalCount > 0) {
-        $(table[i]["gridID"]).val(table[i]["percent"]);
-        $(table[i]["tableCellID"]).html(table[i]["percent"]);
-      } else {
-        $(table[i]["gridID"]).val("");
-        $(table[i]["tableCellID"]).html("");
-      }
-      if (table[i]['hidden']) {
-        if(table[i]['count'] > 0){
-          $(table[i]['tableRowID']).show();
-        } else {
-          $(table[i]['tableRowID']).hide();
+          if (table[i]['hidden'] && table[i]['count'] > 0) {
+            $(table[i]['tableRowID']).show();
+          } else if (table[i]['hidden']){
+            $(table[i]['tableRowID']).hide();
+          }
         }
       }
-    }
 
-    if (e == "asp"){
-      if (erythroidSum != 0){
-        const meRatio = (Math.round((myeloidSum/erythroidSum)*10)/10).toFixed(1);
-        $('#meRatio').val(`${meRatio}:1`);
-        $('#aspTableCell99').html(`${meRatio}:1`);
-        if ($('#erythroidPredomSetting').val() != '' && meRatio < parseFloat($('#erythroidPredomSetting').val())){
-          $('#myeloidPredominance').prop('checked', false);
-          $('#erythroidPredominance').prop('checked', true);
-          fillReport();
-        } else if ($('#myeloidPredomSetting').val() != '' && meRatio > parseFloat($('#myeloidPredomSetting').val())){
-          $('#myeloidPredominance').prop('checked', true);
-          $('#erythroidPredominance').prop('checked', false);
-          fillReport();
-        } else if ($('#erythroidPredomSetting').val() != '' && $('#myeloidPredomSetting').val() != ''){
+      if (e == "asp"){
+        if (erythroidSum != 0){
+          const meRatio = (Math.round((myeloidSum/erythroidSum)*10)/10).toFixed(1);
+          $('#meRatio').val(`${meRatio}:1`);
+          $('#aspTableCell99').html(`${meRatio}:1`);
+          if ($('#erythroidPredomSetting').val() != '' && meRatio < parseFloat($('#erythroidPredomSetting').val())){
+            $('#myeloidPredominance').prop('checked', false);
+            $('#erythroidPredominance').prop('checked', true);
+            fillReport();
+          } else if ($('#myeloidPredomSetting').val() != '' && meRatio > parseFloat($('#myeloidPredomSetting').val())){
+            $('#myeloidPredominance').prop('checked', true);
+            $('#erythroidPredominance').prop('checked', false);
+            fillReport();
+          } else if ($('#erythroidPredomSetting').val() != '' && $('#myeloidPredomSetting').val() != ''){
+            $('#myeloidPredominance').prop('checked', false);
+            $('#erythroidPredominance').prop('checked', false);
+            fillReport();
+          }
+        } else if (erythroidSum == 0){
+          $('#meRatio').val("N/A");
+          $('#aspTableCell99').html("N/A");
           $('#myeloidPredominance').prop('checked', false);
           $('#erythroidPredominance').prop('checked', false);
           fillReport();
         }
-      } else if (erythroidSum == 0){
-        $('#meRatio').val("N/A");
-        $('#aspTableCell99').html("N/A");
-        $('#myeloidPredominance').prop('checked', false);
-        $('#erythroidPredominance').prop('checked', false);
-        fillReport();
+        $('#aspTableCell3').html((neutSum).toFixed(1) + "%");
       }
-      $('#aspTableCell3').html((neutSum).toFixed(1) + "%");
-    }
-    if (dcount == totalCount){
-      new Audio('https://diffpath.github.io/media/Complete-Nice.mp3').play(); 
-    } else if ((totalCount % 100) == 0){
-      new Audio('https://diffpath.github.io/media/100-Soothing.mp3').play();
-    } 
-    $(rightPanelFinal).show();
+      if (dcount == totalCount){
+        new Audio('https://diffpath.github.io/media/Complete-Nice.mp3').play(); 
+      } else if ((totalCount % 100) == 0){
+        new Audio('https://diffpath.github.io/media/100-Soothing.mp3').play();
+      } 
+      $(rightPanelFinal).show();
     } else {
       for (const i in table){
-        $(table[i]["gridID"]).val("");
+        $(table[i]["counterGridID"]).val("");
         $(table[i]["tableCellID"]).html("");
+        $(`#${e}CCount`).val("");
+        $(`#${e}TCount`).val("")
       }
       if($('#pbCCount').val() == 0 && $('#aspCCount').val() == 0){
         $('#diffCount').hide();
@@ -1179,6 +1169,7 @@ $(document).ready(function() {
 
   $('.toggleDiv').click(function(){
     $(`#${$(this).attr('data-id')}`).toggle();
+    fillReport();
   })
 
   function fillInputs() {
@@ -1215,9 +1206,7 @@ $(document).ready(function() {
   function fillReport(){
     let finalText = "";
     const specText = fillSpecimen();
-    console.log('ho')
-    const clinicalText = fillClinical();
-    console.log('he')
+    let clinicalText = fillClinical();
     const pb = fillPB();
     const asp = fillAsp();
     const touch = fillTouch();
@@ -1226,6 +1215,10 @@ $(document).ready(function() {
     const specialStains = fillSpecialStains();
     const immunostains = fillImmunostains();
 
+    if (clinicalText != "" && $('#toggleClinical').is(':hidden')){
+      clinicalText += "<br>"
+      console.log('hi')
+    }
     if (pb != ""){
       finalText += "<b>Peripheral Blood Smear</b><br>" + pb;
     }
@@ -1308,7 +1301,6 @@ $(document).ready(function() {
         $('#finalDiv').html(finalText);
       }
     } else {
-      console.log('ho')
       $(rightPanelFinal).hide();
       $('#specDiv').html(specText);
       $('#finalDiv').html(finalText);
@@ -1345,16 +1337,19 @@ $(document).ready(function() {
     specText = addCommas(specArray);
     if (specText != ''){
       specText = `<b>A, B: ${specText.charAt(0).toUpperCase()}${specText.slice(1)}:</b><br><br>`;
+      $('#specContainer').show();
+    } else {
+      $('#specContainer').hide();
     }
     return specText;
   }
 
   function fillClinical() {
-    let clinicalText = "";
+    let clinicalText = '';
     let clinicalTable = '<table class="templateTable" style="width:440px; font-size:10pt"><tr><th style="width:50%; text-align:left">Component</td><th style="width:17%; text-align:left">Result</td><th style="width:33%; text-align:left">Units</td></tr>';
     let toggle = false;
 
-    if (patientAge != -1){
+    if (patientAge != -1 && $('#pbCBC').val() != ""){
       if ($('#toggleClinical').is(':hidden')){
         clinicalText += "<b>Clinical Information</b><div id='toggleClinical' style='display: none'>The patient is";
       } else {
@@ -1384,23 +1379,28 @@ $(document).ready(function() {
         clinicalText += ' presenting with thrombocytopenia.';
       }
       clinicalText += '<br><br>'
-    }
-    for (i in cbcObject){
-      if (cbcObject[i]["value"] != ""){
-        if (cbcObject[i]["value"].indexOf("Low") != -1){
-        clinicalTable += `<tr style="background-color: lightblue"><td style="width:50%">${i}</td><td style="width:17%">${cbcObject[i]["value"].split(" ")[0]}</td><td style="width:33%">${cbcObject[i]["unit"]}</td></tr>`;
-        } else if (cbcObject[i]["value"].indexOf("High") != -1){
-        clinicalTable += `<tr style="background-color: lightcoral"><td style="width:50%">${i}</td><td style="width:17%">${cbcObject[i]["value"].split(" ")[0]}</td><td style="width:33%">${cbcObject[i]["unit"]}</td></tr>`;
-        } else {
-        clinicalTable += `<tr><td style="width:50%">${i}</td><td style="width:17%">${cbcObject[i]["value"].split(" ")[0]}</td><td style="width:33%">${cbcObject[i]["unit"]}</td></tr>`;
+      for (i in cbcObject){
+        if (cbcObject[i]["value"] != ""){
+          if (cbcObject[i]["value"].indexOf("Low") != -1){
+          clinicalTable += `<tr style="background-color: lightblue"><td style="width:50%">${i}</td><td style="width:17%">${cbcObject[i]["value"].split(" ")[0]}</td><td style="width:33%">${cbcObject[i]["unit"]}</td></tr>`;
+          } else if (cbcObject[i]["value"].indexOf("High") != -1){
+          clinicalTable += `<tr style="background-color: lightcoral"><td style="width:50%">${i}</td><td style="width:17%">${cbcObject[i]["value"].split(" ")[0]}</td><td style="width:33%">${cbcObject[i]["unit"]}</td></tr>`;
+          } else {
+          clinicalTable += `<tr><td style="width:50%">${i}</td><td style="width:17%">${cbcObject[i]["value"].split(" ")[0]}</td><td style="width:33%">${cbcObject[i]["unit"]}</td></tr>`;
+          }
+          toggle = true;
         }
-        toggle = true;
       }
+      if (toggle){
+        clinicalText += `<div class='toggleHeader'><b>CBC Results</b></div><div>${clinicalTable}</table></div>`;
+      }
+      clinicalText += '</div><br>';
     }
-    if (toggle){
-      clinicalText += `<div class='toggleHeader'><b>CBC Results</b></div><div>${clinicalTable}</table></div>`;
+    if (clinicalText != ''){
+      $('#clinicalContainer').show();
+    } else {
+      $('#clinicalContainer').hide()
     }
-    clinicalText += '</div><br>';
     return clinicalText
   }
 
@@ -2242,13 +2242,15 @@ $(document).ready(function() {
           let toggle = false;
           $('.counterTemplate').each(function(){
             if(String(i) == ($(this).attr("data-type")+"CountTable") && j == $(this).val()){
-              countTables[i][j]["gridID"] = this.id;
+              countTables[i][j]["layoutGridID"] = this.id;
+              countTables[i][j]["counterGridID"] = "#"+ $(this).attr("data-counter");
               countTables[i][j]["character"] = $(this).attr("data-character");
               toggle = true;
             }
           })
           if (!toggle){
-              countTables[i][j]["gridID"] = "";
+              countTables[i][j]["layoutGridID"] = "";
+              countTables[i][j]["counterGridID"] = "";
               countTables[i][j]["character"] = -1;
           }
         }
