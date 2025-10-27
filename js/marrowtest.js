@@ -1508,7 +1508,7 @@ $(document).ready(function() {
       pbText += "Red blood cells show "
       $('.aniso').each(function(){
         if ($(this).prop('checked')){
-          rbc += `${$(this).val()} `;
+          pbText += `${$(this).val()} `;
         }
       })
       if (anisoListString != ""){
