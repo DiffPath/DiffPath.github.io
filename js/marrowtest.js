@@ -174,7 +174,9 @@ $(document).ready(function() {
     "Polymorphous",
     "Reactive",
     "Predominantly CLL-like",
-    "Subset CLL-like"
+    "Subset CLL-like",
+    "Marginal zone-like",
+    "Hairy cell-like"
   ];
 
   const monocyteList = [
@@ -541,7 +543,7 @@ $(document).ready(function() {
     $(`.${this.className.split(" ")[0]}`).each(function() {
       $(this).removeClass("clicked");
       $(this).addClass("unclicked");
-      $("#"+headerObject[this.id]).hide();
+      $(`#${headerObject[this.id]}`).hide();
     });
     $(`#${headerObject[this.id]}`).show();
     $(this).addClass("clicked")
@@ -1106,6 +1108,33 @@ $(document).ready(function() {
       radioObject[id] = 1;
     }
   }
+
+  $('.pairedOn').change(function(){
+    $(`#rbcUnremarkable`).prop('checked', false);
+    if ($(this).prop('checked')){
+      $(`#${$(this).attr('data-paired')}`).prop('checked', true)
+    }
+  })
+
+  $('.offPairedOff').change(function(){
+    $(`#rbcUnremarkable`).prop('checked', false);
+    if (!$(this).prop('checked')){
+      $(`.${$(this).attr('data-paired')}`).each(function(){
+        $(this).prop('checked', false);
+      })
+    }
+  })
+
+  $('.onPairedOff').change(function(){
+    if ($(this).prop('checked')){
+      $(`.${$(this).attr('data-paired')}`).each(function(){
+        $(this).prop('checked', false);
+        $(`.${$(this).attr('data-paired')}`).each(function(){
+        $(this).prop('checked', false);
+      })
+      })
+    }
+  })
   
   $('input:checkbox').on('change', function() {
     $(this).siblings('input[type="checkbox"]').prop('checked', false);
@@ -1217,8 +1246,8 @@ $(document).ready(function() {
 
     if (clinicalText != "" && $('#toggleClinical').is(':hidden')){
       clinicalText += "<br>"
-      console.log('hi')
     }
+
     if (pb != ""){
       finalText += "<b>Peripheral Blood Smear</b><br>" + pb;
     }
@@ -1289,21 +1318,13 @@ $(document).ready(function() {
     } else if (immunostains != ""){
       finalText += `<b>Immunohistochemical Stains</b><br>${immunostains}`;
     }
-    if(specText != '' || clinicalText != '' || finalText != '' || $('#pbTableDiv').is(':visible') || $('#aspTableDiv').is(':visible')){
+    if(specText != '' || clinicalText != '' || finalText != '' || $('#pbCCount').val() != "" || $('#aspCCount').val() != ""){
+      $('#specDiv').html(specText);
+      $('#clinicalDiv').html(clinicalText);
+      $('#finalDiv').html(finalText);
       $(rightPanelFinal).show();
-      if (specText != ''){
-        $('#specDiv').html(specText);
-      }
-      if (clinicalText != ''){
-        $('#clinicalDiv').html(clinicalText);
-      }
-      if (finalText != ''){
-        $('#finalDiv').html(finalText);
-      }
     } else {
       $(rightPanelFinal).hide();
-      $('#specDiv').html(specText);
-      $('#finalDiv').html(finalText);
     }
 
   }
@@ -1406,279 +1427,320 @@ $(document).ready(function() {
 
   function fillPB() {
     let pbText = "";
+    let pbBlast = "";
+    let pbPlasma = "";
+    let hgb = "";
     const neutListString = listText("neutrophilSelect");
     const anisoListString = listText('anisoSelect');
     const pltListString = listText("plateletSelect");
     const monoListString = listText('monocyteSelect');
     
-    if ($('#hgbNormal').prop("checked")) {
-      $("#hgbMildMarked").hide();
+    $("#hgbMildMarked").hide();
+
+    if ($('#hgbLow').prop("checked") || $('#hgbHigh').prop("checked")){
+      $("#hgbMildMarked").show();
+      let toggle = false;
+      $('.hgbMildMarked').each(function(){
+        if ($(this).prop("checked")){
+          hgb += `${$(this).val()} `;
+        }
+      })
+      $('.mcvQual').each(function(){
+        if ($(this).prop("checked")){
+          hgb += `${$(this).val()}`;
+          toggle = true;
+        }
+      })
+      if ($('#hypochromic').prop("checked")){
+        if (toggle){
+          hgb += ", hypochromic"
+        } else {
+          hgb += " hypochromic"
+        }
+      }
+      $('.hgbQual').each(function(){
+        if ($(this).prop("checked")){
+          hgb += ` ${$(this).val()}`;
+        }
+      })
+      pbText += `The peripheral blood smear shows ${hgb}. `
+    } else if ($('#hgbNormal').prop("checked")) {
       pbText += "The peripheral blood smear shows adequate hemoglobin. ";
-    } else if ($('#hgbLow').prop("checked")) {
-      $("#hgbMildMarked").show();
-      pbText += "The peripheral blood smear shows";
-      if ($('#hgbMarked').prop("checked")) {
-        pbText += " marked";
-      } else if ($('#hgbMild').prop("checked")) {
-        pbText += " mild";
-      }
-      if ($('#mcvLow').prop("checked")) {
-        pbText += " microcytic";
-      } else if ($('#mcvNormal').prop("checked")) {
-        pbText += " normocytic";
-      } else if ($('#mcvHigh').prop("checked")) {
-        pbText += " macrocytic";
-      }
-      if ($('#hypochromic').prop("checked") && ($('#mcvLow').prop("checked") || $('#mcvNormal').prop("checked") || $('#mcvHigh').prop("checked"))) {
-        pbText += ", hypochromic";
-      } else if ($('#hypochromic').prop("checked")) {
-        pbText += " hypochromic";
-      }
-      pbText += " anemia. "
-    } else if ($('#hgbHigh').prop("checked")) {
-      $("#hgbMildMarked").show();
-      pbText += "The peripheral blood smear shows";
-      if ($('#hgbMarked').prop("checked")) {
-        pbText += " marked";
-      } else if ($('#hgbMild').prop("checked")) {
-        pbText += " mild";
-      }
-      pbText += " polycythemia. ";
     }
 
     if ($("#anisoPresent").prop("checked") || $("#anisoMild").prop("checked") || $("#anisoMarked").prop("checked")) {
       ($('#anisoDiv').show());
       ($('#anisoSelect').show());
-    } else if ($("#anisoAbsent").prop("checked")){
+    } else {
       ($('#anisoDiv').hide());
       ($('#anisoSelect').hide());
     }
 
-    if ($("#polyPresent").prop("checked") || $("#polySlight").prop("checked") || $("#polyMarked").prop("checked")) {
+    if ($("#rbcUnremarkable").prop("checked")){
+      pbText += "Red blood cells show unremarkable morphology. "
+    }
+
+    if ($("#polyPresent").prop("checked")){
+      toggle = false;
       pbText += "Red blood cells show ";
-      if ($("#polyPresent").prop("checked")){
-        pbText += 'polychromasia';
-      } else if ($("#polySlight").prop("checked")){
-        pbText += 'slight polychromasia';
-      } else if ($("#polyMarked").prop("checked")){
-        pbText += 'marked polychromasia';
-      }
-      if ($("#anisoAbsent").prop("checked")){
-        pbText += '. ';
-      } else if (anisoListString != ''){
-        if ($("#anisoPresent").prop("checked")){
-          pbText += ` and anisopoikilocytosis including ${anisoListString}. `;
-        } else if ($("#anisoMild").prop("checked")){
-          pbText += ` and mild anisopoikilocytosis including ${anisoListString}. `;
-        } else if ($("#anisoMarked").prop("checked")){
-          pbText += ` and marked anisopoikilocytosis including ${anisoListString}. `;
+      $('.polyQual').each(function(){
+        if ($(this).prop('checked')){
+          pbText += `${$(this).val()} `;
         }
-      } else {
-        if ($("#anisoPresent").prop("checked")){
-          pbText += ' and nonspecific anisopoikilocytosis. ';
-        } else if ($("#anisoMild").prop("checked")){
-          pbText += ' and mild nonspecific anisopoikilocytosis. ';
-        } else if ($("#anisoMarked").prop("checked")){
-          pbText += ' and marked nonspecific anisopoikilocytosis. ';
+      })
+      pbText += "polychromasia";
+      if ($("#anisoPresent").prop("checked")){
+        pbText += " and "
+        $('.aniso').each(function(){
+          if ($(this).prop('checked')){
+            pbText += `${$(this).val()} `;
+          }
+        })
+        if (anisoListString != ""){
+          pbText += `anisopoikilocytosis including ${anisoListString}. `
         } else {
-          pbText += '. ';
-        }
-      }
-    } else if ($("#anisoAbsent").prop("checked")){
-      pbText += 'Red blood cells show unremarkable morphology. '
-    } else {
-        if (anisoListString != ''){
-        if ($("#anisoPresent").prop("checked")){
-          pbText += `Red blood cells show anisopoikilocytosis including ${anisoListString}. `;
-        } else if ($("#anisoMild").prop("checked")){
-          pbText += `Red blood cells show mild anisopoikilocytosis including ${anisoListString}. `;
-        } else if ($("#anisoMarked").prop("checked")){
-          pbText += `Red blood cells show marked anisopoikilocytosis including ${anisoListString}. `;
+          pbText += `nonspecific anisopoikilocytosis. `
         }
       } else {
-        if ($("#anisoPresent").prop("checked")){
-          pbText += 'Red blood cells show nonspecific anisopoikilocytosis. ';
-        } else if ($("#anisoMild").prop("checked")){
-          pbText += 'Red blood cells show mild nonspecific anisopoikilocytosis. ';
-        } else if ($("#anisoMarked").prop("checked")){
-          pbText += 'Red blood cells show marked nonspecific anisopoikilocytosis. ';
-        } else if ($("#anisoAbsent").prop("checked")){
+        pbText += ". "
+      }
+    } else if ($("#anisoPresent").prop("checked")){
+      pbText += "Red blood cells show "
+      $('.aniso').each(function(){
+        if ($(this).prop('checked')){
+          rbc += `${$(this).val()} `;
         }
+      })
+      if (anisoListString != ""){
+        pbText += `anisopoikilocytosis including ${anisoListString}. `
+      } else {
+        pbText += `nonspecific anisopoikilocytosis. `
       }
     }
 
-    if ($("#nrbcRare").prop("checked")) {
-      pbText += "Rare nucleated red blood cells are identified. ";
-    } else if ($("#nrbcOccasional").prop("checked")){
-      pbText += "Occasional nucleated red blood cells are identified. ";
-    } else if ($("#nrbcFrequent").prop("checked")) {
-      pbText += "Frequent nucleated red blood cells are identified. ";
-    } else if ($("#nrbcPresent").prop("checked")) {
-      pbText += "Nucleated red blood cells are identified. ";
+    if ($("#nrbcPresent").prop("checked")){
+      let toggle = false;
+      $(".nrbcQual").each(function(){
+        if ($(this).prop("checked")){
+          pbText += `${$(this).val()} `;
+          toggle = true;
+        }
+      })
+      if (toggle){
+        pbText += "nucleated red blood cells ";
+      } else {
+        pbText += "Nucleated red blood cells ";
+      }
+      if ($("#rouleauxPresent").prop("checked")){
+        pbText += "and ";
+        $(".rouleaux").each(function(){
+        if ($(this).prop("checked")){
+          pbText += `${$(this).val().toLowerCase()} `;
+        }
+        pbText += "rouleaux formation are identified. "
+      })
+      } else {
+        pbText += "are identified. "
+      }
+    } else if ($("#rouleauxPresent").prop("checked")){
+      let toggle = false;
+      $(".rouleaux").each(function(){
+      if ($(this).prop("checked")){
+        pbText += `${$(this).val()} `;
+        toggle = true;
+      }
+      if (toggle){
+        pbText += "rouleaux formation is present. "
+      } else {
+        pbText += "Rouleaux formation is present. "
+      }
+    })
     }
-    
-      if ($("#neutLow").prop("checked")) {
-        $("#neutMildMarked").show();
-        pbText += "There is"
-        if ($('#neutMarked').prop("checked")) {
-          pbText += " marked";
-        } else if ($('#neutMild').prop("checked")) {
-          pbText += " mild";
-        }
-        if (neutListString == "") {
-          pbText += " absolute neutropenia. Neutrophils show unremarkable morphology. ";
-        } else {
-          pbText += " absolute neutropenia. Neutrophils show " + neutListString + ". ";
-        }
-      } else if ($("#neutNormal").prop("checked")) {
-        $("#neutMildMarked").hide();
-        if (neutListString == "") {
-          pbText += "Neutrophils are adequate and show unremarkable morphology. ";
-        } else {
-          pbText += " Neutrophils are adequate. Neutrophils show " + neutListString + ". ";
-        }
-      } else if ($("#neutHigh").prop("checked")) {
-        $("#neutMildMarked").show();
-        pbText += "There is";
-        if ($('#neutMarked').prop("checked")) {
-          pbText += " marked";
-        } else if ($('#neutMild').prop("checked")) {
-          pbText += " mild";
-        }
-        if (neutListString == "") {
-          pbText += " absolute neutrophilia. Neutrophils show unremarkable morphology. ";
-        } else {
-          pbText += " absolute neutrophilia. Neutrophils show " + neutListString + ". ";
-        }
-      } else if (neutListString != ""){
-        pbText += `Neutrophils show ${neutListString}. `;
+  
+    if ($("#neutLow").prop("checked")) {
+      $("#neutMildMarked").show();
+      pbText += "There is"
+      if ($('#neutMarked').prop("checked")) {
+        pbText += " marked";
+      } else if ($('#neutMild').prop("checked")) {
+        pbText += " mild";
       }
-
-      if ($("#lymphLow").prop("checked")) {
-        $("#lymphMildMarked").show();
-        pbText += "There is"
-        if ($('#lymphMarked').prop("checked")) {
-          pbText += " marked";
-        } else if ($('#lymphMild').prop("checked")) {
-          pbText += " mild";
-        }
-        pbText += " absolute lymphopenia. "
-        if ($('#lymphocyteSelect0').val() == "unremarkable") {
-          pbText += "Lymphocytes show unremarkable morphology. ";
-        }
-      } else if ($("#lymphNormal").prop("checked") && $('#lymphocyte_select').val() == "unremarkable") {
-        $("#lymphMildMarked").hide();
-        pbText += "Lymphocytes are adequate and show unremarkable morphology. ";
-      } else if ($("#lymphHigh").prop("checked")) {
-        $("#lymphMildMarked").show();
-        pbText += "There is";
-        if ($('#lymphMarked').prop("checked")) {
-          pbText += " marked";
-        } else if ($('#lymphMild').prop("checked")) {
-          pbText += " mild";
-        }
-        pbText += " absolute lymphocytosis"
-        if ($('#lymphocyteSelect0').val() == "Unremarkable"){
-          pbText += ". Lymphocytes show unremarkable morphology. "
-        } else if ($('#lymphocyteSelect0').val() == "Small mature"){
-          pbText += " consisting of predominantly small mature lymphocytes. "
-        } else if ($('#lymphocyteSelect0').val() == "Small mature and large granular"){
-          pbText += " consisting of small mature lymphocytes and large granular lymphocytes. "
-        } else if ($('#lymphocyteSelect0').val() == "Predominantly large granular"){
-          pbText += " consisting of predominantly large granular lymphocytes. "
-        } else if ($('#lymphocyteSelect0').val() == "Polymorphous"){
-          pbText += " consisting of a polymorphous population of small mature lymphocytes, large granular lymphocytes, and reactive lymphocytes. "
-        } else if ($('#lymphocyteSelect0').val() == "Reactive"){
-          pbText += " consisting of predominantly reactive lymphocytes. "
-        } else if ($('#lymphocyteSelect0').val() == "Predominantly CLL-like"){
-          pbText += " consisting of predominantly small mature lymphocyte with clumped chromatin. "
-        } else if ($('#lymphocyteSelect0').val() == "Predominantly CLL-like"){
-          pbText += " with a subset of lymphocytes consisting of small mature forms with clumped chromatin. "
-        } else {
-          pbText += ". "
-        }
-      } 
-
-      if ($("#monosLow").prop("checked")) {
-        $("#monosMildMarked").show();
-        pbText += "There is"
-        if ($('#monosMarked').prop("checked")) {
-          pbText += " marked";
-        } else if ($('#monosMild').prop("checked")) {
-          pbText += " mild";
-        }
-        pbText += " absolute monocytopenia. "
-      } else if ($("#monosHigh").prop("checked")) {
-        $("#monosMildMarked").show();
-        pbText += "There is";
-        if ($('#monosMarked').prop("checked")) {
-          pbText += " marked";
-        } else if ($('#monosMild').prop("checked")) {
-          pbText += " mild";
-        }
-        if (monoListString == "") {
-          pbText += " absolute monocytosis. Monocytes show mature-appearing morphology. ";
-        } else {
-          pbText += " absolute monocytosis. Monocytes show " + monoListString + ". ";
-        }
-      } else if (monoListString != ""){
-        pbText += `Monocytes show ${monoListString}. `;
+      if (neutListString == "") {
+        pbText += " absolute neutropenia. Neutrophils show unremarkable morphology. ";
+      } else {
+        pbText += " absolute neutropenia. Neutrophils show " + neutListString + ". ";
       }
-
-      if ($("#eosHigh").prop("checked") && $("#basoHigh").prop("checked")) {
-        pbText += "There is absolute eosinophilia and basophilia. ";
-      } else if ($("#eosHigh").prop("checked")){
-        pbText += "There is absolute eosinophilia. ";
-      } else if ($("#basoHigh").prop("checked")){
-        pbText += "There is absolute basophilia. ";
+    } else if ($("#neutNormal").prop("checked")) {
+      $("#neutMildMarked").hide();
+      if (neutListString == "") {
+        pbText += "Neutrophils are adequate and show unremarkable morphology. ";
+      } else {
+        pbText += " Neutrophils are adequate. Neutrophils show " + neutListString + ". ";
       }
-
-      if ($("#pltLow").prop("checked")) {
-        $("#pltMildMarked").show();
-        pbText += "Platelets are";
-        if ($("#pltMild").prop("checked")) {
-          pbText += " mildly";
-        } else if ($("#pltMarked").prop("checked")) {
-          pbText += " markedly";
-        }
-        if (pltListString == "") {
-          pbText += " decreased with unremarkable morphology. "
-        } else {
-          pbText += " decreased with " + pltListString + ". ";
-        }
-      } else if ($("#pltNormal").prop("checked")){
-        $("#pltMildMarked").hide();
-        if (pltListString == "") {
-          pbText += "Platelets are adequate with unremarkable morphology. ";
-        } else {
-          pbText += "Platelets are adequate with " + pltListString + ". ";  
-        }
-      } else if ($("#pltHigh").prop("checked")){
-        $("#pltMildMarked").show();
-        pbText += "Platelets are";
-        if ($("#pltMild").prop("checked")){
-          pbText += " mildly";
-        } else if ($("#pltMarked").prop("checked")) {
-          pbText += " markedly";
-        }
-        if (pltListString == ""){
-          pbText += " increased with unremarkable morphology. ";
-        } else {
-          pbText += " increased with " + pltListString + ". ";
-        }
-      } else if (pltListString != ""){
-        pbText += pltListString.charAt(0).toUpperCase() + pltListString.slice(1) + " are seen. "
+    } else if ($("#neutHigh").prop("checked")) {
+      $("#neutMildMarked").show();
+      pbText += "There is";
+      if ($('#neutMarked').prop("checked")) {
+        pbText += " marked";
+      } else if ($('#neutMild').prop("checked")) {
+        pbText += " mild";
       }
-      if ($("#circulatingBlast").prop("checked")){
-        if ($("#circulatingPlasma").prop("checked")){
+      if (neutListString == "") {
+        pbText += " absolute neutrophilia. Neutrophils show unremarkable morphology. ";
+      } else {
+        pbText += " absolute neutrophilia. Neutrophils show " + neutListString + ". ";
+      }
+    } else if (neutListString != ""){
+      pbText += `Neutrophils show ${neutListString}. `;
+    }
+
+    if ($("#lymphLow").prop("checked")) {
+      $("#lymphMildMarked").show();
+      pbText += "There is"
+      if ($('#lymphMarked').prop("checked")) {
+        pbText += " marked";
+      } else if ($('#lymphMild').prop("checked")) {
+        pbText += " mild";
+      }
+      pbText += " absolute lymphopenia. "
+      if ($('#lymphocyteSelect0').val() == "unremarkable") {
+        pbText += "Lymphocytes show unremarkable morphology. ";
+      }
+    } else if ($("#lymphNormal").prop("checked") && $('#lymphocyte_select').val() == "unremarkable") {
+      $("#lymphMildMarked").hide();
+      pbText += "Lymphocytes are adequate and show unremarkable morphology. ";
+    } else if ($("#lymphHigh").prop("checked")) {
+      $("#lymphMildMarked").show();
+      pbText += "There is";
+      if ($('#lymphMarked').prop("checked")) {
+        pbText += " marked";
+      } else if ($('#lymphMild').prop("checked")) {
+        pbText += " mild";
+      }
+      pbText += " absolute lymphocytosis"
+      if ($('#lymphocyteSelect0').val() == "Unremarkable"){
+        pbText += ". Lymphocytes show unremarkable morphology. "
+      } else if ($('#lymphocyteSelect0').val() == "Small mature"){
+        pbText += " consisting of predominantly small mature lymphocytes. "
+      } else if ($('#lymphocyteSelect0').val() == "Small mature and large granular"){
+        pbText += " consisting of small mature lymphocytes and large granular lymphocytes. "
+      } else if ($('#lymphocyteSelect0').val() == "Predominantly large granular"){
+        pbText += " consisting of predominantly large granular lymphocytes. "
+      } else if ($('#lymphocyteSelect0').val() == "Polymorphous"){
+        pbText += " consisting of a polymorphous population of small mature lymphocytes, large granular lymphocytes, and reactive lymphocytes. "
+      } else if ($('#lymphocyteSelect0').val() == "Reactive"){
+        pbText += " consisting of predominantly reactive lymphocytes. "
+      } else if ($('#lymphocyteSelect0').val() == "Predominantly CLL-like"){
+        pbText += " consisting of predominantly small mature lymphocytes with clumped chromatin. "
+      } else if ($('#lymphocyteSelect0').val() == "Subset CLL-like"){
+        pbText += " with a subset of lymphocytes consisting of small mature forms with clumped chromatin. "
+      } else {
+        pbText += ". "
+      }
+    } 
+
+    if ($("#monosLow").prop("checked")) {
+      $("#monosMildMarked").show();
+      pbText += "There is"
+      if ($('#monosMarked').prop("checked")) {
+        pbText += " marked";
+      } else if ($('#monosMild').prop("checked")) {
+        pbText += " mild";
+      }
+      pbText += " absolute monocytopenia. "
+    } else if ($("#monosHigh").prop("checked")) {
+      $("#monosMildMarked").show();
+      pbText += "There is";
+      if ($('#monosMarked').prop("checked")) {
+        pbText += " marked";
+      } else if ($('#monosMild').prop("checked")) {
+        pbText += " mild";
+      }
+      if (monoListString == "") {
+        pbText += " absolute monocytosis. Monocytes show mature-appearing morphology. ";
+      } else {
+        pbText += " absolute monocytosis. Monocytes show " + monoListString + ". ";
+      }
+    } else if (monoListString != ""){
+      pbText += `Monocytes show ${monoListString}. `;
+    }
+
+    if ($("#eosHigh").prop("checked") && $("#basoHigh").prop("checked")) {
+      pbText += "There is absolute eosinophilia and basophilia. ";
+    } else if ($("#eosHigh").prop("checked")){
+      pbText += "There is absolute eosinophilia. ";
+    } else if ($("#basoHigh").prop("checked")){
+      pbText += "There is absolute basophilia. ";
+    }
+
+    if ($("#pltLow").prop("checked")) {
+      $("#pltMildMarked").show();
+      pbText += "Platelets are";
+      if ($("#pltMild").prop("checked")) {
+        pbText += " mildly";
+      } else if ($("#pltMarked").prop("checked")) {
+        pbText += " markedly";
+      }
+      if (pltListString == "") {
+        pbText += " decreased with unremarkable morphology. "
+      } else {
+        pbText += " decreased with " + pltListString + ". ";
+      }
+    } else if ($("#pltNormal").prop("checked")){
+      $("#pltMildMarked").hide();
+      if (pltListString == "") {
+        pbText += "Platelets are adequate with unremarkable morphology. ";
+      } else {
+        pbText += "Platelets are adequate with " + pltListString + ". ";  
+      }
+    } else if ($("#pltHigh").prop("checked")){
+      $("#pltMildMarked").show();
+      pbText += "Platelets are";
+      if ($("#pltMild").prop("checked")){
+        pbText += " mildly";
+      } else if ($("#pltMarked").prop("checked")) {
+        pbText += " markedly";
+      }
+      if (pltListString == ""){
+        pbText += " increased with unremarkable morphology. ";
+      } else {
+        pbText += " increased with " + pltListString + ". ";
+      }
+    } else if (pltListString != ""){
+      pbText += pltListString.charAt(0).toUpperCase() + pltListString.slice(1) + " are seen. "
+    }
+
+
+    $('.pbBlast').each(function(){
+      if ($(this).prop("checked")){
+        pbBlast = $(this).val()
+      }
+    });
+
+    $('.pbPlasma').each(function(){
+      if ($(this).prop("checked")){
+        pbPlasma = $(this).val()
+      }
+    });
+
+    if (pbBlast == "" && pbPlasma == ""){
+    } else if (pbBlast != ""){
+      if (pbPlasma == ""){
+        pbText += `${pbBlast} circulating blasts are identified. `;
+      } else if (pbPlasma == "No"){
+        if (pbBlast == "No"){
           pbText += "No circulating blasts or plasma cells are identified. "
         } else {
-          pbText += "No circulating blasts are identified. "
+        pbText += `${pbBlast} circulating blasts are identified. No circulating plasma cells are identified. `
         }
-      } else if ($("#circulatingPlasma").prop("checked")){
-        pbText += "No circulating plasma cells are identified. "
+      } else if (pbBlast == pbPlasma){
+        pbText += `${pbBlast} circulating blasts and plasma cells are identified. `
+      } else {
+        pbText += `${pbBlast} circulating blasts and ${pbPlasma.toLowerCase()} circulating plasma cells are identified. `
       }
-
+    } else if (pbPlasma !=""){
+        pbText += `${pbPlasma} circulating plasma are identified. `;
+    }
     return pbText
   }
 
@@ -1779,7 +1841,7 @@ $(document).ready(function() {
       } else if ($('#plasmaUnremarkable').prop("checked")){
         aspText += ' but show unremarkable morphology'
       }
-      aspText += '. '
+      aspText += '. ';
     }
     return aspText;
   }
@@ -1800,93 +1862,96 @@ $(document).ready(function() {
 
   function fillCore(){
     let coreText = "";
+    let cellularityText = "";
     const adequacyListString = listText("coreAdequacySelect");
+    const megakaryocyteListString = listText("coreMegSelect").toLowerCase();
+
     if ($('#coreAdequate').prop("checked") && adequacyListString == "") {
       coreText += "The bone marrow core biopsy is adequate for interpretation. ";
     } else if ($('#coreAdequate').prop("checked")) {
-      coreText += "The bone marrow core biopsy " + adequacyListString + " but is overall adequate for interpretation. ";
+      coreText += `The bone marrow core biopsy ${adequacyListString} but is overall adequate for interpretation. `;
     } else if ($('#coreInadequate').prop("checked") && adequacyListString == "") {
       coreText += "The bone marrow core biopsy is inadequate for interpretation. ";
     } else if ($('#coreInadequate').prop("checked")) {
-      coreText += "The bone marrow core biopsy " + adequacyListString + " and is overall inadequate for interpretation. ";
+      coreText += `The bone marrow core biopsy ${adequacyListString} and is overall inadequate for interpretation. `;
     }
+
+    $('#cellularityMildMarked').hide();
+    
+    $('.cellMildMarked').each(function(){
+      if ($(this).prop("checked")){
+        cellularityText += `${$(this).val()} `;
+      }
+    })
+    
+    $('.cellQual').each(function(){
+      if ($(this).prop("checked")){
+        if ($(this).val() == "normocellular"){
+          cellularityText = `${$(this).val()} `;
+        } else {
+          cellularityText += `${$(this).val()} `;
+          $('#cellularityMildMarked').show();
+        }
+      }
+    })
 
     if ($.isNumeric($('#coreCellularityVariableLow').val()) && $.isNumeric($('#coreCellularityVariableHigh').val()) && parseFloat($('#coreCellularityVariableHigh').val()) > parseFloat($('#coreCellularityVariableLow').val())){
       coreText += `The marrow is variably cellular (ranging from ${$('#coreCellularityVariableLow').val()}-${$('#coreCellularityVariableHigh').val()}% cellular) `;
-      if ($('#hypocellular').prop('checked')){
-        $('#cellularityMildMarked').show();
-        coreText += 'and overall '
-        if ($('#cellularityMild').prop('checked')){
-          coreText += 'mildly ';
-        } else if ($('#cellularityMarked').prop('checked')){
-          coreText += 'markedly ';
+      if (cellularityText != ""){
+        coreText += `and overall ${cellularityText} for age`
+        if ($.isNumeric($('#coreCellularity').val())){
+          coreText += ` (~${$('#coreCellularity').val()}% cellular). `;
+        } else if ($.isNumeric($('#coreCellularityRangeLow').val()) && $.isNumeric($('#coreCellularityRangeHigh').val()) && parseFloat($('#coreCellularityRangeHigh').val()) > parseFloat($('#coreCellularityRangeLow').val())){
+          coreText += ` (${$('#coreCellularityRangeLow').val()}-${$('#coreCellularityRangeHigh').val()}% cellular). `;
+        } else {
+          coreText += ". "
         }
-        coreText += 'hypocellular for age'
-      } else if ($('#normocellular').prop('checked')){
-        coreText += "and overall normocellular for age"
-        $('#cellularityMildMarked').hide();
-      } else if ($('#hypercellular').prop('checked')){
-        $('#cellularityMildMarked').show();
-        coreText += 'and overall ';
-        if ($('#cellularityMild').prop('checked')){
-          coreText += 'mildly ';
-        } else if ($('#cellularityMarked').prop('checked')){
-          coreText += 'markedly ';
-        }
-        coreText += 'hypercellular for age'
       }
-    } else {
-      if ($('#hypocellular').prop('checked')){
-        $('#cellularityMildMarked').show();
-        coreText += 'The marrow is '
-        if ($('#cellularityMild').prop('checked')){
-          coreText += 'mildly ';
-        } else if ($('#cellularityMarked').prop('checked')){
-          coreText += 'markedly ';
-        }
-        coreText += 'hypocellular for age'
-      } else if ($('#normocellular').prop('checked')){
-        coreText += "The marrow is normocellular for age"
-        $('#cellularityMildMarked').hide();
-      } else if ($('#hypercellular').prop('checked')){
-        $('#cellularityMildMarked').show();
-        coreText += 'The marrow is ';
-        if ($('#cellularityMild').prop('checked')){
-          coreText += 'mildly ';
-        } else if ($('#cellularityMarked').prop('checked')){
-          coreText += 'markedly ';
-        }
-        coreText += 'hypercellular for age'
-      }
-    }
-    
-    if ($('#hypocellular').prop('checked') || $('#normocellular').prop('checked') || $('#hypercellular').prop('checked')){   
+    } else if (cellularityText != ""){
+      coreText += `The marrow is ${cellularityText} for age`
       if ($.isNumeric($('#coreCellularity').val())){
         coreText += ` (~${$('#coreCellularity').val()}% cellular). `;
       } else if ($.isNumeric($('#coreCellularityRangeLow').val()) && $.isNumeric($('#coreCellularityRangeHigh').val()) && parseFloat($('#coreCellularityRangeHigh').val()) > parseFloat($('#coreCellularityRangeLow').val())){
         coreText += ` (${$('#coreCellularityRangeLow').val()}-${$('#coreCellularityRangeHigh').val()}% cellular). `;
+      } else {
+        coreText += ". "
       }
     }
     
     if ($('#coreMEUnremarkable').prop('checked')){
       coreText += "Myeloid and erythroid precursors show progressive maturation. "
-    }   
+    } 
 
     if ($('#coreMegUnremarkable').prop('checked')){
       coreText += "Megakaryocytes are adequate, regularly distributed, and show unremarkable morphology. "
+    } else if (megakaryocyteListString != ""){
+      coreText += `Megakaryocytes show ${megakaryocyteListString}. `;
     }
+    
 
     return coreText;
   }
 
   function fillClot(){
     let clotText = "";
-    if ($('#clotSimilar').prop("checked")){
-      clotText += "The bone marrow particle clot shows multiple marrow particles with findings similar to the core biopsy.";
-    } else if ($('#clotRare').prop("checked")){
-      clotText += "The bone marrow particle clot shows only rare marrow particles for evaluation.";
-    } else if ($('#clotNone').prop("checked")){
+    let clotQuant = "";
+
+    $('.clotQuant').each(function(){
+      if ($(this).prop("checked")){
+        clotQuant = $(this).val();
+      }
+    })
+
+    if ($('#clotNone').prop("checked")){
       clotText += "The bone marrow particle clot shows no marrow particles for evaluation.";
+    } else if ($('#clotSimilar').prop("checked")){
+      if (clotQuant != ""){
+        clotText += `The bone marrow particle clot shows ${clotQuant} marrow particles with findings similar to the core biopsy.`;
+      } else {
+        clotText += "The bone marrow particle clot shows multiple marrow particles with findings similar to the core biopsy.";
+      }
+    } else if (clotQuant != ""){
+      clotText += `The bone marrow particle clot shows ${clotQuant} marrow particles for evaluation.`;
     }
     return clotText;
   }
@@ -2046,8 +2111,7 @@ $(document).ready(function() {
             $('#cellularityMild').prop('checked', false);
           }
         }
-      } else if ($('#cellularitySelect').val() == "Hybrid"){
-        
+      } else if ($('#cellularitySelect').val() == "Hybrid"){     
       }
     }
     fillReport();
@@ -2255,9 +2319,9 @@ $(document).ready(function() {
           }
         }
       }
+      fillCounterGrids();
       countCells("pb");
       countCells("asp");
-      fillCounterGrids();
       saveFileBM.countTableBM = countTables;
       saveFileBM.checkedObjectBM = checkedObject;
       saveFileBM.inputObjectBM = inputObject;
