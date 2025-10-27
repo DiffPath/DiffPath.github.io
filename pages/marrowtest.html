@@ -127,18 +127,18 @@
                                 <div class="flex">
                                     <div class="flex" style="padding-right: 10px">
                                         <div>
-                                            <input type="radio" class="form" id="hgbLow" name="hgb"><label for="hgbLow">Anemia</label>
+                                            <input type="radio" class="form hgbQual" id="hgbLow" value="anemia" name="hgb"><label for="hgbLow">Anemia</label>
                                         </div>
                                         <div>
-                                            <input type="radio" class="form" id="hgbNormal" name="hgb"><label for="hgbNormal">Adequate</label>
+                                            <input type="radio" class="form hgbQual" id="hgbNormal" value="adequate" name="hgb"><label for="hgbNormal">Adequate</label>
                                         </div>
                                         <div>
-                                            <input type="radio" class="form" id="hgbHigh" name="hgb"><label for="hgbHigh">Polycythemia</label>
+                                            <input type="radio" class="form hgbQual" id="hgbHigh" value="polycythemia" name="hgb"><label for="hgbHigh">Polycythemia</label>
                                         </div>
                                     </div>
                                     <div id="hgbMildMarked" style ="display: none">                          
-                                        <input type="checkbox" class="form singleCheck" id="hgbMild" name="hgb"><label for="hgbMild">Mild</label>                   
-                                        <input type="checkbox" class="form singleCheck" id="hgbMarked" name="hgb"><label for="hgbMarked">Marked</label>
+                                        <input type="checkbox" class="form hgbMildMarked" id="hgbMild" value="mild" name="hgb"><label for="hgbMild">Mild</label>                   
+                                        <input type="checkbox" class="form hgbMildMarked" id="hgbMarked" value="marked" name="hgb"><label for="hgbMarked">Marked</label>
                                     </div>
                                 </div>  
                             </div>
@@ -149,13 +149,13 @@
                                 <div class="flex">
                                     <div class="flex" style="padding-right: 10px">
                                         <div>
-                                            <input type="radio" class="form" id="mcvLow" name="mcv"><label for="mcvLow">Microcytic</label>
+                                            <input type="radio" class="form mcvQual" id="mcvLow" value="microcytic" name="mcv"><label for="mcvLow">Microcytic</label>
                                         </div>
                                         <div>
-                                            <input type="radio" class="form" id="mcvNormal" name="mcv"><label for="mcvNormal">Normocytic</label>
+                                            <input type="radio" class="form mcvQual" id="mcvNormal" value="normocytic" name="mcv"><label for="mcvNormal">Normocytic</label>
                                         </div>
                                         <div>
-                                            <input type="radio" class="form" id="mcvHigh" name="mcv"><label for="mcvHigh">Macrocytic</label>
+                                            <input type="radio" class="form mcvQual" id="mcvHigh" value="macrocytic" name="mcv"><label for="mcvHigh">Macrocytic</label>
                                         </div>
                                     </div>
                                     <div id="hypochromasia">                          
@@ -164,22 +164,34 @@
                                 </div>
                             </div>
                             <div>
-                                <b>Polychromasia:</b>
+                                <b>RBC Descriptors:</b>
                             </div>
                             <div>
-                                <input type="radio" class="form" id="polyPresent" name="poly" value="polychromasia"><label for="polyPresent">Present</label> 
-                                <input type="radio" class="form" id="polyAbsent" name="poly"><label for="polyAbsent">Absent</label>
-                                <input type="radio" class="form" id="polySlight" name="poly" value="slight polychromasia"><label for="polySlight">Slight</label>
-                                <input type="radio" class="form" id="polyMarked" name="poly" value="marked polychromasia"><label for="polyMarked">Marked</label>   
+                                <input type="checkbox" class="form onPairedOff" id="rbcUnremarkable" data-paired="rbcDescriptor" name="unremarkable" value="unremarkable"><label for="rbcUnremarkable">Unremarkable</label>   
+                            </div>
+                            <div></div>
+                            <div>
+                                <input type="checkbox" class="form rbcDescriptor offPairedOff" id="polyPresent" data-paired="polyQual" name="poly" value="polychromasia"><label for="polyPresent">Polychromasia</label> 
+                                <input type="radio" class="form polyQual pairedOn" id="polySlight" data-paired="polyPresent" name="poly" value="slight"><label for="polySlight">Slight</label>
+                                <input type="radio" class="form polyQual pairedOn" id="polyMarked" data-paired="polyPresent" name="poly" value="marked"><label for="polyMarked">Marked</label>   
                             </div> 
+                            <div></div>
                             <div>
-                                <b>Anisopoikilocytosis:</b>
+                                <input type="checkbox" class="form rbcDescriptor offPairedOff" id="nrbcPresent" data-paired="nrbcQual" name="nrbc"><label for="nrbcPresent">NRBCs</label>
+                                <input type="radio" class="form nrbcQual pairedOn" id="nrbcRare" data-paired="nrbcPresent" value="Rare" name="nrbc"><label for="nrbcRare">Rare</label>
+                                <input type="radio" class="form nrbcQual pairedOn" id="nrbcOccasional" data-paired="nrbcPresent" value="Occasional" name="nrbc"><label for="nrbcOccasional">Occasional</label>
+                                <input type="radio" class="form nrbcQual pairedOn" id="nrbcFrequent" data-paired="nrbcPresent" value="Frequent" name="nrbc"><label for="nrbcFrequent">Frequent</label>  
+                            </div> 
+                            <div></div>
+                            <div>
+                                <input type="checkbox" class="form rbcDescriptor offPairedOff" id="rouleauxPresent" data-paired="rouleaux" name="rouleaux"><label for="rouleauxPresent">Rouleaux Formation</label> 
+                                <input type="radio" class="form rouleaux pairedOn" id="rouleauxSlight" data-paired="rouleauxPresent" name="rouxleaux" value="Slight"><label for="rouleauxSlight">Slight</label>
                             </div>
+                            <div></div>
                             <div>
-                                <input type="radio" class="form aniso" id="anisoPresent" name="aniso"><label for="anisoPresent">Present</label> 
-                                <input type="radio" class="form aniso" id="anisoAbsent" name="aniso"><label for="anisoAbsent">Absent</label>
-                                <input type="radio" class="form aniso" id="anisoMild" name="aniso"><label for="anisoMild">Mild</label>
-                                <input type="radio" class="form aniso" id="anisoMarked" name="aniso"><label for="anisoMarked">Marked</label>   
+                                <input type="checkbox" class="form rbcDescriptor offPairedOff" id="anisoPresent" data-paired="aniso" name="aniso"><label for="anisoPresent">Anisopoikilocytosis </label> 
+                                <input type="radio" class="form aniso pairedOn" id="anisoMild" data-paired="anisoPresent" name="aniso" value="mild"><label for="anisoMild">Mild</label>
+                                <input type="radio" class="form aniso pairedOn" id="anisoMarked" data-paired="anisoPresent" name="aniso" value="marked"><label for="anisoMarked">Marked</label>   
                             </div> 
                             <div id="anisoDiv" style ="display: none">
                                 <b>Anisopoikilocytosis Descriptors:</b>
@@ -187,19 +199,10 @@
                             <div id="anisoSelect" class="selectDiv" style ="display: none">
                                 <select id='anisoSelect0' class="select anisoSelect"></select>
                             </div>
-                            <div style="padding-bottom: 10px">
-                                <b>Nucleated RBCs:</b>
-                            </div>
-                            <div>
-                                <input type="radio" class="form" id="nrbcPresent" name="nrbc"><label for="nrbcPresent">Present</label>
-                                <input type="radio" class="form" id="nrbcRare" name="nrbc"><label for="nrbcRare">Rare</label>
-                                <input type="radio" class="form" id="nrbcOccasional" name="nrbc"><label for="nrbcOccasional">Occasional</label>
-                                <input type="radio" class="form" id="nrbcFrequent" name="nrbc"><label for="nrbcFrequent">Frequent</label>  
-                            </div> 
-                            <div>
+                            <div style="padding-top: 10px">
                                 <b>Absolute Neutrophils:</b>
                             </div>
-                            <div>
+                            <div style="padding-top: 10px">
                                 <div class="flex">
                                 <div class="flex" style="padding-right: 10px">
                                     <div>
@@ -320,14 +323,25 @@
                             <div>
                                 <b>Blasts:</b>
                             </div>
-                            <div>
-                                <input type="checkbox" class="form" id="circulatingBlast" name="blast"><label for="circulatingBlast">None</label>  
-                            </div> 
+                            <div class="flex"> 
+                                <div>
+                                    <input type="radio" class="form pbBlast" id="blastNone" value="No" name="blast"><label for="blastNone">None</label>
+                                    <input type="radio" class="form pbBlast" id="blastRare" value="Rare" name="blast"><label for="blastRare">Rare</label>  
+                                    <input type="radio" class="form pbBlast" id="blastOccasional" value="Occasional" name="blast"><label for="blastOccasional">Occasional</label>  
+                                    <input type="radio" class="form pbBlast" id="blastFrequent" value="Frequent" name="blast"><label for="blastFrequent">Frequent</label>    
+                                </div> 
+                            </div>
+
                             <div>
                                 <b>Plasma cells:</b>
                             </div>
                             <div>
-                                <input type="checkbox" class="form" id="circulatingPlasma" name="plasma"><label for="circulatingPlasma">None</label>  
+                                <div>
+                                    <input type="radio" class="form pbPlasma" id="plasmaNone" value="No" name="plasma"><label for="plasmaNone">None</label>
+                                    <input type="radio" class="form pbPlasma" id="plasmaRare" value="Rare" name="plasma"><label for="plasmaRare">Rare</label>  
+                                    <input type="radio" class="form pbPlasma" id="plasmaOccasional" value="Occasional" name="plasma"><label for="plasmaOccasional">Occasional</label>  
+                                    <input type="radio" class="form pbPlasma" id="plasmaFrequent" value="Frequent" name="plasma"><label for="plasmaFrequent">Frequent</label>    
+                                </div> 
                             </div>                        
                         </div>
                     </div>
@@ -497,35 +511,35 @@
                                     <select id="coreAdequacySelect0" class="select coreAdequacySelect"></select>
                                 </div>
                             </div>
-                            <div style="padding-bottom: 10px">
+                            <div>
                                 <b>Cellularity:</b>
                             </div>
-                            <div>
+                            <div style="padding-bottom: 10px">
                                 <div class="cellularityDiv" id="cellularitySingleDiv">
-                                    Absolute: <input type="input" class="form cellularity" id="coreCellularity" size="2" maxlength="3">%
+                                    Absolute: <input type="input" class="cellularity" id="coreCellularity" size="2" maxlength="3">%
                                 </div>
                                 <div class="cellularityDiv" id="cellularityRangeDiv">
-                                    Range: <input type="input" class="form cellularity" id="coreCellularityRangeLow" size="2" maxlength="3">-<input type="input" class="form cellularity" id="coreCellularityRangeHigh" size="2" maxlength="3">%
+                                    Range: <input type="input" class="cellularity" id="coreCellularityRangeLow" size="2" maxlength="3">-<input type="input" class="form cellularity" id="coreCellularityRangeHigh" size="2" maxlength="3">%
                                 </div>
                                 <div>
-                                    Variable range: <input type="input" class="form cellularity" id="coreCellularityVariableLow" size="2" maxlength="3">-<input type="input" class="form cellularity" id="coreCellularityVariableHigh" size="2" maxlength="3">%
+                                    Variable range: <input type="input" class="cellularity" id="coreCellularityVariableLow" size="2" maxlength="3">-<input type="input" class="form cellularity" id="coreCellularityVariableHigh" size="2" maxlength="3">%
                                 </div>
                                 <div class='flex'>
-                                <div style="padding-right: 10px; padding-bottom: 10px">
-                                    <input type="radio" class="form" id="hypocellular" name="coreCellularity"><label for="hypocellular">Hypocellular</label>
-                                    <input type="radio" class="form" id="normocellular" name="coreCellularity"><label for="normocellular">Normocellular</label>
-                                    <input type="radio" class="form" id="hypercellular" name="coreCellularity"><label for="hypercellular">Hypercellular</label>
+                                <div>
+                                    <input type="radio" class="form cellQual" id="hypocellular" value="hypocellular" name="coreCellularity"><label for="hypocellular">Hypocellular</label>
+                                    <input type="radio" class="form cellQual" id="normocellular" value="normocellular" name="coreCellularity"><label for="normocellular">Normocellular</label>
+                                    <input type="radio" class="form cellQual" id="hypercellular" value="hypercellular" name="coreCellularity"><label for="hypercellular">Hypercellular</label>
                                 </div>
                                 <div id="cellularityMildMarked" style ="display: none">                          
-                                    <input type="checkbox" class="form singleCheck" id="cellularityMild" name="cellularity"><label for="cellularityMild">Mild</label>                   
-                                    <input type="checkbox" class="form singleCheck" id="cellularityMarked" name="cellularity"><label for="cellularityMarked">Marked</label>
+                                    <input type="checkbox" class="form cellMildMarked" id="cellularityMild" value="mildly" name="cellularity"><label for="cellularityMild">Mild</label>                   
+                                    <input type="checkbox" class="form cellMildMarked" id="cellularityMarked" value="markedly" name="cellularity"><label for="cellularityMarked">Marked</label>
                                 </div>
                                 </div>
                             </div>
                             <div>
                                 <b>Myeloids/Erythroids:</b>
                             </div>
-                            <div>
+                            <div style="padding-bottom: 10px">
                                 <div class="flex">
                                     <div>
                                         <input type="checkbox" class="form" id="coreMEUnremarkable"><label for="coreMEUnremarkable">Unremarkable</label>
@@ -538,7 +552,7 @@
                             <div>
                                 <b>Megakaryocytes:</b>
                             </div>
-                            <div>
+                            <div style="padding-bottom: 10px">
                                 <div class="flex">
                                     <div>
                                         <input type="checkbox" class="form" id="coreMegUnremarkable"><label for="coreMegUnremarkable">Unremarkable</label>
@@ -548,14 +562,25 @@
                                     <select id="coreMegSelect0" class="select coreMegSelect"></select>
                                 </div>
                             </div>
+                            <div style="padding-bottom: 10px">
+                                <b>Lymphocytes:</b>
+                            </div>
+                            <div>
+                                <div id="coreLymphSelect" class="selectDiv">
+                                    <select id="coreLymphSelect0" class="select coreLymphSelect"></select>
+                                </div>
+                            </div>
                             <div>
                                 <b>Particle Clot:</b>
                             </div>
                             <div class="flex">
                                 <div>
                                     <input type="checkbox" class="form" id="clotSimilar" name="coreClot"><label for="clotSimilar">Similar to core biopsy</label>
-                                    <input type="checkbox" class="form" id="clotRare" name="coreClot"><label for="clotRare">Rare marrow particles</label>
-                                    <input type="checkbox" class="form" id="clotNone" name="coreClot"><label for="clotNone">No marrow particles</label>
+                                </div>
+                                <div>
+                                    <input type="radio" class="form" id="clotNone" name="coreClot"><label for="clotNone">No marrow particles</label>
+                                    <input type="radio" class="form clotQuant" id="clotRare" value="only rare" name="coreClot"><label for="clotRare">Rare marrow particles</label>
+                                    <input type="radio" class="form clotQuant" id="clotFew" value="few" name="coreClot"><label for="clotFew">Few marrow particles</label>                                   
                                 </div>
                             </div> 
                         </div>  
