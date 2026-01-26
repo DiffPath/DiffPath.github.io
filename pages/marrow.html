@@ -2,10 +2,10 @@
 <html>
     <head>
         <title>Bone Marrow Template</title>
-        <link rel="stylesheet" href="/css/marrow.css">
+        <link rel="stylesheet" href="/css/marrowtest.css">
         <script src="https://kit.fontawesome.com/f6f9c2cc49.js" crossorigin="anonymous"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-        <script src="/js/marrow.js"></script>
+        <script src="/js/marrowtest.js"></script>
     </head>
     <body>
         <div id="copyAlert"></div> 
@@ -45,8 +45,6 @@
                 </div>
                 <div>
                     <div class="panelBody" id="specPanel">
-                        <div class="title">Specimen Characteristics</div>
-                        <hr>
                         <div>
                             <b>Laterality:</b>
                         </div>
@@ -56,6 +54,7 @@
                             <input type="radio" class="form laterality" id="latBilateral" name="laterality"><label for="latBilateral">Bilateral</label>
                             <input type="radio" class="form laterality" id="latNotSpecified" name="laterality"><label for="latNotSpecified">Not specified</label>
                         </div>
+                        <br>
                         <div>
                             <b>Specimens:</b>
                         </div>
@@ -82,61 +81,22 @@
                                 <input type="checkbox" class="form specimen" id="specCB"><label for="specCB">Core biopsy</label>  
                             </div>
                         </div>
-                    </div>
-                    <div class="panelBody" id="pbPanel" style="display: none">
-                        <div class="title">Peripheral Blood</div>
-                        <hr>
+                        <br>
+                        <div>
+                            <b>CBC:</b>
+                        </div>
                         <div class="pbCBC">
                             <textarea class="extend" id="pbCBC" rows="1" placeholder='Paste CBC Here'></textarea>
                         </div>
+                    </div>
+                    <div class="panelBody" id="pbPanel" style="display: none">
                         <div class="upperGrid">
-                            <div class="counterGrid">
-                            <div class="gridCell">
-                                <b id="pbLabel7"></b>
-                                <input class="pb_counter" id="pbCount7" size="2">
-                            </div>
-                            <div class="gridCell">
-                                <b id="pbLabel8"></b>
-                                <input class="pb_counter" id="pbCount8" size="2">
-                            </div>
-                            <div class="gridCell">
-                                <b id="pbLabel9"></b>
-                                <input class="pb_counter" id="pbCount9" size="2">
-                            </div>
-                            <div class="gridCell">
-                                <b id="pbLabel4"></b>
-                                <input class="pb_counter" id="pbCount4" size="2">
-                            </div>
-                            <div class="gridCell">
-                                <b id="pbLabel5"></b>
-                                <input class="pb_counter" id="pbCount5" size="2">
-                            </div>
-                            <div class="gridCell">
-                                <b id="pbLabel6"></b>
-                                <input class="pb_counter" id="pbCount6" size="2">
-                            </div>
-                            <div class="gridCell">
-                                <b id="pbLabel1"></b>
-                                <input class="pb_counter" id="pbCount1" size="2">
-                            </div>
-                            <div class="gridCell">
-                                <b id="pbLabel2"></b>
-                                <input class="pb_counter" id="pbCount2" size="2">
-                            </div>
-                            <div class="gridCell">
-                                <b id="pbLabel3"></b>
-                                <input class="pb_counter" id="pbCount3" size="2">
-                            </div>
-                            <div></div>
-                            <div class="gridCell">
-                                <b id="pbLabel0"></b>
-                                <input class="pb_counter" id="pbCount0" size="2">
-                            </div>
+                            <div class="counterGrid" data-type="pb" id="pbCounterGrid">
                             </div>
                             <div>
                             <div class="gridCell">
                                 <b>Current Count</b>
-                                <input class="pb_counter" id="pbCCount" size="2">
+                                <input class="pbCounter" id="pbCCount" size="2">
                             </div>
                             <div class="gridCell">
                                 <b>Desired Count</b>
@@ -152,12 +112,12 @@
                             </div>
                             <div class="gridCell">
                                 <b>Total %</b>
-                                <input class="pb_counter" id="pbTCount" size="2">
+                                <input class="pbCounter" id="pbTCount" size="2">
                             </div>
                         </div>
                         </div>      
                         <div>
-                            <textarea class="counter" id="pbCounter" placeholder='Count Here'></textarea>
+                            <textarea class="counter" data-type="pb" id="pbCounter" placeholder='Count Here'></textarea>
                         </div>
                         <div class="lowerGrid">
                             <div>
@@ -167,18 +127,18 @@
                                 <div class="flex">
                                     <div class="flex" style="padding-right: 10px">
                                         <div>
-                                            <input type="radio" class="form" id="hgbLow" name="hgb"><label for="hgbLow">Anemia</label>
+                                            <input type="radio" class="form hgbQual" id="hgbLow" value="anemia" name="hgb"><label for="hgbLow">Anemia</label>
                                         </div>
                                         <div>
-                                            <input type="radio" class="form" id="hgbNormal" name="hgb"><label for="hgbNormal">Adequate</label>
+                                            <input type="radio" class="form hgbQual" id="hgbNormal" value="adequate" name="hgb"><label for="hgbNormal">Adequate</label>
                                         </div>
                                         <div>
-                                            <input type="radio" class="form" id="hgbHigh" name="hgb"><label for="hgbHigh">Polycythemia</label>
+                                            <input type="radio" class="form hgbQual" id="hgbHigh" value="polycythemia" name="hgb"><label for="hgbHigh">Polycythemia</label>
                                         </div>
                                     </div>
                                     <div id="hgbMildMarked" style ="display: none">                          
-                                        <input type="checkbox" class="form singleCheck" id="hgbMild" name="hgb"><label for="hgbMild">Mild</label>                   
-                                        <input type="checkbox" class="form singleCheck" id="hgbMarked" name="hgb"><label for="hgbMarked">Marked</label>
+                                        <input type="checkbox" class="form hgbMildMarked" id="hgbMild" value="mild" name="hgb"><label for="hgbMild">Mild</label>                   
+                                        <input type="checkbox" class="form hgbMildMarked" id="hgbMarked" value="marked" name="hgb"><label for="hgbMarked">Marked</label>
                                     </div>
                                 </div>  
                             </div>
@@ -189,13 +149,13 @@
                                 <div class="flex">
                                     <div class="flex" style="padding-right: 10px">
                                         <div>
-                                            <input type="radio" class="form" id="mcvLow" name="mcv"><label for="mcvLow">Microcytic</label>
+                                            <input type="radio" class="form mcvQual" id="mcvLow" value="microcytic" name="mcv"><label for="mcvLow">Microcytic</label>
                                         </div>
                                         <div>
-                                            <input type="radio" class="form" id="mcvNormal" name="mcv"><label for="mcvNormal">Normocytic</label>
+                                            <input type="radio" class="form mcvQual" id="mcvNormal" value="normocytic" name="mcv"><label for="mcvNormal">Normocytic</label>
                                         </div>
                                         <div>
-                                            <input type="radio" class="form" id="mcvHigh" name="mcv"><label for="mcvHigh">Macrocytic</label>
+                                            <input type="radio" class="form mcvQual" id="mcvHigh" value="macrocytic" name="mcv"><label for="mcvHigh">Macrocytic</label>
                                         </div>
                                     </div>
                                     <div id="hypochromasia">                          
@@ -204,22 +164,34 @@
                                 </div>
                             </div>
                             <div>
-                                <b>Polychromasia:</b>
+                                <b>RBC Descriptors:</b>
                             </div>
                             <div>
-                                <input type="radio" class="form" id="polyPresent" name="poly" value="polychromasia"><label for="polyPresent">Present</label> 
-                                <input type="radio" class="form" id="polyAbsent" name="poly"><label for="polyAbsent">Absent</label>
-                                <input type="radio" class="form" id="polySlight" name="poly" value="slight polychromasia"><label for="polySlight">Slight</label>
-                                <input type="radio" class="form" id="polyMarked" name="poly" value="marked polychromasia"><label for="polyMarked">Marked</label>   
+                                <input type="checkbox" class="form onPairedOff" id="rbcUnremarkable" data-paired="rbcDescriptor" name="unremarkable" value="unremarkable"><label for="rbcUnremarkable">Unremarkable</label>   
+                            </div>
+                            <div></div>
+                            <div>
+                                <input type="checkbox" class="form rbcDescriptor offPairedOff" id="polyPresent" data-paired="polyQual" name="poly" value="polychromasia"><label for="polyPresent">Polychromasia</label> 
+                                <input type="radio" class="form polyQual pairedOn" id="polySlight" data-paired="polyPresent" name="poly" value="slight"><label for="polySlight">Slight</label>
+                                <input type="radio" class="form polyQual pairedOn" id="polyMarked" data-paired="polyPresent" name="poly" value="marked"><label for="polyMarked">Marked</label>   
                             </div> 
+                            <div></div>
                             <div>
-                                <b>Anisopoikilocytosis:</b>
+                                <input type="checkbox" class="form rbcDescriptor offPairedOff" id="nrbcPresent" data-paired="nrbcQual" name="nrbc"><label for="nrbcPresent">NRBCs</label>
+                                <input type="radio" class="form nrbcQual pairedOn" id="nrbcRare" data-paired="nrbcPresent" value="Rare" name="nrbc"><label for="nrbcRare">Rare</label>
+                                <input type="radio" class="form nrbcQual pairedOn" id="nrbcOccasional" data-paired="nrbcPresent" value="Occasional" name="nrbc"><label for="nrbcOccasional">Occasional</label>
+                                <input type="radio" class="form nrbcQual pairedOn" id="nrbcFrequent" data-paired="nrbcPresent" value="Frequent" name="nrbc"><label for="nrbcFrequent">Frequent</label>  
+                            </div> 
+                            <div></div>
+                            <div>
+                                <input type="checkbox" class="form rbcDescriptor offPairedOff" id="rouleauxPresent" data-paired="rouleaux" name="rouleaux"><label for="rouleauxPresent">Rouleaux Formation</label> 
+                                <input type="radio" class="form rouleaux pairedOn" id="rouleauxSlight" data-paired="rouleauxPresent" name="rouxleaux" value="Slight"><label for="rouleauxSlight">Slight</label>
                             </div>
+                            <div></div>
                             <div>
-                                <input type="radio" class="form aniso" id="anisoPresent" name="aniso"><label for="anisoPresent">Present</label> 
-                                <input type="radio" class="form aniso" id="anisoAbsent" name="aniso"><label for="anisoAbsent">Absent</label>
-                                <input type="radio" class="form aniso" id="anisoMild" name="aniso"><label for="anisoMild">Mild</label>
-                                <input type="radio" class="form aniso" id="anisoMarked" name="aniso"><label for="anisoMarked">Marked</label>   
+                                <input type="checkbox" class="form rbcDescriptor offPairedOff" id="anisoPresent" data-paired="aniso" name="aniso"><label for="anisoPresent">Anisopoikilocytosis </label> 
+                                <input type="radio" class="form aniso pairedOn" id="anisoMild" data-paired="anisoPresent" name="aniso" value="mild"><label for="anisoMild">Mild</label>
+                                <input type="radio" class="form aniso pairedOn" id="anisoMarked" data-paired="anisoPresent" name="aniso" value="marked"><label for="anisoMarked">Marked</label>   
                             </div> 
                             <div id="anisoDiv" style ="display: none">
                                 <b>Anisopoikilocytosis Descriptors:</b>
@@ -227,19 +199,10 @@
                             <div id="anisoSelect" class="selectDiv" style ="display: none">
                                 <select id='anisoSelect0' class="select anisoSelect"></select>
                             </div>
-                            <div style="padding-bottom: 10px">
-                                <b>Nucleated RBCs:</b>
-                            </div>
-                            <div>
-                                <input type="radio" class="form" id="nrbcPresent" name="nrbc"><label for="nrbcPresent">Present</label>
-                                <input type="radio" class="form" id="nrbcRare" name="nrbc"><label for="nrbcRare">Rare</label>
-                                <input type="radio" class="form" id="nrbcOccasional" name="nrbc"><label for="nrbcOccasional">Occasional</label>
-                                <input type="radio" class="form" id="nrbcFrequent" name="nrbc"><label for="nrbcFrequent">Frequent</label>  
-                            </div> 
-                            <div>
+                            <div style="padding-top: 10px">
                                 <b>Absolute Neutrophils:</b>
                             </div>
-                            <div>
+                            <div style="padding-top: 10px">
                                 <div class="flex">
                                 <div class="flex" style="padding-right: 10px">
                                     <div>
@@ -281,8 +244,8 @@
                             <div style="padding-bottom: 10px">
                                 <b>Lymphocyte Descriptors:</b>
                             </div>
-                            <div id="lymphocyteSelect" class="selectDiv">
-                                <select id="lymphocyteSelect0" class="select lymphocyteSelect"></select>
+                            <div id="lymphocyteSelect">
+                                <select id="lymphocyteSelect0" class="form lymphocyteSelect"></select>
                             </div>
                             <div>
                                 <b>Absolute Monocytes:</b>
@@ -360,20 +323,29 @@
                             <div>
                                 <b>Blasts:</b>
                             </div>
-                            <div>
-                                <input type="checkbox" class="form" id="circulatingBlast" name="blast"><label for="circulatingBlast">None</label>  
-                            </div> 
+                            <div class="flex"> 
+                                <div>
+                                    <input type="radio" class="form pbBlast" id="blastNone" value="No" name="blast"><label for="blastNone">None</label>
+                                    <input type="radio" class="form pbBlast" id="blastRare" value="Rare" name="blast"><label for="blastRare">Rare</label>  
+                                    <input type="radio" class="form pbBlast" id="blastOccasional" value="Occasional" name="blast"><label for="blastOccasional">Occasional</label>  
+                                    <input type="radio" class="form pbBlast" id="blastFrequent" value="Frequent" name="blast"><label for="blastFrequent">Frequent</label>    
+                                </div> 
+                            </div>
+
                             <div>
                                 <b>Plasma cells:</b>
                             </div>
                             <div>
-                                <input type="checkbox" class="form" id="circulatingPlasma" name="plasma"><label for="circulatingPlasma">None</label>  
+                                <div>
+                                    <input type="radio" class="form pbPlasma" id="plasmaNone" value="No" name="plasma"><label for="plasmaNone">None</label>
+                                    <input type="radio" class="form pbPlasma" id="plasmaRare" value="Rare" name="plasma"><label for="plasmaRare">Rare</label>  
+                                    <input type="radio" class="form pbPlasma" id="plasmaOccasional" value="Occasional" name="plasma"><label for="plasmaOccasional">Occasional</label>  
+                                    <input type="radio" class="form pbPlasma" id="plasmaFrequent" value="Frequent" name="plasma"><label for="plasmaFrequent">Frequent</label>    
+                                </div> 
                             </div>                        
                         </div>
                     </div>
                     <div class="panelBody" id="aspPanel" style="display: none">
-                        <div class="title">Aspirate Smear/Touch Preparation</div>
-                        <hr>
                         <div>
                             <label><b>Count on touch preparation: </b>
                                 <input type="checkbox" id="tpCheck"></label>
@@ -384,49 +356,7 @@
                         </div>
                         <br>
                         <div class="upperGrid">
-                            <div class="counterGrid">
-                                <div class="gridCell">
-                                    <b id="aspLabel7"></b>
-                                    <input class="aspCounter" id="aspCount7" size="2">
-                                </div>
-                                <div class="gridCell">
-                                    <b id="aspLabel8"></b>
-                                    <input class="aspCounter" id="aspCount8" size="2">
-                                </div>
-                                <div class="gridCell">
-                                    <b id="aspLabel9"></b>
-                                    <input class="aspCounter" id="aspCount9" size="2">
-                                </div>
-                                <div class="gridCell">
-                                    <b id="aspLabel4"></b>
-                                    <input class="aspCounter" id="aspCount4" size="2">
-                                </div>
-                                <div class="gridCell">
-                                    <b id="aspLabel5"></b>
-                                    <input class="aspCounter" id="aspCount5" size="2">
-                                </div>
-                                <div class="gridCell">
-                                    <b id="aspLabel6"></b>
-                                    <input class="aspCounter" id="aspCount6" size="2">
-                                </div>
-                                <div class="gridCell">
-                                    <b id="aspLabel1"></b>
-                                    <input class="aspCounter" id="aspCount1" size="2">
-                                </div>
-                                <div class="gridCell">
-                                    <b id="aspLabel2"></b>
-                                    <input class="aspCounter" id="aspCount2" size="2">
-                                </div>
-                                <div class="gridCell">
-                                    <b id="aspLabel3"></b>
-                                    <input class="aspCounter" id="aspCount3" size="2">
-                                </div>
-                                <div></div>
-                                <div class="gridCell">
-                                    <b id="aspLabel0"></b>
-                                    <input class="aspCounter" id="aspCount0" size="2">
-                                </div>
-                                <div></div>
+                            <div class="counterGrid" data-type="asp" id="aspCounterGrid">
                             </div>
                             <div>
                                 <div class="gridCell">
@@ -456,7 +386,7 @@
                             </div>
                         </div>                   
                         <div>
-                            <textarea class="counter" id="aspCounter"></textarea>
+                            <textarea class="counter" data-type="asp" id="aspCounter"></textarea>
                         </div>
                         <div class="lowerGrid">
                             <div>
@@ -570,8 +500,6 @@
                         </div>                        
                     </div>
                     <div class="panelBody" id="corePanel" style="display: none">
-                        <div class="title">Core Biopsy/Particle Clot</div>
-                        <hr>
                         <div class="lowerGrid">
                             <div>
                                 <b>Adequacy:</b>
@@ -583,35 +511,35 @@
                                     <select id="coreAdequacySelect0" class="select coreAdequacySelect"></select>
                                 </div>
                             </div>
-                            <div style="padding-bottom: 10px">
+                            <div>
                                 <b>Cellularity:</b>
                             </div>
-                            <div>
+                            <div style="padding-bottom: 10px">
                                 <div class="cellularityDiv" id="cellularitySingleDiv">
-                                    Absolute: <input type="input" class="form cellularity" id="coreCellularity" size="2" maxlength="3">%
+                                    Absolute: <input type="input" class="cellularity" id="coreCellularity" size="2" maxlength="3">%
                                 </div>
                                 <div class="cellularityDiv" id="cellularityRangeDiv">
-                                    Range: <input type="input" class="form cellularity" id="coreCellularityRangeLow" size="2" maxlength="3">-<input type="input" class="form cellularity" id="coreCellularityRangeHigh" size="2" maxlength="3">%
+                                    Range: <input type="input" class="cellularity" id="coreCellularityRangeLow" size="2" maxlength="3">-<input type="input" class="form cellularity" id="coreCellularityRangeHigh" size="2" maxlength="3">%
                                 </div>
                                 <div>
-                                    Variable range: <input type="input" class="form cellularity" id="coreCellularityVariableLow" size="2" maxlength="3">-<input type="input" class="form cellularity" id="coreCellularityVariableHigh" size="2" maxlength="3">%
+                                    Variable range: <input type="input" class="cellularity" id="coreCellularityVariableLow" size="2" maxlength="3">-<input type="input" class="form cellularity" id="coreCellularityVariableHigh" size="2" maxlength="3">%
                                 </div>
                                 <div class='flex'>
-                                <div style="padding-right: 10px; padding-bottom: 10px">
-                                    <input type="radio" class="form" id="hypocellular" name="coreCellularity"><label for="hypocellular">Hypocellular</label>
-                                    <input type="radio" class="form" id="normocellular" name="coreCellularity"><label for="normocellular">Normocellular</label>
-                                    <input type="radio" class="form" id="hypercellular" name="coreCellularity"><label for="hypercellular">Hypercellular</label>
+                                <div>
+                                    <input type="radio" class="form cellQual" id="hypocellular" value="hypocellular" name="coreCellularity"><label for="hypocellular">Hypocellular</label>
+                                    <input type="radio" class="form cellQual" id="normocellular" value="normocellular" name="coreCellularity"><label for="normocellular">Normocellular</label>
+                                    <input type="radio" class="form cellQual" id="hypercellular" value="hypercellular" name="coreCellularity"><label for="hypercellular">Hypercellular</label>
                                 </div>
                                 <div id="cellularityMildMarked" style ="display: none">                          
-                                    <input type="checkbox" class="form singleCheck" id="cellularityMild" name="cellularity"><label for="cellularityMild">Mild</label>                   
-                                    <input type="checkbox" class="form singleCheck" id="cellularityMarked" name="cellularity"><label for="cellularityMarked">Marked</label>
+                                    <input type="checkbox" class="form cellMildMarked" id="cellularityMild" value="mildly" name="cellularity"><label for="cellularityMild">Mild</label>                   
+                                    <input type="checkbox" class="form cellMildMarked" id="cellularityMarked" value="markedly" name="cellularity"><label for="cellularityMarked">Marked</label>
                                 </div>
                                 </div>
                             </div>
                             <div>
                                 <b>Myeloids/Erythroids:</b>
                             </div>
-                            <div>
+                            <div style="padding-bottom: 10px">
                                 <div class="flex">
                                     <div>
                                         <input type="checkbox" class="form" id="coreMEUnremarkable"><label for="coreMEUnremarkable">Unremarkable</label>
@@ -624,7 +552,7 @@
                             <div>
                                 <b>Megakaryocytes:</b>
                             </div>
-                            <div>
+                            <div style="padding-bottom: 10px">
                                 <div class="flex">
                                     <div>
                                         <input type="checkbox" class="form" id="coreMegUnremarkable"><label for="coreMegUnremarkable">Unremarkable</label>
@@ -634,14 +562,25 @@
                                     <select id="coreMegSelect0" class="select coreMegSelect"></select>
                                 </div>
                             </div>
+                            <div style="padding-bottom: 10px">
+                                <b>Lymphocytes:</b>
+                            </div>
+                            <div>
+                                <div id="coreLymphSelect" class="selectDiv">
+                                    <select id="coreLymphSelect0" class="select coreLymphSelect"></select>
+                                </div>
+                            </div>
                             <div>
                                 <b>Particle Clot:</b>
                             </div>
                             <div class="flex">
                                 <div>
                                     <input type="checkbox" class="form" id="clotSimilar" name="coreClot"><label for="clotSimilar">Similar to core biopsy</label>
-                                    <input type="checkbox" class="form" id="clotRare" name="coreClot"><label for="clotRare">Rare marrow particles</label>
-                                    <input type="checkbox" class="form" id="clotNone" name="coreClot"><label for="clotNone">No marrow particles</label>
+                                </div>
+                                <div>
+                                    <input type="radio" class="form" id="clotNone" name="coreClot"><label for="clotNone">No marrow particles</label>
+                                    <input type="radio" class="form clotQuant" id="clotRare" value="only rare" name="coreClot"><label for="clotRare">Rare marrow particles</label>
+                                    <input type="radio" class="form clotQuant" id="clotFew" value="few" name="coreClot"><label for="clotFew">Few marrow particles</label>                                   
                                 </div>
                             </div> 
                         </div>  
@@ -700,17 +639,21 @@
                     <div class="copyButton microscopicContainer underline unclicked" id="microscopic"><i class="fas fa-copy headerIcon"></i>Copy Microscopic</div>
                 </div>
                 <div class="panelBody" id="rightPanelFinal" style="display: none">
-                    <div id="specContainer">
+                    <div id="specContainer" style="display: none">
                         <div class="panelFormat" id="specDiv">
                         </div>
                     </div>
+                    <div class="toggleDiv" data-id="toggleClinical" id="clinicalContainer" style="display: none; cursor: pointer;">
+                        <div class="panelFormat" id="clinicalDiv">
+                        </div>
+                    </div>
                     <div id="microscopicContainer">
-                        <div id="diffCount" style="display: none">
+                        <div id="diffCount" style="display: none; font-size:10pt">
                             <b>Differential Count</b>
                         </div>
                         <div class="pb" id="pbTableDiv" style="display: none">
                             <div class="panelFormat">
-                                <table class="templateTable" style="width:440px; font-size:11pt">
+                                <table class="templateTable" style="width:440px; font-size:10pt">
                                     <tr>
                                       <th style="width:50%" id="pbTableCountHeader">Peripheral Blood (200 cells)</th>
                                       <th style="width:17%">Result</th>
@@ -783,12 +726,11 @@
                                     </tr>
                                 </table>
                                 <br>
-                            </div>
-    
+                            </div>    
                         </div>
                         <div class="asp" id="aspTableDiv" style="display: none">
-                            <div class="panelFormat" style="font-size:11pt">
-                                <table class="templateTable" style="width:440px; font-size:11pt">
+                            <div class="panelFormat" style="font-size:10pt">
+                                <table class="templateTable" style="width:440px; font-size:10pt">
                                     <tr>
                                       <th style="width:50%" id="aspTableCountHeader">Aspirate Smear (500 cells)</td>
                                       <th style="width:17%">Result</td>
@@ -853,7 +795,7 @@
                                   <br>
                             </div>
                         </div>
-                        <div class="final panelFormat" id="finalDiv" style="font-size:11pt">
+                        <div class="final panelFormat" id="finalDiv" style="font-size:10pt">
                         </div>
                     </div>
                 </div>
@@ -894,117 +836,33 @@
                         <div class="settingTab headerTab underline unclicked" id="coreSettingsTab"></i>Core Settings</div>
                     </div>
                     <div class="panelBody" id="differentialSettingsPanel">
-                        <div class="grid2">
-                            <div class="gridTitle">
-                                <b>Peripheral blood layout</b>
+                        <div class="layoutBody">
+                            <div><b>Peripheral blood layout: <select class = "diffLayoutSelect saveInput" id="pbLayoutSelect"></select></b></div><br>
+                            <div class="layoutGrid grid2" data-type="pb">
                             </div>
+                            <br>
+                            <div><b>Aspirate layout: <select class = "diffLayoutSelect saveInput" id="aspLayoutSelect"></select></b></div><br>
+                            <div class="layoutGrid grid2" data-type="asp">
+                            </div>
+                            <br>
                             <div>
-                                <b>7.</b>
-                                <select class="pbCounterTemplate diffSetting" id="pbTemplate7"></select>
-                            </div>
-                            <div>
-                                <b>8.</b>
-                                <select class="pbCounterTemplate diffSetting" id="pbTemplate8"></select>
-                            </div>
-                            <div>
-                                <b>9.</b>
-                                <select class="pbCounterTemplate diffSetting" id="pbTemplate9"></select>
-                            </div>
-                            <div>
-                                <b>4.</b>
-                                <select class="pbCounterTemplate diffSetting" id="pbTemplate4"></select>
-                            </div>
-                            <div>
-                                <b>5.</b>
-                                <select class="pbCounterTemplate diffSetting" id="pbTemplate5"></select>
-                            </div>
-                            <div>
-                                <b>6.</b>
-                                <select class="pbCounterTemplate diffSetting" id="pbTemplate6"></select>
-                            </div>
-                            <div>
-                                <b>1.</b>
-                                <select class="pbCounterTemplate diffSetting" id="pbTemplate1"></select>
-                            </div>
-                            <div>
-                                <b>2.</b>
-                                <select class="pbCounterTemplate diffSetting" id="pbTemplate2"></select>
-                            </div>
-                            <div>
-                                <b>3.</b>
-                                <select class="pbCounterTemplate diffSetting" id="pbTemplate3"></select>
-                            </div>
-                            <div></div>
-                            <div>
-                                <b>0.</b>
-                                <select class="pbCounterTemplate diffSetting" id="pbTemplate0"></select>
-                            </div>
-                        </div>
-                        <br>
-                        <div class="grid2">
-                            <div class="gridTitle">
-                                <b>Aspirate layout</b>
-                            </div>
-                            <div>
-                                <b>7.</b>
-                                <select class="aspCounterTemplate diffSetting" id="aspTemplate7"></select>
-                            </div>
-                            <div>
-                                <b>8.</b>
-                                <select class="aspCounterTemplate diffSetting" id="aspTemplate8"></select>
-                            </div>
-                            <div>
-                                <b>9.</b>
-                                <select class="aspCounterTemplate diffSetting" id="aspTemplate9"></select>
-                            </div>
-                            <div>
-                                <b>4.</b>
-                                <select class="aspCounterTemplate diffSetting" id="aspTemplate4"></select>
-                            </div>
-                            <div>
-                                <b>5.</b>
-                                <select class="aspCounterTemplate diffSetting" id="aspTemplate5"></select>
-                            </div>
-                            <div>
-                                <b>6.</b>
-                                <select class="aspCounterTemplate diffSetting" id="aspTemplate6"></select>
-                            </div>
-                            <div>
-                                <b>1.</b>
-                                <select class="aspCounterTemplate diffSetting" id="aspTemplate1"></select>
-                            </div>
-                            <div>
-                                <b>2.</b>
-                                <select class="aspCounterTemplate diffSetting" id="aspTemplate2"></select>
-                            </div>
-                            <div>
-                                <b>3.</b>
-                                <select class="aspCounterTemplate diffSetting" id="aspTemplate3"></select>
-                            </div>
-                            <div></div>
-                            <div>
-                                <b>0.</b>
-                                <select class="aspCounterTemplate diffSetting" id="aspTemplate0"></select>
-                            </div>
-                        </div>
-                        <br>
-                        <div>
-                            <table class="settingsTable">
-                                <tr>
-                                    <td style="font-size:11pt">Round numbers based on desired differential count</td>
-                                    <td><label class="switch">
-                                        <input type="checkbox" class="diffSetting" id="roundDesired" checked>
-                                        <span class="slider round"></span>
-                                      </label></td>
-                                </tr>
-                                <tr>
-                                    <td style="font-size:11pt">Allow counting past desired count total</td>
-                                    <td><label class="switch">
-                                        <input type="checkbox" class="diffSetting" id="countExtra" checked>
-                                        <span class="slider round"></span>
-                                      </label></td>
-                                </tr>
+                                <table class="settingsTable">
+                                    <tr>
+                                        <td style="font-size:11pt">Round numbers based on desired differential count</td>
+                                        <td><label class="switch">
+                                            <input type="checkbox" class="diffSetting" id="roundDesired" checked>
+                                            <span class="slider round"></span>
+                                        </label></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="font-size:11pt">Allow counting past desired count total</td>
+                                        <td><label class="switch">
+                                            <input type="checkbox" class="diffSetting" id="countExtra" checked>
+                                            <span class="slider round"></span>
+                                        </label></td>
+                                    </tr>
                             </table>
+                            </div>
                         </div>
                         <br>
                         <button type="button" class="saveButton">Save</button>
@@ -1108,6 +966,12 @@
                         <button type="button" class="saveButton">Save</button>
                     </div>  
                     <div class='panelBody lowerGrid' id='coreSettingsPanel' style='display: none'>
+                        <div>
+                            <b>Normal cellularity calculation method:</b>
+                        </div>
+                        <div style="padding-bottom: 10px;">
+                            <select class="cellularityCalculationSelect saveInput" id="cellularitySelect"></select>
+                        </div>
                         <div>
                             <b>Markedly hypocellular cutoff:</b>
                         </div>
