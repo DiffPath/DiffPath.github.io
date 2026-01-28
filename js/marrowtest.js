@@ -1739,7 +1739,7 @@ $(document).ready(function() {
         pbText += `${pbBlast} circulating blasts and ${pbPlasma.toLowerCase()} circulating plasma cells are identified. `
       }
     } else if (pbPlasma !=""){
-        pbText += `${pbPlasma} circulating plasma are identified. `;
+        pbText += `${pbPlasma} circulating plasma cells are identified. `;
     }
     return pbText
   }
