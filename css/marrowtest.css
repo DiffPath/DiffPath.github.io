@@ -3,7 +3,6 @@
     opacity: 1 !important;
   }
 
-  
 input:focus::placeholder {
     color: transparent;
   }
@@ -25,26 +24,16 @@ a:link {
     text-decoration: none; 
   }
 
-#overlay {
-    background-color: rgba(0,0,0,0.5);
-    position:fixed;
-    left:0;
-    top: 0;
-    width:100%;
-    height:100%;
-    display: none;
-  }
+input[type="checkbox"], 
+input[type="radio"] {
+    accent-color: #0075FF; /* Your theme's dark blue */
+    cursor: pointer;
+}
 
-#copyAlert {
-    background-color: rgba(100, 255, 95, 0.8);
-    position:fixed;
-    bottom:-100px;
-    right:5%;
-    display: none;
-    text-align: center;
-    border-radius: 10px;
-    border: 1px solid black;
-    padding: 10px;
+input[type="radio"] + label,
+input[type="checkbox"] + label,
+label {
+    cursor: pointer;
 }
   
 body {
@@ -74,22 +63,75 @@ body {
     text-align: right;
 }
 
-#navbar{
-    display: none;
-    position:fixed;
+/* Update the Overlay to use opacity for a smooth fade */
+#overlay {
+    background-color: rgba(0,0,0,0.5);
+    position: fixed;
+    left: 0;
     top: 0;
-    z-index: 200;
-    width:200px;
-    height:100%;
-    background-color: #2c3c4e;
-    color: #FFFFFF;
+    width: 100%;
+    height: 100%;
+    z-index: 150; /* Keeps it under the navbar (200) */
+    
+    /* Hardware-accelerated fading */
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
 }
 
+#overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Update the Navbar to slide in smoothly */
+#navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 200;
+    width: 250px; /* Slightly wider for better breathing room */
+    height: 100%;
+    background-color: #2c3c4e;
+    color: #FFFFFF;
+    box-shadow: 4px 0 15px rgba(0, 0, 0, 0.3); /* Adds professional depth */
+    
+    /* Hardware-accelerated sliding */
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+#navbar.open {
+    transform: translateX(0);
+}
+
+/* Make the individual links more interactive */
 .navItem {
-    padding-left: 15px;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    padding: 16px 20px; /* Larger hit area and better spacing */
+    margin: 4px 0;
     cursor: pointer;
+    font-size: 16px;
+    
+    /* Smooth transition for hover effects */
+    transition: background-color 0.2s ease, padding-left 0.2s ease;
+}
+
+.navItem a {
+    color: white;
+    text-decoration: none;
+}
+
+/* Hover effect: Lighter background and a slight nudge to the right */
+.navItem:hover {
+    background-color: #3d536b; 
+    padding-left: 28px; 
+}
+
+/* Align the internal icons properly */
+.navItem .headerIcon {
+    margin-right: 12px;
+    width: 20px; /* Ensures consistent spacing regardless of icon size */
+    text-align: center;
 }
 
 .panelContainer {
@@ -140,11 +182,10 @@ body {
 }
 
 .templateTable th, .templateTable td {
-    border: 1px solid;
     vertical-align: top;
     text-align: left;
     font-family: Arial;
-    font-size: 11pt;
+    font-size: 10pt;
     padding-left: 10px;
 }
 
@@ -174,7 +215,7 @@ body {
 
 .panelFormat {
     background-color: #FFFFFF;
-    font-size:11pt;
+    font-size:10pt;
 }
 
 .flex {
@@ -306,12 +347,92 @@ textarea {
     border-radius: 50%;
   }
 
+/* --- CBC Table Styles --- */
+
+/* Add the black border to the table */
+.cbcTable {
+    border-collapse: collapse; /* Ensure borders aren't double-thick */
+    width: 100%; /* Or whatever width you prefer */
+    margin-bottom: 10px;
+}
+
+.cbcTable th, .cbcTable td {
+    border: 1px solid black; /* Black border for every cell */
+    padding: 6px; 
+    text-align: left;
+}
+
+/* Make the header row look distinct and act as a clickable button */
+.cbcTable th {
+    background-color: #e0e0e0;
+    cursor: pointer; 
+    user-select: none; /* Prevent text selection when double-clicking */
+}
+
+/* The 'minimized' state hides everything EXCEPT the header row */
+.cbcTable.minimized tbody {
+    display: none;
+}
 
 .saveButton {
-    background-color: #2c3c4e;
+    background-color: #2c3c4e; /* Theme dark blue */
     color: white;
-    font-size: 20pt;
-    border-radius: 5px;
+    font-size: 20px; /* Reduced from 20pt for a cleaner, modern look */
+    font-weight: 600; /* Slightly bolder text */
+    padding: 10px 24px; /* Proper spacing around the text */
+    border-radius: 6px; /* Smooth corners */
     border: none;
     cursor: pointer;
-  }
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle drop shadow */
+    
+    /* Smooth animation for all interactive states */
+    transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+}
+
+/* Hover state: Lighter blue, lifts up slightly, bigger shadow */
+.saveButton:hover {
+    background-color: #3d536b; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    transform: translateY(-1px); 
+}
+
+/* Active/Clicked state: Darker blue, pushes down */
+.saveButton:active {
+    background-color: #1e2936;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    transform: translateY(1px); 
+}
+
+#alert {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background-color: #ffffff;
+    color: #333333;
+    padding: 16px 20px;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-left: 5px solid #28a745; /* Default to theme dark blue */
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 9999;
+    
+    transform: translateY(150px);
+    opacity: 0;
+    pointer-events: none; 
+    
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+                opacity 0.4s ease;
+}
+
+#alert.error {
+    border-left: 5px solid #dc3545; /* Red border for errors */
+}
+
+#alert.show {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto; 
+}
