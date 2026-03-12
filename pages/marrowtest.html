@@ -4,11 +4,16 @@
         <title>Bone Marrow Template</title>
         <link rel="stylesheet" href="/css/marrowtest.css">
         <script src="https://kit.fontawesome.com/f6f9c2cc49.js" crossorigin="anonymous"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-        <script src="/js/marrowtest.js"></script>
+        <script src="/js/marrowData.js"></script>
+        <script src="/js/marrowText.js"></script>
+        <script src="/js/marrowTest.js"></script>
+
     </head>
     <body>
-        <div id="copyAlert"></div> 
+        <div id="alert">
+            <i id="alertIcon" class="" style="font-size: 18px;"></i>
+            <span id="alertText"></span>
+        </div>
         <div id="overlay"></div>  
         <nav id="navbar">
             <div>
@@ -41,7 +46,6 @@
                     <div class="templateTab headerTab underline unclicked" id="coreTab"><i class="fas fa-bone headerIcon"></i>Core</div>
                     <div class="templateTab headerTab underline unclicked" id="stainTab"><i class="fas fa-palette headerIcon"></i>Stains</div>
                     <div class="templateTab headerTab underline unclicked" id="diagnosisTab"><i class="fas fa-stethoscope headerIcon"></i>Diagnosis</div>
-
                 </div>
                 <div>
                     <div class="panelBody" id="specPanel">
@@ -104,8 +108,7 @@
                                     <option value="50">50</option>
                                     <option value="100">100</option>
                                     <option value="200" selected>200</option>
-                                    <option value="300">300</option>
-                                    <option value="400">400</option>
+                                    <option value="250">250</option>
                                     <option value="500">500</option>
                                     <option value="1000">1000</option>
                                 </select>
@@ -167,37 +170,37 @@
                                 <b>RBC Descriptors:</b>
                             </div>
                             <div>
-                                <input type="checkbox" class="form onPairedOff" id="rbcUnremarkable" data-paired="rbcDescriptor" name="unremarkable" value="unremarkable"><label for="rbcUnremarkable">Unremarkable</label>   
+                                <input type="checkbox" class="form onPairedOff" id="rbcUnremarkable" data-paired="rbcDescriptor" name="unremarkable" value="unremarkable"><label for="rbcUnremarkable">Unremarkable morphology</label>   
                             </div>
                             <div></div>
                             <div>
                                 <input type="checkbox" class="form rbcDescriptor offPairedOff" id="polyPresent" data-paired="polyQual" name="poly" value="polychromasia"><label for="polyPresent">Polychromasia</label> 
-                                <input type="radio" class="form polyQual pairedOn" id="polySlight" data-paired="polyPresent" name="poly" value="slight"><label for="polySlight">Slight</label>
-                                <input type="radio" class="form polyQual pairedOn" id="polyMarked" data-paired="polyPresent" name="poly" value="marked"><label for="polyMarked">Marked</label>   
+                                <input type="radio" class="form polyQual onPairedOn" id="polySlight" data-paired="polyPresent" name="poly" value="slight"><label for="polySlight">Slight</label>
+                                <input type="radio" class="form polyQual onPairedOn" id="polyMarked" data-paired="polyPresent" name="poly" value="marked"><label for="polyMarked">Marked</label>   
                             </div> 
                             <div></div>
                             <div>
                                 <input type="checkbox" class="form rbcDescriptor offPairedOff" id="nrbcPresent" data-paired="nrbcQual" name="nrbc"><label for="nrbcPresent">NRBCs</label>
-                                <input type="radio" class="form nrbcQual pairedOn" id="nrbcRare" data-paired="nrbcPresent" value="Rare" name="nrbc"><label for="nrbcRare">Rare</label>
-                                <input type="radio" class="form nrbcQual pairedOn" id="nrbcOccasional" data-paired="nrbcPresent" value="Occasional" name="nrbc"><label for="nrbcOccasional">Occasional</label>
-                                <input type="radio" class="form nrbcQual pairedOn" id="nrbcFrequent" data-paired="nrbcPresent" value="Frequent" name="nrbc"><label for="nrbcFrequent">Frequent</label>  
+                                <input type="radio" class="form nrbcQual onPairedOn" id="nrbcRare" data-paired="nrbcPresent" value="Rare" name="nrbc"><label for="nrbcRare">Rare</label>
+                                <input type="radio" class="form nrbcQual onPairedOn" id="nrbcOccasional" data-paired="nrbcPresent" value="Occasional" name="nrbc"><label for="nrbcOccasional">Occasional</label>
+                                <input type="radio" class="form nrbcQual onPairedOn" id="nrbcFrequent" data-paired="nrbcPresent" value="Frequent" name="nrbc"><label for="nrbcFrequent">Frequent</label>  
                             </div> 
                             <div></div>
                             <div>
                                 <input type="checkbox" class="form rbcDescriptor offPairedOff" id="rouleauxPresent" data-paired="rouleaux" name="rouleaux"><label for="rouleauxPresent">Rouleaux Formation</label> 
-                                <input type="radio" class="form rouleaux pairedOn" id="rouleauxSlight" data-paired="rouleauxPresent" name="rouxleaux" value="Slight"><label for="rouleauxSlight">Slight</label>
+                                <input type="radio" class="form rouleaux onPairedOn" id="rouleauxSlight" data-paired="rouleauxPresent" name="rouxleaux" value="Slight"><label for="rouleauxSlight">Slight</label>
                             </div>
                             <div></div>
                             <div>
                                 <input type="checkbox" class="form rbcDescriptor offPairedOff" id="anisoPresent" data-paired="aniso" name="aniso"><label for="anisoPresent">Anisopoikilocytosis </label> 
-                                <input type="radio" class="form aniso pairedOn" id="anisoMild" data-paired="anisoPresent" name="aniso" value="mild"><label for="anisoMild">Mild</label>
-                                <input type="radio" class="form aniso pairedOn" id="anisoMarked" data-paired="anisoPresent" name="aniso" value="marked"><label for="anisoMarked">Marked</label>   
+                                <input type="radio" class="form aniso onPairedOn" id="anisoMild" data-paired="anisoPresent" name="aniso" value="mild"><label for="anisoMild">Mild</label>
+                                <input type="radio" class="form aniso onPairedOn" id="anisoMarked" data-paired="anisoPresent" name="aniso" value="marked"><label for="anisoMarked">Marked</label>   
                             </div> 
                             <div id="anisoDiv" style ="display: none">
                                 <b>Anisopoikilocytosis Descriptors:</b>
                             </div>
-                            <div id="anisoSelect" class="selectDiv" style ="display: none">
-                                <select id='anisoSelect0' class="select anisoSelect"></select>
+                            <div id="anisoSelectDiv" class="selectDiv" style ="display: none">
+                                <select id="anisoSelectDiv0" class="select" data-selectType="aniso" data-parentID="anisoSelectDiv"></select>
                             </div>
                             <div style="padding-top: 10px">
                                 <b>Absolute Neutrophils:</b>
@@ -217,11 +220,16 @@
                                 </div>
                                 </div>
                             </div>                                
-                            <div style="padding-bottom: 10px">
+                            <div>
                                 <b>Neutrophil Descriptors:</b>
                             </div>
-                            <div id="neutrophilSelect" class="selectDiv">
-                                <select id="neutrophilSelect0" class="select neutrophilSelect"></select>
+                            <div>
+                                <div>
+                                    <input type="checkbox" class="form unremarkableMorphology" id="neutrophil_unremarkable" data-selectdiv="neutrophilSelectDiv"><label for="neutrophil_unremarkable">Unremarkable morphology</label>
+                                </div>
+                                <div id="neutrophilSelectDiv" class="selectDiv" style="padding-bottom: 10px">
+                                    <select id="neutrophilSelectDiv0" class="select" data-selectType="neutrophil" data-parentID="neutrophilSelectDiv"></select>
+                                </div>
                             </div>
                             <div>
                                 <b>Absolute Lymphocytes:</b>
@@ -241,20 +249,27 @@
                                     </div>
                                 </div>
                             </div>                                
-                            <div style="padding-bottom: 10px">
+                            <div>
                                 <b>Lymphocyte Descriptors:</b>
                             </div>
-                            <div id="lymphocyteSelect">
-                                <select id="lymphocyteSelect0" class="form lymphocyteSelect"></select>
+                            <div>
+                                <div>
+                                    <input type="checkbox" class="form unremarkableMorphology" id="lymphocyte_unremarkable" data-selectdiv="lymphocyteSelectDiv"><label for="lymphocyte_unremarkable">Unremarkable morphology</label>
+                                </div>
+                                <div id="lymphocyteSelectDiv" class="selectDiv" style="padding-bottom: 10px">
+                                    <select id="lymphocyteSelectDiv0" class="select" data-selectType="lymphocyte" data-parentID="lymphocyteSelectDiv"></select>
+                                </div>
                             </div>
                             <div>
                                 <b>Absolute Monocytes:</b>
                             </div>
                             <div>
                                 <div class="flex">
-                                    <div>
-                                        <input type="radio" class="form" id="monosHigh" name="monos"><label for="monosHigh">High</label>
-                                        <input type="radio" class="form" id="monosLow" name="monos"><label for="monosLow">Low</label>    
+                                    <div class="flex" style="padding-right: 10px">
+                                        <div>
+                                            <input type="radio" class="form" id="monosLow" name="monos"><label for="monosLow">Low</label>
+                                            <input type="radio" class="form" id="monosHigh" name="monos"><label for="monosHigh">High</label>
+                                        </div>
                                     </div>
                                     <div id="monosMildMarked" style ="display: none">
                                         <input type="checkbox" class="form" id="monosMild" name="monos"><label for="monosMild">Mild</label>
@@ -262,13 +277,13 @@
                                     </div>
                                 </div>
                             </div>
-                            <div style="padding-bottom: 10px">
+                            <div>
                                 <b>Monocyte Descriptors:</b>
                             </div>
-                            <div id="monocyteSelect" class="selectDiv">
-                                <select id="monocyteSelect" class="select monocyteSelect"></select>
+                            <div id="monocyteSelectDiv" class="selectDiv" style="padding-bottom: 10px">
+                                <select id="monocyteSelectDiv0" class="select" data-selectType="monocyte" data-parentID="monocyteSelectDiv"></select>
                             </div>
-                            <div style="padding-bottom: 10px">
+                            <div>
                                 <b>Absolute Eosinophils:</b>
                             </div>
                             <div>
@@ -276,12 +291,13 @@
                                     <div>
                                         <input type="checkbox" class="form" id="eosHigh" name="eos"><label for="eosHigh">High</label>  
                                     </div>
-                                    <div id="eosMildMarked" style ="display: none">
+                                    <div id="eosMildMarked" style="display: none; padding-left: 10px;">
                                         <input type="checkbox" class="form" id="eosMild" name="eos"><label for="eosMild">Mild</label>
                                         <input type="checkbox" class="form" id="eosMarked" name="eos"><label for="eosMarked">Marked</label>
                                     </div>
                                 </div>
                             </div>
+
                             <div style="padding-bottom: 10px">
                                 <b>Absolute Basophils:</b>
                             </div>
@@ -290,7 +306,7 @@
                                     <div>
                                         <input type="checkbox" class="form" id="basoHigh" name="baso"><label for="basoHigh">High</label>  
                                     </div>
-                                    <div id="basoMildMarked" style ="display: none">
+                                    <div id="basoMildMarked" style="display: none; padding-left: 10px;">
                                         <input type="checkbox" class="form" id="basoMild" name="baso"><label for="basoMild">Mild</label>
                                         <input type="checkbox" class="form" id="basoMarked" name="baso"><label for="basoMarked">Marked</label>
                                     </div>
@@ -314,11 +330,16 @@
                                     </div>   
                                 </div>
                             </div>
-                            <div style="padding-bottom: 10px">
+                            <div>
                                 <b>Platelet descriptors: </b>
-                            </div>                            
-                            <div id="plateletSelect" class="selectDiv">
-                                <select id="plateletSelect0" class="select plateletSelect"></select>
+                            </div>
+                            <div>
+                                <div>
+                                    <input type="checkbox" class="form unremarkableMorphology" id="platelet_unremarkable" data-selectdiv="plateletSelectDiv"><label for="platelet_unremarkable">Unremarkable morphology</label>
+                                </div>                            
+                                <div id="plateletSelectDiv" class="selectDiv" style="padding-bottom: 10px">
+                                    <select id="plateletSelectDiv0" class="select" data-selectType="platelet" data-parentID="plateletSelectDiv"></select>
+                                </div>
                             </div>
                             <div>
                                 <b>Blasts:</b>
@@ -326,7 +347,8 @@
                             <div class="flex"> 
                                 <div>
                                     <input type="radio" class="form pbBlast" id="blastNone" value="No" name="blast"><label for="blastNone">None</label>
-                                    <input type="radio" class="form pbBlast" id="blastRare" value="Rare" name="blast"><label for="blastRare">Rare</label>  
+                                    <input type="radio" class="form pbBlast" id="blastPresent" value="Present" name="blast"><label for="blastsPresent">Present</label>  
+                                    <input type="radio" class="form pbBlast" id="blastRare" value="Rare" name="blast"><label for="blastRare">Rare</label>
                                     <input type="radio" class="form pbBlast" id="blastOccasional" value="Occasional" name="blast"><label for="blastOccasional">Occasional</label>  
                                     <input type="radio" class="form pbBlast" id="blastFrequent" value="Frequent" name="blast"><label for="blastFrequent">Frequent</label>    
                                 </div> 
@@ -338,6 +360,7 @@
                             <div>
                                 <div>
                                     <input type="radio" class="form pbPlasma" id="plasmaNone" value="No" name="plasma"><label for="plasmaNone">None</label>
+                                    <input type="radio" class="form pbPlasma" id="plasmaPresent" value="Present" name="plasma"><label for="plasmaPresent">Present</label>
                                     <input type="radio" class="form pbPlasma" id="plasmaRare" value="Rare" name="plasma"><label for="plasmaRare">Rare</label>  
                                     <input type="radio" class="form pbPlasma" id="plasmaOccasional" value="Occasional" name="plasma"><label for="plasmaOccasional">Occasional</label>  
                                     <input type="radio" class="form pbPlasma" id="plasmaFrequent" value="Frequent" name="plasma"><label for="plasmaFrequent">Frequent</label>    
@@ -369,8 +392,7 @@
                                         <option value="50">50</option>
                                         <option value="100">100</option>
                                         <option value="200">200</option>
-                                        <option value="300">300</option>
-                                        <option value="400">400</option>
+                                        <option value="250">250</option>
                                         <option value="500" selected>500</option>
                                         <option value="1000">1000</option>
                                     </select>
@@ -396,17 +418,17 @@
                                 <input type="radio" class="form" id="aspAdequate" name="adequacy"><label for="aspAdequate">Adequate</label>
                                 <input type="radio" class="form" id="aspSuboptimal" name="adequacy"><label for="aspSuboptimal">Suboptimal</label>
                                 <input type="radio" class="form" id="aspInadequate" name="adequacy"><label for="aspInadequate">Inadequate</label>
-                                <div id="adequacySelect" class="selectDiv">
-                                    <select id="adequacySelect0" class="select adequacySelect"></select>
+                                <div id="adequacySelectDiv" class="selectDiv" style="padding-bottom: 10px">
+                                    <select id="adequacySelectDiv0" class="select" data-selectType="adequacy" data-parentID="adequacySelectDiv"></select>
                                 </div>
                             </div>
                             <div>
                                 <b>Predominance:</b>
                             </div>
-                            <div>
+                            <div style="padding-bottom: 10px">
                                 <div>
-                                    <input type="radio" id="erythroidPredominance" class="form"><label for="erythroidPredominance">Erythroid predominance</label>
-                                    <input type="radio" id="myeloidPredominance" class="form"><label for="myeloidPredominance">Myeloid predominance</label>
+                                    <input type="radio" id="erythroidPredominance" class="form" name="predominance"><label for="erythroidPredominance">Erythroid predominance</label>
+                                    <input type="radio" id="myeloidPredominance" class="form" name="predominance"><label for="myeloidPredominance">Myeloid predominance</label>
                                 </div>
                                 <div id="predominanceSlightMarked" style ="display: none">                          
                                     <input type="checkbox" class="form singleCheck" id="predominanceSlight" name="predominance"><label for="predominanceSlight">Slight</label>                   
@@ -417,26 +439,22 @@
                                 <b>Erythroids:</b>
                             </div>
                             <div>
-                                <div class="flex">
-                                    <div>
-                                        <input type="checkbox" class="form unremarkable" id="erythroid_unremarkable" name="erythroid"><label for="erythroid_unremarkable">Unremarkable</label>
-                                    </div>
+                                <div>
+                                    <input type="checkbox" class="form unremarkableMorphology" id="erythroid_unremarkable" data-selectdiv="erythroidSelectDiv"><label for="erythroid_unremarkable">Unremarkable Morphology</label>
                                 </div>
-                                <div id="erythroidSelect" class="selectDiv">
-                                    <select id="erythroidSelect0" class="select erythroidSelect"></select>
+                                <div id="erythroidSelectDiv" class="selectDiv" style="padding-bottom: 10px">
+                                    <select id="erythroidSelectDiv0" class="select" data-selectType="erythroid" data-parentID="erythroidSelectDiv"></select>
                                 </div>
                             </div>
                             <div>
                                 <b>Myeloids:</b>
                             </div>
                             <div>
-                                <div class="flex">
-                                    <div>
-                                        <input type="checkbox" class="form unremarkable" id="myeloid_unremarkable" name="myeloid"><label for="myeloid_unremarkable">Unremarkable</label>
-                                    </div>
+                                <div>
+                                    <input type="checkbox" class="form unremarkableMorphology" id="myeloid_unremarkable" data-selectdiv="myeloidSelectDiv"><label for="myeloid_unremarkable">Unremarkable Morphology</label>
                                 </div>
-                                <div id="myeloidSelect" class="selectDiv">
-                                    <select id="myeloidSelect0" class="select myeloidSelect"></select>
+                                <div id="myeloidSelectDiv" class="selectDiv" style="padding-bottom: 10px">
+                                    <select id="myeloidSelectDiv0" class="select" data-selectType="myeloid" data-parentID="myeloidSelectDiv"></select>
                                 </div>
                             </div>
                             <div>
@@ -445,17 +463,22 @@
                             <div>
                                 <div class="flex">
                                     <div>
-                                        <input type="checkbox" class="form unremarkable" id="megakaryocyte_unremarkable" name="megakaryocyte"><label for="megakaryocyte_unremarkable">Unremarkable</label>
+                                        <input type="radio" class="form" id="mega_decreased" name="asp_mega"><label for="mega_decreased">Decreased</label>
+                                        <input type="radio" class="form" id="mega_adequate" name="asp_mega"><label for="mega_adequate">Adequate</label>
+                                        <input type="radio" class="form" id="mega_increased" name="asp_mega"><label for="mega_increased">Increased</label>
                                     </div>
                                 </div>
-                                <div id="aspMegSelect" class="selectDiv">
-                                    <select id="aspMegSelect0" class="select aspMegSelect"></select>
+                                <div>
+                                    <input type="checkbox" class="form unremarkableMorphology" id="megakaryocyte_unremarkable" data-selectdiv="aspMegSelectDiv"><label for="megakaryocyte_unremarkable">Unremarkable Morphology</label>
+                                </div>
+                                <div id="aspMegSelectDiv" class="selectDiv" style="padding-bottom: 10px">
+                                    <select id="aspMegSelectDiv0" class="select" data-selectType="aspMeg" data-parentID="aspMegSelectDiv"></select>
                                 </div>
                             </div>
                             <div>
                                 <b>Blasts:</b>
                             </div>
-                            <div class="flex">
+                            <div class="flex" style="padding-bottom: 10px">
                                 <div>
                                     <input type="radio" class="form" id="blast_adequate" name="asp_blast"><label for="blast_adequate">Not increased</label>
                                 </div>
@@ -476,13 +499,11 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <div class="flex">
-                                        <div>
-                                            <input type="checkbox" class="form unremarkable" id="plasmaUnremarkable" name="plasma"><label for="plasmaUnremarkable">Unremarkable</label>
-                                        </div>
+                                    <div>
+                                        <input type="checkbox" class="form unremarkableMorphology" id="plasma_unremarkable" data-selectdiv="plasmaSelectDiv"><label for="plasma_unremarkable">Unremarkable Morphology</label>
                                     </div>
-                                    <div id="plasmaSelect" class="selectDiv">
-                                        <select id="plasmaSelect0" class="select plasmaSelect"></select>
+                                    <div id="plasmaSelectDiv" class="selectDiv" style="padding-bottom: 10px">
+                                        <select id="plasmaSelectDiv0" class="select" data-selectType="plasma" data-parentID="plasmaSelectDiv"></select>
                                     </div>
                                 </div>
                             </div>                            
@@ -507,8 +528,8 @@
                             <div style="padding-bottom: 10px">
                                 <input type="radio" class="form" id="coreAdequate" name="coreAdequacy"><label for="coreAdequate">Adequate</label>
                                 <input type="radio" class="form" id="coreInadequate" name="coreAdequacy"><label for="coreInadequate">Inadequate</label>
-                                <div id="coreAdequacySelect" class="selectDiv">
-                                    <select id="coreAdequacySelect0" class="select coreAdequacySelect"></select>
+                                <div id="coreAdequacySelectDiv" class="selectDiv">
+                                    <select id="coreAdequacySelectDiv0" class="select" data-selectType="coreAdequacy" data-parentID="coreAdequacySelectDiv"></select>
                                 </div>
                             </div>
                             <div>
@@ -542,11 +563,11 @@
                             <div style="padding-bottom: 10px">
                                 <div class="flex">
                                     <div>
-                                        <input type="checkbox" class="form" id="coreMEUnremarkable"><label for="coreMEUnremarkable">Unremarkable</label>
+                                        <input type="checkbox" class="form unremarkableMorphology" id="coreMEUnremarkable"><label for="coreMEUnremarkable">Unremarkable Morphology</label>
                                     </div>
                                 </div>
-                                <div id="coreMESelect" class="selectDiv">
-                                    <select id="coreMESelect0" class="select coreMESelect"></select>
+                                <div id="coreMESelectDiv" class="selectDiv">
+                                    <select id="coreMESelectDiv0" class="select" data-selectType="coreME" data-parentID="coreMESelectDiv"></select>
                                 </div>
                             </div>
                             <div>
@@ -555,19 +576,19 @@
                             <div style="padding-bottom: 10px">
                                 <div class="flex">
                                     <div>
-                                        <input type="checkbox" class="form" id="coreMegUnremarkable"><label for="coreMegUnremarkable">Unremarkable</label>
+                                        <input type="checkbox" class="form unremarkableMorphology" id="coreMegUnremarkable"><label for="coreMegUnremarkable">Unremarkable Morphology</label>
                                     </div>
                                 </div>
-                                <div id="coreMegSelect" class="selectDiv">
-                                    <select id="coreMegSelect0" class="select coreMegSelect"></select>
+                                <div id="coreMegSelectDiv" class="selectDiv">
+                                    <select id="coreMegSelectDiv0" class="select" data-selectType="coreMeg" data-parentID="coreMegSelectDiv"></select>
                                 </div>
                             </div>
                             <div style="padding-bottom: 10px">
                                 <b>Lymphocytes:</b>
                             </div>
                             <div>
-                                <div id="coreLymphSelect" class="selectDiv">
-                                    <select id="coreLymphSelect0" class="select coreLymphSelect"></select>
+                                <div id="coreLymphSelectDiv" class="selectDiv">
+                                    <select id="coreLymphSelectDiv0" class="select" data-selectType="coreLymph" data-parentID="coreLymphSelectDiv"></select>
                                 </div>
                             </div>
                             <div>
@@ -591,24 +612,24 @@
                         <b>Aspirate Smear:</b>
                         <div>
                             <div>
-                                <div id="aspirateSpecialStainsSelect" class="selectDiv">
-                                    <select id="aspirateSpecialStainsSelect0" class="select aspirateSpecialStainsSelect"></select>
+                                <div id="aspirateSpecialStainsSelectDiv" class="selectDiv">
+                                    <select id="aspirateSpecialStainsSelectDiv0" class="select" data-selectType="aspirateSpecialStains" data-parentID="aspirateSpecialStainsSelectDiv"></select>
                                 </div>
                             </div>
                         </div>
                         <b>Core Biopsy:</b>
                         <div>
                             <div>
-                                <div id="coreSpecialStainsSelect" class="selectDiv">
-                                    <select id="coreSpecialStainsSelect0" class="select coreSpecialStainsSelect"></select>
+                                <div id="coreSpecialStainsSelectDiv" class="selectDiv">
+                                    <select id="coreSpecialStainsSelectDiv0" class="select" data-selectType="specialStains" data-parentID="coreSpecialStainsSelectDiv"></select>
                                 </div>
                             </div>
                         </div>
                         <b>Particle Clot:</b>
                         <div>
                             <div>
-                                <div id="clotSpecialStainsSelect" class="selectDiv">
-                                    <select id="clotSpecialStainsSelect0" class="select clotSpecialStainsSelect"></select>
+                                <div id="clotSpecialStainsSelectDiv" class="selectDiv">
+                                    <select id="clotSpecialStainsSelectDiv0" class="select" data-selectType="specialStains" data-parentID="clotSpecialStainsSelectDiv"></select>
                                 </div>
                             </div>
                         </div>
@@ -617,20 +638,27 @@
                         <b>Core Biopsy:</b>
                         <div>
                             <div>
-                                <div id="coreImmunostainsSelect" class="selectDiv">
-                                    <select id="coreImmunostainsSelect0" class="select coreImmunostainsSelect"></select>
+                                <div id="coreImmunostainsSelectDiv" class="selectDiv">
+                                    <select id="coreImmunostainsSelectDiv0" class="select" data-selectType="immunostains" data-parentID="coreImmunostainsSelectDiv"></select>
                                 </div>
                             </div>
                         </div>
                         <b>Particle Clot:</b>
                         <div>
                             <div>
-                                <div id="clotImmunostainsSelect" class="selectDiv">
-                                    <select id="clotImmunostainsSelect0" class="select clotImmunostainsSelect"></select>
+                                <div id="clotImmunostainsSelectDiv" class="selectDiv">
+                                    <select id="clotImmunostainsSelectDiv0" class="select" data-selectType="immunostains" data-parentID="clotImmunostainsSelectDiv"></select>
                                 </div>
                             </div>
                         </div>
-                    </div>       
+                    </div>
+                    <div class="panelBody" id="diagnosisPanel" style="display: none">
+                        <div>
+                            <b>Suggested Comments:</b>
+                        </div>
+                        <div id="diagnosisSuggestionsContainer">
+                        </div>                 
+                    </div>     
                 </div>
             </div>
             <div class="panel" id="templatePanel">
@@ -642,8 +670,13 @@
                     <div id="specContainer" style="display: none">
                         <div class="panelFormat" id="specDiv">
                         </div>
+                        <div class=""></div>
                     </div>
-                    <div class="toggleDiv" data-id="toggleClinical" id="clinicalContainer" style="display: none; cursor: pointer;">
+                    <div id="commentContainer" style="display: none">
+                        <b style="font-size:10pt">Comment:</b>
+                        <div class="panelFormat" id="commentDiv"></div>
+                    </div> 
+                    <div id="clinicalContainer" class="toggleDiv" data-id="toggleClinical" style="display: none">
                         <div class="panelFormat" id="clinicalDiv">
                         </div>
                     </div>
@@ -652,150 +685,146 @@
                             <b>Differential Count</b>
                         </div>
                         <div class="pb" id="pbTableDiv" style="display: none">
-                            <div class="panelFormat">
-                                <table class="templateTable" style="width:440px; font-size:10pt">
-                                    <tr>
-                                      <th style="width:50%" id="pbTableCountHeader">Peripheral Blood (200 cells)</th>
-                                      <th style="width:17%">Result</th>
-                                      <th style="width:33%">Reference Range</th>
-                                    </tr>
-                                    <tr id="pbTableRow0" style="display: none">
-                                        <td style="width:50%">Atypical Cells</td>
-                                        <td style="width:17%" id="pbTableCell0"></td>
-                                        <td style="width:33%">0</td>
-                                    </tr>
-                                    <tr id="pbTableRow1" style="display: none">
-                                        <td style="width:50%">Other Cells</td>
-                                        <td style="width:17%" id="pbTableCell1"></td>
-                                        <td style="width:33%">0</td>
-                                    </tr>
-                                    <tr id="pbTableRow2" style="display: none">
-                                      <td style="width:50%">Blasts</td>
-                                      <td style="width:17%" id="pbTableCell2"></td>
-                                      <td style="width:33%">0</td>
-                                    </tr>
-                                    <tr id="pbTableRow3" style="display: none">
-                                      <td style="width:50%">Promyelocytes</td>
-                                      <td style="width:17%" id="pbTableCell3"></td>
-                                      <td style="width:33%">0</td>
-                                    </tr>
-                                    <tr id="pbTableRow4" style="display: none">
-                                      <td style="width:50%">Myelocytes</td>
-                                      <td style="width:17%" id="pbTableCell4"></td>
-                                      <td style="width:33%">0</td>
-                                    </tr>
-                                    <tr id="pbTableRow5" style="display: none">
-                                      <td style="width:50%">Metamyelocytes</td>
-                                      <td style="width:17%" id="pbTableCell5"></td>
-                                      <td style="width:33%">0</td>
-                                    </tr>
-                                    <tr id="pbTableRow6">
-                                      <td style="width:50%">Neutrophils</td>
-                                      <td style="width:17%" id="pbTableCell6"></td>
-                                      <td style="width:33%">34 - 73%</td>
-                                    </tr>
-                                    <tr id="pbTableRow7">
-                                      <td style="width:50%">Lymphocytes</td>
-                                      <td style="width:17%" id="pbTableCell7"></td>
-                                      <td style="width:33%">15 - 50%</td>
-                                    </tr>
-                                    <tr id="pbTableRow8">
-                                      <td style="width:50%">Monocytes</td>
-                                      <td style="width:17%" id="pbTableCell8"></td>
-                                      <td style="width:33%">1 - 15%</td>
-                                    </tr>
-                                    <tr id="pbTableRow9">
-                                      <td style="width:50%">Eosinophils</td>
-                                      <td style="width:17%" id="pbTableCell9"></td>
-                                      <td style="width:33%">0 - 8%</td>
-                                    </tr>
-                                    <tr id="pbTableRow10">
-                                      <td style="width:50%">Basophils</td>
-                                      <td style="width:17%" id="pbTableCell10"></td>
-                                      <td style="width:33%">0 - 2%</td>
-                                    </tr>
-                                    <tr id="pbTableRow11" style="display: none">
-                                        <td style="width:50%">Plasma Cells</td>
-                                        <td style="width:17%" id="pbTableCell11"></td>
-                                        <td style="width:33%">0</td>
-                                    </tr>
-                                    <tr id="pbTableRow12" style="display: none">
-                                      <td style="width:50%">NRBCs/100 WBC</td>
-                                      <td style="width:17%" id="pbTableCell12"></td>
-                                      <td style="width:33%">0</td>
-                                    </tr>
-                                </table>
-                                <br>
-                            </div>    
+                            <table class="templateTable" style="width:440px; font-size:10pt; border-collapse: collapse;">
+                                <tr>
+                                    <th style="width:50%; border: 1px solid black; padding: 3px; text-align: left;" id="pbTableCountHeader">Peripheral Blood (200 cells)</th>
+                                    <th style="width:17%; border: 1px solid black; padding: 3px; text-align: left;">Result</th>
+                                    <th style="width:33%; border: 1px solid black; padding: 3px; text-align: left;">Reference Range</th>
+                                </tr>
+                                <tr id="pbTableRow0" style="display: none">
+                                    <td style="width:50%; border: 1px solid black; padding: 3px;">Atypical Cells</td>
+                                    <td style="width:17%; border: 1px solid black; padding: 3px;" id="pbTableCell0"></td>
+                                    <td style="width:33%; border: 1px solid black; padding: 3px;">0</td>
+                                </tr>
+                                <tr id="pbTableRow1" style="display: none">
+                                    <td style="width:50%; border: 1px solid black; padding: 3px;">Other Cells</td>
+                                    <td style="width:17%; border: 1px solid black; padding: 3px;" id="pbTableCell1"></td>
+                                    <td style="width:33%; border: 1px solid black; padding: 3px;">0</td>
+                                </tr>
+                                <tr id="pbTableRow2" style="display: none">
+                                    <td style="width:50%; border: 1px solid black; padding: 3px;">Blasts</td>
+                                    <td style="width:17%; border: 1px solid black; padding: 3px;" id="pbTableCell2"></td>
+                                    <td style="width:33%; border: 1px solid black; padding: 3px;">0</td>
+                                </tr>
+                                <tr id="pbTableRow3" style="display: none">
+                                    <td style="width:50%; border: 1px solid black; padding: 3px;">Promyelocytes</td>
+                                    <td style="width:17%; border: 1px solid black; padding: 3px;" id="pbTableCell3"></td>
+                                    <td style="width:33%; border: 1px solid black; padding: 3px;">0</td>
+                                </tr>
+                                <tr id="pbTableRow4" style="display: none">
+                                    <td style="width:50%; border: 1px solid black; padding: 3px;">Myelocytes</td>
+                                    <td style="width:17%; border: 1px solid black; padding: 3px;" id="pbTableCell4"></td>
+                                    <td style="width:33%; border: 1px solid black; padding: 3px;">0</td>
+                                </tr>
+                                <tr id="pbTableRow5" style="display: none">
+                                    <td style="width:50%; border: 1px solid black; padding: 3px;">Metamyelocytes</td>
+                                    <td style="width:17%; border: 1px solid black; padding: 3px;" id="pbTableCell5"></td>
+                                    <td style="width:33%; border: 1px solid black; padding: 3px;">0</td>
+                                </tr>
+                                <tr id="pbTableRow6">
+                                    <td style="width:50%; border: 1px solid black; padding: 3px;">Neutrophils</td>
+                                    <td style="width:17%; border: 1px solid black; padding: 3px;" id="pbTableCell6"></td>
+                                    <td style="width:33%; border: 1px solid black; padding: 3px;">34 - 73%</td>
+                                </tr>
+                                <tr id="pbTableRow7">
+                                    <td style="width:50%; border: 1px solid black; padding: 3px;">Lymphocytes</td>
+                                    <td style="width:17%; border: 1px solid black; padding: 3px;" id="pbTableCell7"></td>
+                                    <td style="width:33%; border: 1px solid black; padding: 3px;">15 - 50%</td>
+                                </tr>
+                                <tr id="pbTableRow8">
+                                    <td style="width:50%; border: 1px solid black; padding: 3px;">Monocytes</td>
+                                    <td style="width:17%; border: 1px solid black; padding: 3px;" id="pbTableCell8"></td>
+                                    <td style="width:33%; border: 1px solid black; padding: 3px;">1 - 15%</td>
+                                </tr>
+                                <tr id="pbTableRow9">
+                                    <td style="width:50%; border: 1px solid black; padding: 3px;">Eosinophils</td>
+                                    <td style="width:17%; border: 1px solid black; padding: 3px;" id="pbTableCell9"></td>
+                                    <td style="width:33%; border: 1px solid black; padding: 3px;">0 - 8%</td>
+                                </tr>
+                                <tr id="pbTableRow10">
+                                    <td style="width:50%; border: 1px solid black; padding: 3px;">Basophils</td>
+                                    <td style="width:17%; border: 1px solid black; padding: 3px;" id="pbTableCell10"></td>
+                                    <td style="width:33%; border: 1px solid black; padding: 3px;">0 - 2%</td>
+                                </tr>
+                                <tr id="pbTableRow11" style="display: none">
+                                    <td style="width:50%; border: 1px solid black; padding: 3px;">Plasma Cells</td>
+                                    <td style="width:17%; border: 1px solid black; padding: 3px;" id="pbTableCell11"></td>
+                                    <td style="width:33%; border: 1px solid black; padding: 3px;">0</td>
+                                </tr>
+                                <tr id="pbTableRow12" style="display: none">
+                                    <td style="width:50%; border: 1px solid black; padding: 3px;">NRBCs/100 WBC</td>
+                                    <td style="width:17%; border: 1px solid black; padding: 3px;" id="pbTableCell12"></td>
+                                    <td style="width:33%; border: 1px solid black; padding: 3px;">0</td>
+                                </tr>
+                            </table>
+                            <br>
                         </div>
                         <div class="asp" id="aspTableDiv" style="display: none">
-                            <div class="panelFormat" style="font-size:10pt">
-                                <table class="templateTable" style="width:440px; font-size:10pt">
-                                    <tr>
-                                      <th style="width:50%" id="aspTableCountHeader">Aspirate Smear (500 cells)</td>
-                                      <th style="width:17%">Result</td>
-                                      <th style="width:33%">Reference Range</td>
-                                    </tr>
-                                    <tr id="aspTableRow0" style="display: none">
-                                        <td style="width:50%">Atypical Cells</td>
-                                        <td style="width:17%" id="aspTableCell0"></td>
-                                        <td style="width:33%">0</td>
-                                    </tr>
-                                    <tr id="aspTableRow1" style="display: none">
-                                        <td style="width:50%">Other Cells</td>
-                                        <td style="width:17%" id="aspTableCell1"></td>
-                                        <td style="width:33%">0</td>
-                                    </tr>
-                                    <tr>
-                                      <td style="width:50%">Blasts</td>
-                                      <td style="width:17%" id="aspTableCell2"></td>
-                                      <td style="width:33%">0 - 3%</td>
-                                    </tr>
-                                    <tr>
-                                      <td style="width:50%">Neutrophils & Precursors</td>
-                                      <td style="width:17%" id="aspTableCell3"></td>
-                                      <td style="width:33%">33 - 63%</td>
-                                    </tr>
-                                    <tr>
-                                      <td style="width:50%">Eosinophils & Precursors</td>
-                                      <td style="width:17%" id="aspTableCell4"></td>
-                                      <td style="width:33%">1 - 5%</td>
-                                    </tr>
-                                    <tr>
-                                      <td style="width:50%">Basophils & Precursors</td>
-                                      <td style="width:17%" id="aspTableCell5"></td>
-                                      <td style="width:33%">0 - 1%</td>
-                                    </tr>
-                                    <tr>
-                                        <td style="width:50%">Monocytes</td>
-                                        <td style="width:17%" id="aspTableCell6"></td>
-                                        <td style="width:33%">0 - 2%</td>
-                                    </tr>
-                                    <tr>
-                                        <td style="width:50%">Lymphocytes</td>
-                                        <td style="width:17%" id="aspTableCell7"></td>
-                                        <td style="width:33%">10 - 15%</td>
-                                      </tr>
-                                    <tr>
-                                        <td style="width:50%">Plasma Cells</td>
-                                        <td style="width:17%" id="aspTableCell8"></td>
-                                        <td style="width:33%">0 - 1%</td>
-                                    </tr>
-                                    <tr>
-                                      <td style="width:50%">Erythroid Precursors</td>
-                                      <td style="width:17%" id="aspTableCell9"></td>
-                                      <td style="width:33%">15 - 27%</td>
-                                    </tr>
-                                    <tr>
-                                        <td style="width:50%">M:E ratio</td>
-                                        <td style="width:17%" id="aspTableCell99"></td>
-                                        <td style="width:33%">1.5 - 3.3</td>
-                                    </tr>
-                                  </table>
-                                  <br>
-                            </div>
+                            <table class="templateTable" style="width:440px; font-size:10pt; border-collapse: collapse;">
+                                <tr>
+                                    <th style="width:50%; border: 1px solid black; padding: 3px; text-align: left;" id="aspTableCountHeader">Aspirate Smear (500 cells)</th>
+                                    <th style="width:17%; border: 1px solid black; padding: 3px; text-align: left;">Result</th>
+                                    <th style="width:33%; border: 1px solid black; padding: 3px; text-align: left;">Reference Range</th>
+                                </tr>
+                                <tr id="aspTableRow0" style="display: none">
+                                    <td style="width:50%; border: 1px solid black; padding: 3px;">Atypical Cells</td>
+                                    <td style="width:17%; border: 1px solid black; padding: 3px;" id="aspTableCell0"></td>
+                                    <td style="width:33%; border: 1px solid black; padding: 3px;">0</td>
+                                </tr>
+                                <tr id="aspTableRow1" style="display: none">
+                                    <td style="width:50%; border: 1px solid black; padding: 3px;">Other Cells</td>
+                                    <td style="width:17%; border: 1px solid black; padding: 3px;" id="aspTableCell1"></td>
+                                    <td style="width:33%; border: 1px solid black; padding: 3px;">0</td>
+                                </tr>
+                                <tr>
+                                    <td style="width:50%; border: 1px solid black; padding: 3px;">Blasts</td>
+                                    <td style="width:17%; border: 1px solid black; padding: 3px;" id="aspTableCell2"></td>
+                                    <td style="width:33%; border: 1px solid black; padding: 3px;">0 - 3%</td>
+                                </tr>
+                                <tr>
+                                    <td style="width:50%; border: 1px solid black; padding: 3px;">Neutrophils & Precursors</td>
+                                    <td style="width:17%; border: 1px solid black; padding: 3px;" id="aspTableCell3"></td>
+                                    <td style="width:33%; border: 1px solid black; padding: 3px;">33 - 63%</td>
+                                </tr>
+                                <tr>
+                                    <td style="width:50%; border: 1px solid black; padding: 3px;">Eosinophils & Precursors</td>
+                                    <td style="width:17%; border: 1px solid black; padding: 3px;" id="aspTableCell4"></td>
+                                    <td style="width:33%; border: 1px solid black; padding: 3px;">1 - 5%</td>
+                                </tr>
+                                <tr>
+                                    <td style="width:50%; border: 1px solid black; padding: 3px;">Basophils & Precursors</td>
+                                    <td style="width:17%; border: 1px solid black; padding: 3px;" id="aspTableCell5"></td>
+                                    <td style="width:33%; border: 1px solid black; padding: 3px;">0 - 1%</td>
+                                </tr>
+                                <tr>
+                                    <td style="width:50%; border: 1px solid black; padding: 3px;">Monocytes</td>
+                                    <td style="width:17%; border: 1px solid black; padding: 3px;" id="aspTableCell6"></td>
+                                    <td style="width:33%; border: 1px solid black; padding: 3px;">0 - 2%</td>
+                                </tr>
+                                <tr>
+                                    <td style="width:50%; border: 1px solid black; padding: 3px;">Lymphocytes</td>
+                                    <td style="width:17%; border: 1px solid black; padding: 3px;" id="aspTableCell7"></td>
+                                    <td style="width:33%; border: 1px solid black; padding: 3px;">10 - 15%</td>
+                                </tr>
+                                <tr>
+                                    <td style="width:50%; border: 1px solid black; padding: 3px;">Plasma Cells</td>
+                                    <td style="width:17%; border: 1px solid black; padding: 3px;" id="aspTableCell8"></td>
+                                    <td style="width:33%; border: 1px solid black; padding: 3px;">0 - 1%</td>
+                                </tr>
+                                <tr>
+                                    <td style="width:50%; border: 1px solid black; padding: 3px;">Erythroid Precursors</td>
+                                    <td style="width:17%; border: 1px solid black; padding: 3px;" id="aspTableCell9"></td>
+                                    <td style="width:33%; border: 1px solid black; padding: 3px;">15 - 27%</td>
+                                </tr>
+                                <tr>
+                                    <td style="width:50%; border: 1px solid black; padding: 3px;">M:E ratio</td>
+                                    <td style="width:17%; border: 1px solid black; padding: 3px;" id="aspTableCell99"></td>
+                                    <td style="width:33%; border: 1px solid black; padding: 3px;">1.5 - 3.3</td>
+                                </tr>
+                            </table>
+                            <br>
                         </div>
-                        <div class="final panelFormat" id="finalDiv" style="font-size:10pt">
+                        <div class="final panelFormat" id="microscopicDiv" style="font-size:10pt">
                         </div>
                     </div>
                 </div>
@@ -805,6 +834,16 @@
                     <h3 style="margin-top: 0px">
                         Changelog:
                       </h3>
+                    <b>Version 0.3 Major update (***)</b>
+                    <ul>
+                       <li>Added ability to change differential counter layout</li>
+                       <li>Completed form functionality</li>
+                       <li>Added functionality to complete the final diagnosis line</li>
+                       <li>Added comments in comment suggestion engine</li>
+                       <li>Removed JQuery dependency by converting to vanilla Javascript</li>   
+                       <li>Fixed latency issue with differential counter</li>
+                       <li>Minor UI adjustments</li>
+                    </ul>
                     <b>Version 0.2 Major update (6/24/2024)</b>
                     <ul>
                        <li>Created standalone differential counter</li>
@@ -837,11 +876,11 @@
                     </div>
                     <div class="panelBody" id="differentialSettingsPanel">
                         <div class="layoutBody">
-                            <div><b>Peripheral blood layout: <select class = "diffLayoutSelect saveInput" id="pbLayoutSelect"></select></b></div><br>
+                            <div><b>Peripheral blood layout: <select class = "saveInput" id="pbLayoutSelect" data-selectType="diffLayout"></select></b></div><br>
                             <div class="layoutGrid grid2" data-type="pb">
                             </div>
                             <br>
-                            <div><b>Aspirate layout: <select class = "diffLayoutSelect saveInput" id="aspLayoutSelect"></select></b></div><br>
+                            <div><b>Aspirate layout: <select class = "saveInput" id="aspLayoutSelect" data-selectType="diffLayout"></select></b></div><br>
                             <div class="layoutGrid grid2" data-type="asp">
                             </div>
                             <br>
@@ -870,71 +909,121 @@
                     <div class="panelBody" id="bloodSettingsPanel" style="display: none">
                         <div>
                             <div>
-                                <b>Mild anemia:</b>
-                                <input type="number" class="saveInput" id="cbcHgbLowMild" size="2" value="12.0">
+                                <b>Anemia (g/dL):</b>
                             </div>
                             <div>
-                                <b>Marked anemia:</b>
-                                <input type="number" class="saveInput" id="cbcHgbLowMarked" size="2" value="7.0">
+                                <label for="cbcHgbLowMild">Mild (≥)</label>
+                                <input type="number" class="saveInput bloodSettings" id="cbcHgbLowMild" step="0.1">
+                                <label for="cbcHgbLowMarked">Marked (<)</label>
+                                <input type="number" class="saveInput bloodSettings" id="cbcHgbLowMarked" step="0.1">
+                            </div>
+
+                            <br>
+                            <div>
+                                <b>Polycythemia (g/dL):</b>
                             </div>
                             <div>
-                                <b>Mild polycythemia:</b>
-                                <input type="number" class="saveInput" id="cbcHgbHighMild" size="2">
+                                <label for="cbcHgbHighMild">Mild (≤)</label>
+                                <input type="number" class="saveInput bloodSettings" id="cbcHgbHighMild" step="0.1">
+                                <label for="cbcHgbHighMarked">Marked (>)</label>
+                                <input type="number" class="saveInput bloodSettings" id="cbcHgbHighMarked" step="0.1">
+                            </div>
+
+                            <br>
+                            <div>
+                                <b>Neutropenia (K/uL):</b>
                             </div>
                             <div>
-                                <b>Marked polycythemia:</b>
-                                <input type="number" class="saveInput" id="cbcHgbHighMarked" size="2">
+                                <label for="cbcNeutLowMild">Mild (≥)</label>
+                                <input type="number" class="saveInput bloodSettings" id="cbcNeutLowMild" step="0.1">
+                                <label for="cbcNeutLowMarked">Marked (<)</label>
+                                <input type="number" class="saveInput bloodSettings" id="cbcNeutLowMarked" step="0.1">
+                            </div>
+
+                            <br>
+                            <div>
+                                <b>Neutrophilia (K/uL):</b>
+                            </div>
+                            <div>
+                                <label for="cbcNeutHighMild">Mild (≤)</label>
+                                <input type="number" class="saveInput bloodSettings" id="cbcNeutHighMild" step="0.1">
+                                <label for="cbcNeutHighMarked">Marked (>)</label>
+                                <input type="number" class="saveInput bloodSettings" id="cbcNeutHighMarked" step="0.1">
+                            </div>
+
+                            <br>
+                            <div>
+                                <b>Lymphopenia (K/uL):</b>
+                            </div>
+                            <div>
+                                <label for="cbcLymphLowMild">Mild (≥)</label>
+                                <input type="number" class="saveInput bloodSettings" id="cbcLymphLowMild" step="0.1">
+                                <label for="cbcLymphLowMarked">Marked (<)</label>
+                                <input type="number" class="saveInput bloodSettings" id="cbcLymphLowMarked" step="0.1">
+                            </div>
+
+                            <br>
+                            <div>
+                                <b>Lymphocytosis (K/uL):</b>
+                            </div>
+                            <div>
+                                <label for="cbcLymphHighMild">Mild (≤)</label>
+                                <input type="number" class="saveInput bloodSettings" id="cbcLymphHighMild" step="0.1">
+                                <label for="cbcLymphHighMarked">Marked (>)</label>
+                                <input type="number" class="saveInput bloodSettings" id="cbcLymphHighMarked" step="0.1">
                             </div>
                             <br>
                             <div>
-                                <b>Mild neutropenia:</b>
-                                <input type="number" class="saveInput" id="cbcNeutLowMild" size="2" value="1.2">
+                                <b>Monocytosis:</b>
                             </div>
                             <div>
-                                <b>Marked neutropenia:</b>
-                                <input type="number" class="saveInput" id="cbcNeutLowMarked" size="2" value="0.5">
+                                <label for="cbcMonosHighMild">Mild (≤)</label>
+                                <input type="number" class="saveInput bloodSettings" id="cbcMonosHighMild" step="0.1">
+                                <label for="cbcMonosHighMarked">Marked (>)</label>
+                                <input type="number" class="saveInput bloodSettings" id="cbcMonosHighMarked" step="0.1">
+                            </div>
+
+                            <br>
+                            <div>
+                                <b>Eosinophilia:</b>
                             </div>
                             <div>
-                                <b>Mild neutrophilia:</b>
-                                <input type="number" class="saveInput" id="cbcNeutHighMild" size="2" value="10.0">
+                                <label for="cbcEosHighMild">Mild (≤)</label>
+                                <input type="number" class="saveInput bloodSettings" id="cbcEosHighMild" step="0.1">
+                                <label for="cbcEosHighMarked">Marked (>)</label>
+                                <input type="number" class="saveInput bloodSettings" id="cbcEosHighMarked" step="0.1">
+                            </div>
+
+                            <br>
+                            <div>
+                                <b>Basophilia:</b>
                             </div>
                             <div>
-                                <b>Marked neutrophilia:</b>
-                                <input type="number" class="saveInput" id="cbcNeutHighMarked" size="2" value="20.0">
+                                <label for="cbcBasoHighMild">Mild (≤)</label>
+                                <input type="number" class="saveInput bloodSettings" id="cbcBasoHighMild" step="0.1">
+                                <label for="cbcBasoHighMarked">Marked (>)</label>
+                                <input type="number" class="saveInput bloodSettings" id="cbcBasoHighMarked" step="0.1">
                             </div>
                             <br>
                             <div>
-                                <b>Mild lymphopenia:</b>
-                                <input type="number" class="saveInput" id="cbcLymphLowMild" size="2">
+                                <b>Thrombocytopenia (K/uL):</b>
                             </div>
                             <div>
-                                <b>Marked lymphopenia:</b>
-                                <input type="number" class="saveInput" id="cbcLymphLowMarked" size="2" value="0.2">
+                                <label for="cbcPltLowMild">Mild (≥)</label>
+                                <input type="number" class="saveInput bloodSettings" id="cbcPltLowMild" step="0.1">
+                                <label for="cbcPltLowMarked">Marked (<)</label>
+                                <input type="number" class="saveInput bloodSettings" id="cbcPltLowMarked" step="0.1">
                             </div>
-                            <div>
-                                <b>Mild lymphocytosis:</b>
-                                <input type="number" class="saveInput" id="cbcLymphHighMild" size="2" value="6.0">
-                            </div>
-                            <div>
-                                <b>Marked lymphocytosis:</b>
-                                <input type="number" class="saveInput" id="cbcLymphHighMarked" size="2" value="15.0">
-                            </div>
+
                             <br>
                             <div>
-                                <b>Mild thrombocytopenia:</b>
-                            <input type="number" class="saveInput" id="cbcPltLowMild" size="2" value="120"></input>
+                                <b>Thrombocytosis (K/uL):</b>
                             </div>
                             <div>
-                                <b>Marked thrombocytopenia:</b>
-                                <input type="number" class="saveInput" id="cbcPltLowMarked" size="2" value="30"></input>
-                            </div>
-                            <div>
-                                <b>Mild thrombocytosis:</b>
-                                <input type="number" class="saveInput" id="cbcPltHighMild" size="2" value="450">
-                            </div>
-                            <div>
-                                <b>Marked thrombocytosis:</b>
-                                <input type="number" class="saveInput" id="cbcPltHighMarked" size="2" value="800.0">
+                                <label for="cbcPltHighMild">Mild (≤)</label>
+                                <input type="number" class="saveInput bloodSettings" id="cbcPltHighMild" step="0.1">
+                                <label for="cbcPltHighMarked">Marked (>)</label>
+                                <input type="number" class="saveInput bloodSettings" id="cbcPltHighMarked" step="0.1">
                             </div>
                             <br>
                             <div>
@@ -947,7 +1036,29 @@
                                 <input type="number" class="saveInput" id="nrbcOccasionalLimit" size="2" value="0.3">
                                 <b>K/uL</b>
                             </div>
-                            <button type="button" class="saveButton">Save</button>
+                            <div>
+                                <b>Frequent Blasts ></b>
+                                <input type="number" class="saveInput" id="blastFrequentLimit" size="2" value="1.0">
+                                <b>K/uL</b>
+                            </div>
+                            <div>
+                                <b>Occasional Blasts ></b>
+                                <input type="number" class="saveInput" id="blastOccasionalLimit" size="2" value="0.3">
+                                <b>K/uL</b>
+                            </div>
+                            <div>
+                                <b>Frequent Plasma Cells ></b>
+                                <input type="number" class="saveInput" id="plasmaFrequentLimit" size="2" value="1.0">
+                                <b>K/uL</b>
+                            </div>
+                            <div>
+                                <b>Occasional Plasma Cells ></b>
+                                <input type="number" class="saveInput" id="plasmaOccasionalLimit" size="2" value="0.3">
+                                <b>K/uL</b>
+                            </div>
+                            <div style="padding-top: 10px">
+                                <button type="button" class="saveButton">Save</button>
+                            </div>
                         </div>  
                     </div>
                     <div class='panelBody' id='aspSettingsPanel' style='display: none'>
@@ -970,7 +1081,7 @@
                             <b>Normal cellularity calculation method:</b>
                         </div>
                         <div style="padding-bottom: 10px;">
-                            <select class="cellularityCalculationSelect saveInput" id="cellularitySelect"></select>
+                            <select class="saveInput" id="cellularityCalculationSelect" data-selectType="cellularityCalculation"></select>
                         </div>
                         <div>
                             <b>Markedly hypocellular cutoff:</b>
