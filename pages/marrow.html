@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
     <head>
@@ -463,10 +462,16 @@
                             </div>
                             <div>
                                 <div class="flex">
-                                    <div>
-                                        <input type="radio" class="form" id="mega_decreased" name="asp_mega"><label for="mega_decreased">Decreased</label>
-                                        <input type="radio" class="form" id="mega_adequate" name="asp_mega"><label for="mega_adequate">Adequate</label>
-                                        <input type="radio" class="form" id="mega_increased" name="asp_mega"><label for="mega_increased">Increased</label>
+                                    <div class="flex" style="padding-right: 10px">
+                                        <div>
+                                            <input type="radio" class="form" id="mega_decreased" name="asp_mega"><label for="mega_decreased">Decreased</label>
+                                            <input type="radio" class="form" id="mega_adequate" name="asp_mega"><label for="mega_adequate">Adequate</label>
+                                            <input type="radio" class="form" id="mega_increased" name="asp_mega"><label for="mega_increased">Increased</label>
+                                        </div>
+                                    </div>
+                                    <div id="megaMildMarked" style="display: none">
+                                        <input type="checkbox" class="form" id="megaMild"><label for="megaMild">Mild</label>
+                                        <input type="checkbox" class="form" id="megaMarked"><label for="megaMarked">Marked</label>
                                     </div>
                                 </div>
                                 <div>
@@ -480,11 +485,15 @@
                                 <b>Blasts:</b>
                             </div>
                             <div class="flex" style="padding-bottom: 10px">
-                                <div>
-                                    <input type="radio" class="form" id="blast_adequate" name="asp_blast"><label for="blast_adequate">Not increased</label>
+                                <div class="flex" style="padding-right: 10px">
+                                    <div>
+                                        <input type="radio" class="form" id="blast_adequate" name="asp_blast"><label for="blast_adequate">Not increased</label>
+                                        <input type="radio" class="form" id="blast_increased" name="asp_blast"><label for="blast_increased">Increased</label>
+                                    </div>
                                 </div>
-                                <div>
-                                    <input type="radio" class="form" id="blast_increased" name="asp_blast"><label for="blast_increased">Increased</label>
+                                <div id="aspBlastMildMarked" style="display: none">
+                                    <input type="checkbox" class="form" id="aspBlastMild"><label for="aspBlastMild">Mild</label>
+                                    <input type="checkbox" class="form" id="aspBlastMarked"><label for="aspBlastMarked">Marked</label>
                                 </div>
                             </div>
                             <div>
@@ -492,11 +501,15 @@
                             </div>
                             <div>
                                 <div class="flex">
-                                    <div>
-                                        <input type="radio" class="form" id="plasmaAdequate" name="aspPlasma"><label for="plasmaAdequate">Not increased</label>
+                                    <div class="flex" style="padding-right: 10px">
+                                        <div>
+                                            <input type="radio" class="form" id="plasmaAdequate" name="aspPlasma"><label for="plasmaAdequate">Not increased</label>
+                                            <input type="radio" class="form" id="plasmaIncreased" name="aspPlasma"><label for="plasmaIncreased">Increased</label>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <input type="radio" class="form" id="plasmaIncreased" name="aspPlasma"><label for="plasmaIncreased">Increased</label>
+                                    <div id="aspPlasmaMildMarked" style="display: none">
+                                        <input type="checkbox" class="form" id="aspPlasmaMild"><label for="aspPlasmaMild">Mild</label>
+                                        <input type="checkbox" class="form" id="aspPlasmaMarked"><label for="aspPlasmaMarked">Marked</label>
                                     </div>
                                 </div>
                                 <div>
@@ -507,7 +520,7 @@
                                         <select id="plasmaSelectDiv0" class="select" data-selectType="plasma" data-parentID="plasmaSelectDiv"></select>
                                     </div>
                                 </div>
-                            </div>                            
+                            </div>                          
                             <div>
                                 <b>Touch Preparation:</b>
                             </div>
@@ -613,7 +626,7 @@
                         <b>Aspirate Smear:</b>
                         <div>
                             <div>
-                                <div id="aspirateSpecialStainsSelectDiv" class="selectDiv">
+                                <div id="aspirateSpecialStainsSelectDiv" class="selectDiv" style="padding-bottom:10px">
                                     <select id="aspirateSpecialStainsSelectDiv0" class="select" data-selectType="aspirateSpecialStains" data-parentID="aspirateSpecialStainsSelectDiv"></select>
                                 </div>
                             </div>
@@ -621,7 +634,7 @@
                         <b>Core Biopsy:</b>
                         <div>
                             <div>
-                                <div id="coreSpecialStainsSelectDiv" class="selectDiv">
+                                <div id="coreSpecialStainsSelectDiv" class="selectDiv" style="padding-bottom:10px">
                                     <select id="coreSpecialStainsSelectDiv0" class="select" data-selectType="specialStains" data-parentID="coreSpecialStainsSelectDiv"></select>
                                 </div>
                             </div>
@@ -639,7 +652,7 @@
                         <b>Core Biopsy:</b>
                         <div>
                             <div>
-                                <div id="coreImmunostainsSelectDiv" class="selectDiv">
+                                <div id="coreImmunostainsSelectDiv" class="selectDiv" style="padding-bottom:10px">
                                     <select id="coreImmunostainsSelectDiv0" class="select" data-selectType="immunostains" data-parentID="coreImmunostainsSelectDiv"></select>
                                 </div>
                             </div>
@@ -688,74 +701,74 @@
                         <div class="pb" id="pbTableDiv" style="display: none">
                             <table class="templateTable" style="width:440px; font-size:10pt; border-collapse: collapse;">
                                 <tr>
-                                    <th style="width:50%; border: 1px solid black; padding: 3px; text-align: left;" id="pbTableCountHeader">Peripheral Blood (200 cells)</th>
-                                    <th style="width:17%; border: 1px solid black; padding: 3px; text-align: left;">Result</th>
-                                    <th style="width:33%; border: 1px solid black; padding: 3px; text-align: left;">Reference Range</th>
+                                    <th style="width:50%; border: 1px solid black; text-align: left;" id="pbTableCountHeader">Peripheral Blood (200 cells)</th>
+                                    <th style="width:17%; border: 1px solid black; text-align: left;">Result</th>
+                                    <th style="width:33%; border: 1px solid black; text-align: left;">Reference Range</th>
                                 </tr>
                                 <tr id="pbTableRow0" style="display: none">
-                                    <td style="width:50%; border: 1px solid black; padding: 3px;">Atypical Cells</td>
-                                    <td style="width:17%; border: 1px solid black; padding: 3px;" id="pbTableCell0"></td>
-                                    <td style="width:33%; border: 1px solid black; padding: 3px;">0</td>
+                                    <td style="width:50%; border: 1px solid black; padding-left: 5px;">Atypical Cells</td>
+                                    <td style="width:17%; border: 1px solid black; padding-left: 5px;" id="pbTableCell0"></td>
+                                    <td style="width:33%; border: 1px solid black; padding-left: 5px;">0</td>
                                 </tr>
                                 <tr id="pbTableRow1" style="display: none">
-                                    <td style="width:50%; border: 1px solid black; padding: 3px;">Other Cells</td>
-                                    <td style="width:17%; border: 1px solid black; padding: 3px;" id="pbTableCell1"></td>
-                                    <td style="width:33%; border: 1px solid black; padding: 3px;">0</td>
+                                    <td style="width:50%; border: 1px solid black; padding-left: 5px;">Other Cells</td>
+                                    <td style="width:17%; border: 1px solid black; padding-left: 5px;" id="pbTableCell1"></td>
+                                    <td style="width:33%; border: 1px solid black; padding-left: 5px;">0</td>
                                 </tr>
                                 <tr id="pbTableRow2" style="display: none">
-                                    <td style="width:50%; border: 1px solid black; padding: 3px;">Blasts</td>
-                                    <td style="width:17%; border: 1px solid black; padding: 3px;" id="pbTableCell2"></td>
-                                    <td style="width:33%; border: 1px solid black; padding: 3px;">0</td>
+                                    <td style="width:50%; border: 1px solid black; padding-left: 5px;">Blasts</td>
+                                    <td style="width:17%; border: 1px solid black; padding-left: 5px;" id="pbTableCell2"></td>
+                                    <td style="width:33%; border: 1px solid black; padding-left: 5px;">0</td>
                                 </tr>
                                 <tr id="pbTableRow3" style="display: none">
-                                    <td style="width:50%; border: 1px solid black; padding: 3px;">Promyelocytes</td>
-                                    <td style="width:17%; border: 1px solid black; padding: 3px;" id="pbTableCell3"></td>
-                                    <td style="width:33%; border: 1px solid black; padding: 3px;">0</td>
+                                    <td style="width:50%; border: 1px solid black; padding-left: 5px;">Promyelocytes</td>
+                                    <td style="width:17%; border: 1px solid black; padding-left: 5px;" id="pbTableCell3"></td>
+                                    <td style="width:33%; border: 1px solid black; padding-left: 5px;">0</td>
                                 </tr>
                                 <tr id="pbTableRow4" style="display: none">
-                                    <td style="width:50%; border: 1px solid black; padding: 3px;">Myelocytes</td>
-                                    <td style="width:17%; border: 1px solid black; padding: 3px;" id="pbTableCell4"></td>
-                                    <td style="width:33%; border: 1px solid black; padding: 3px;">0</td>
+                                    <td style="width:50%; border: 1px solid black; padding-left: 5px;">Myelocytes</td>
+                                    <td style="width:17%; border: 1px solid black; padding-left: 5px;" id="pbTableCell4"></td>
+                                    <td style="width:33%; border: 1px solid black; padding-left: 5px;">0</td>
                                 </tr>
                                 <tr id="pbTableRow5" style="display: none">
-                                    <td style="width:50%; border: 1px solid black; padding: 3px;">Metamyelocytes</td>
-                                    <td style="width:17%; border: 1px solid black; padding: 3px;" id="pbTableCell5"></td>
-                                    <td style="width:33%; border: 1px solid black; padding: 3px;">0</td>
+                                    <td style="width:50%; border: 1px solid black; padding-left: 5px;">Metamyelocytes</td>
+                                    <td style="width:17%; border: 1px solid black; padding-left: 5px;" id="pbTableCell5"></td>
+                                    <td style="width:33%; border: 1px solid black; padding-left: 5px;">0</td>
                                 </tr>
                                 <tr id="pbTableRow6">
-                                    <td style="width:50%; border: 1px solid black; padding: 3px;">Neutrophils</td>
-                                    <td style="width:17%; border: 1px solid black; padding: 3px;" id="pbTableCell6"></td>
-                                    <td style="width:33%; border: 1px solid black; padding: 3px;">34 - 73%</td>
+                                    <td style="width:50%; border: 1px solid black; padding-left: 5px;">Neutrophils</td>
+                                    <td style="width:17%; border: 1px solid black; padding-left: 5px;" id="pbTableCell6"></td>
+                                    <td style="width:33%; border: 1px solid black; padding-left: 5px;">34 - 73%</td>
                                 </tr>
                                 <tr id="pbTableRow7">
-                                    <td style="width:50%; border: 1px solid black; padding: 3px;">Lymphocytes</td>
-                                    <td style="width:17%; border: 1px solid black; padding: 3px;" id="pbTableCell7"></td>
-                                    <td style="width:33%; border: 1px solid black; padding: 3px;">15 - 50%</td>
+                                    <td style="width:50%; border: 1px solid black; padding-left: 5px;">Lymphocytes</td>
+                                    <td style="width:17%; border: 1px solid black; padding-left: 5px;" id="pbTableCell7"></td>
+                                    <td style="width:33%; border: 1px solid black; padding-left: 5px;">15 - 50%</td>
                                 </tr>
                                 <tr id="pbTableRow8">
-                                    <td style="width:50%; border: 1px solid black; padding: 3px;">Monocytes</td>
-                                    <td style="width:17%; border: 1px solid black; padding: 3px;" id="pbTableCell8"></td>
-                                    <td style="width:33%; border: 1px solid black; padding: 3px;">1 - 15%</td>
+                                    <td style="width:50%; border: 1px solid black; padding-left: 5px;">Monocytes</td>
+                                    <td style="width:17%; border: 1px solid black; padding-left: 5px;" id="pbTableCell8"></td>
+                                    <td style="width:33%; border: 1px solid black; padding-left: 5px;">1 - 15%</td>
                                 </tr>
                                 <tr id="pbTableRow9">
-                                    <td style="width:50%; border: 1px solid black; padding: 3px;">Eosinophils</td>
-                                    <td style="width:17%; border: 1px solid black; padding: 3px;" id="pbTableCell9"></td>
-                                    <td style="width:33%; border: 1px solid black; padding: 3px;">0 - 8%</td>
+                                    <td style="width:50%; border: 1px solid black; padding-left: 5px;">Eosinophils</td>
+                                    <td style="width:17%; border: 1px solid black; padding-left: 5px;" id="pbTableCell9"></td>
+                                    <td style="width:33%; border: 1px solid black; padding-left: 5px;">0 - 8%</td>
                                 </tr>
                                 <tr id="pbTableRow10">
-                                    <td style="width:50%; border: 1px solid black; padding: 3px;">Basophils</td>
-                                    <td style="width:17%; border: 1px solid black; padding: 3px;" id="pbTableCell10"></td>
-                                    <td style="width:33%; border: 1px solid black; padding: 3px;">0 - 2%</td>
+                                    <td style="width:50%; border: 1px solid black; padding-left: 5px;">Basophils</td>
+                                    <td style="width:17%; border: 1px solid black; padding-left: 5px;" id="pbTableCell10"></td>
+                                    <td style="width:33%; border: 1px solid black; padding-left: 5px;">0 - 2%</td>
                                 </tr>
                                 <tr id="pbTableRow11" style="display: none">
-                                    <td style="width:50%; border: 1px solid black; padding: 3px;">Plasma Cells</td>
-                                    <td style="width:17%; border: 1px solid black; padding: 3px;" id="pbTableCell11"></td>
-                                    <td style="width:33%; border: 1px solid black; padding: 3px;">0</td>
+                                    <td style="width:50%; border: 1px solid black; padding-left: 5px;">Plasma Cells</td>
+                                    <td style="width:17%; border: 1px solid black; padding-left: 5px;" id="pbTableCell11"></td>
+                                    <td style="width:33%; border: 1px solid black; padding-left: 5px;">0</td>
                                 </tr>
                                 <tr id="pbTableRow12" style="display: none">
-                                    <td style="width:50%; border: 1px solid black; padding: 3px;">NRBCs/100 WBC</td>
-                                    <td style="width:17%; border: 1px solid black; padding: 3px;" id="pbTableCell12"></td>
-                                    <td style="width:33%; border: 1px solid black; padding: 3px;">0</td>
+                                    <td style="width:50%; border: 1px solid black; padding-left: 5px;">NRBCs/100 WBC</td>
+                                    <td style="width:17%; border: 1px solid black; padding-left: 5px;" id="pbTableCell12"></td>
+                                    <td style="width:33%; border: 1px solid black; padding-left: 5px;">0</td>
                                 </tr>
                             </table>
                             <br>
@@ -763,64 +776,64 @@
                         <div class="asp" id="aspTableDiv" style="display: none">
                             <table class="templateTable" style="width:440px; font-size:10pt; border-collapse: collapse;">
                                 <tr>
-                                    <th style="width:50%; border: 1px solid black; padding: 3px; text-align: left;" id="aspTableCountHeader">Aspirate Smear (500 cells)</th>
-                                    <th style="width:17%; border: 1px solid black; padding: 3px; text-align: left;">Result</th>
-                                    <th style="width:33%; border: 1px solid black; padding: 3px; text-align: left;">Reference Range</th>
+                                    <th style="width:50%; border: 1px solid black; text-align: left; padding-left: 5px;" id="aspTableCountHeader">Aspirate Smear (500 cells)</th>
+                                    <th style="width:17%; border: 1px solid black; text-align: left; padding-left: 5px;">Result</th>
+                                    <th style="width:33%; border: 1px solid black; text-align: left; padding-left: 5px;">Reference Range</th>
                                 </tr>
                                 <tr id="aspTableRow0" style="display: none">
-                                    <td style="width:50%; border: 1px solid black; padding: 3px;">Atypical Cells</td>
-                                    <td style="width:17%; border: 1px solid black; padding: 3px;" id="aspTableCell0"></td>
-                                    <td style="width:33%; border: 1px solid black; padding: 3px;">0</td>
+                                    <td style="width:50%; border: 1px solid black; padding-left: 5px;">Atypical Cells</td>
+                                    <td style="width:17%; border: 1px solid black; padding-left: 5px;" id="aspTableCell0"></td>
+                                    <td style="width:33%; border: 1px solid black; padding-left: 5px;">0</td>
                                 </tr>
                                 <tr id="aspTableRow1" style="display: none">
-                                    <td style="width:50%; border: 1px solid black; padding: 3px;">Other Cells</td>
-                                    <td style="width:17%; border: 1px solid black; padding: 3px;" id="aspTableCell1"></td>
-                                    <td style="width:33%; border: 1px solid black; padding: 3px;">0</td>
+                                    <td style="width:50%; border: 1px solid black; padding-left: 5px;">Other Cells</td>
+                                    <td style="width:17%; border: 1px solid black; padding-left: 5px;" id="aspTableCell1"></td>
+                                    <td style="width:33%; border: 1px solid black; padding-left: 5px;">0</td>
                                 </tr>
                                 <tr>
-                                    <td style="width:50%; border: 1px solid black; padding: 3px;">Blasts</td>
-                                    <td style="width:17%; border: 1px solid black; padding: 3px;" id="aspTableCell2"></td>
-                                    <td style="width:33%; border: 1px solid black; padding: 3px;">0 - 3%</td>
+                                    <td style="width:50%; border: 1px solid black; padding-left: 5px;">Blasts</td>
+                                    <td style="width:17%; border: 1px solid black; padding-left: 5px;" id="aspTableCell2"></td>
+                                    <td style="width:33%; border: 1px solid black; padding-left: 5px;">0 - 3%</td>
                                 </tr>
                                 <tr>
-                                    <td style="width:50%; border: 1px solid black; padding: 3px;">Neutrophils & Precursors</td>
-                                    <td style="width:17%; border: 1px solid black; padding: 3px;" id="aspTableCell3"></td>
-                                    <td style="width:33%; border: 1px solid black; padding: 3px;">33 - 63%</td>
+                                    <td style="width:50%; border: 1px solid black; padding-left: 5px;">Neutrophils & Precursors</td>
+                                    <td style="width:17%; border: 1px solid black; padding-left: 5px;" id="aspTableCell3"></td>
+                                    <td style="width:33%; border: 1px solid black; padding-left: 5px;">33 - 63%</td>
                                 </tr>
                                 <tr>
-                                    <td style="width:50%; border: 1px solid black; padding: 3px;">Eosinophils & Precursors</td>
-                                    <td style="width:17%; border: 1px solid black; padding: 3px;" id="aspTableCell4"></td>
-                                    <td style="width:33%; border: 1px solid black; padding: 3px;">1 - 5%</td>
+                                    <td style="width:50%; border: 1px solid black; padding-left: 5px;">Eosinophils & Precursors</td>
+                                    <td style="width:17%; border: 1px solid black; padding-left: 5px;" id="aspTableCell4"></td>
+                                    <td style="width:33%; border: 1px solid black; padding-left: 5px;">1 - 5%</td>
                                 </tr>
                                 <tr>
-                                    <td style="width:50%; border: 1px solid black; padding: 3px;">Basophils & Precursors</td>
-                                    <td style="width:17%; border: 1px solid black; padding: 3px;" id="aspTableCell5"></td>
-                                    <td style="width:33%; border: 1px solid black; padding: 3px;">0 - 1%</td>
+                                    <td style="width:50%; border: 1px solid black; padding-left: 5px;">Basophils & Precursors</td>
+                                    <td style="width:17%; border: 1px solid black; padding-left: 5px;" id="aspTableCell5"></td>
+                                    <td style="width:33%; border: 1px solid black; padding-left: 5px;">0 - 1%</td>
                                 </tr>
                                 <tr>
-                                    <td style="width:50%; border: 1px solid black; padding: 3px;">Monocytes</td>
-                                    <td style="width:17%; border: 1px solid black; padding: 3px;" id="aspTableCell6"></td>
-                                    <td style="width:33%; border: 1px solid black; padding: 3px;">0 - 2%</td>
+                                    <td style="width:50%; border: 1px solid black; padding-left: 5px;">Monocytes</td>
+                                    <td style="width:17%; border: 1px solid black; padding-left: 5px;" id="aspTableCell6"></td>
+                                    <td style="width:33%; border: 1px solid black; padding-left: 5px;">0 - 2%</td>
                                 </tr>
                                 <tr>
-                                    <td style="width:50%; border: 1px solid black; padding: 3px;">Lymphocytes</td>
-                                    <td style="width:17%; border: 1px solid black; padding: 3px;" id="aspTableCell7"></td>
-                                    <td style="width:33%; border: 1px solid black; padding: 3px;">10 - 15%</td>
+                                    <td style="width:50%; border: 1px solid black; padding-left: 5px;">Lymphocytes</td>
+                                    <td style="width:17%; border: 1px solid black; padding-left: 5px;" id="aspTableCell7"></td>
+                                    <td style="width:33%; border: 1px solid black; padding-left: 5px;">10 - 15%</td>
                                 </tr>
                                 <tr>
-                                    <td style="width:50%; border: 1px solid black; padding: 3px;">Plasma Cells</td>
-                                    <td style="width:17%; border: 1px solid black; padding: 3px;" id="aspTableCell8"></td>
-                                    <td style="width:33%; border: 1px solid black; padding: 3px;">0 - 1%</td>
+                                    <td style="width:50%; border: 1px solid black; padding-left: 5px;">Plasma Cells</td>
+                                    <td style="width:17%; border: 1px solid black; padding-left: 5px;" id="aspTableCell8"></td>
+                                    <td style="width:33%; border: 1px solid black; padding-left: 5px;">0 - 1%</td>
                                 </tr>
                                 <tr>
-                                    <td style="width:50%; border: 1px solid black; padding: 3px;">Erythroid Precursors</td>
-                                    <td style="width:17%; border: 1px solid black; padding: 3px;" id="aspTableCell9"></td>
-                                    <td style="width:33%; border: 1px solid black; padding: 3px;">15 - 27%</td>
+                                    <td style="width:50%; border: 1px solid black; padding-left: 5px;">Erythroid Precursors</td>
+                                    <td style="width:17%; border: 1px solid black; padding-left: 5px;" id="aspTableCell9"></td>
+                                    <td style="width:33%; border: 1px solid black; padding-left: 5px;">15 - 27%</td>
                                 </tr>
                                 <tr>
-                                    <td style="width:50%; border: 1px solid black; padding: 3px;">M:E ratio</td>
-                                    <td style="width:17%; border: 1px solid black; padding: 3px;" id="aspTableCell99"></td>
-                                    <td style="width:33%; border: 1px solid black; padding: 3px;">1.5 - 3.3</td>
+                                    <td style="width:50%; border: 1px solid black; padding-left: 5px;">M:E ratio</td>
+                                    <td style="width:17%; border: 1px solid black; padding-left: 5px;" id="aspTableCell99"></td>
+                                    <td style="width:33%; border: 1px solid black; padding-left: 5px;">1.5 - 3.3</td>
                                 </tr>
                             </table>
                             <br>
