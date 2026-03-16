@@ -1502,15 +1502,18 @@ function fillSpecialStains() {
                     } else if (descriptorArray.indexOf('inadequate rings') !== -1 && descriptorArray.indexOf('inadequate') === -1) {
                         descriptorText += 'There are too few erythroid precursors for assessment of ring sideroblasts. ';
                     }
-                } else if (parentVal === 'Reticulin') {
-                    if (descriptorArray[0] === 'MF-0') {
-                        descriptorText = 'Shows no increase in fibrosis (MF-0).';
-                    } else if (descriptorArray[0] === 'MF-1') {
-                        descriptorText = 'Shows mildly increased fibrosis (MF-1).';
-                    } else if (descriptorArray[0] === 'MF-2') {
-                        descriptorText = 'Shows moderately increased fibrosis (MF-2).';
-                    } else if (descriptorArray[0] === 'MF-3') {
-                        descriptorText = 'Shows markedly increased fibrosis (MF-3).';
+                }else if (parentVal === 'Reticulin') {
+                    let list = descriptorList[parentVal]["descriptorObject"];
+                    if (list) {
+                        document.querySelectorAll(`[data-parentID="${parentEl.id}"]`).forEach(function(childEl) {
+                            for (let i = 0; i < list.descriptors.length; i++) {
+                                if (childEl.value !== '' && childEl.value === list.descriptors[i]) {
+                                    descriptorText = list.value[i];
+                                } else if (childEl.checked) {
+                                    descriptorText = childEl.value;
+                                }
+                            }
+                        });
                     }
                 } else if (parentVal === 'Congo red') {
                     if (descriptorArray[0] === 'negative') {
@@ -1574,10 +1577,41 @@ function fillImmunostains() {
                 });
                 
                 let parentVal = parentEl.value;
-                if (descriptorText.indexOf('***') !== -1) {
-                    if (descriptorList[parentVal] && descriptorList[parentVal]['positive'] !== 0) {
-                        let positivePercent = (100 * descriptorList[parentVal]['positive'] / (descriptorList[parentVal]['positive'] + descriptorList[parentVal]['negative'])).toFixed(0);
-                        descriptorText = descriptorText.replace('***', positivePercent);
+                let stainId = descriptorList[parentVal]["id"]; 
+                
+                let minInput = document.getElementById(`${key}${stainId}ManualMin`);
+                let maxInput = document.getElementById(`${key}${stainId}ManualMax`);
+                
+                let minVal = (minInput && minInput.value !== '') ? minInput.value : null;
+                let maxVal = (maxInput && maxInput.value !== '') ? maxInput.value : null;
+                
+                let finalPercentage = null;
+
+                if (minVal !== null && maxVal !== null) {
+                    finalPercentage = `${minVal}-${maxVal}`;
+                } else if (minVal !== null) {
+                    finalPercentage = minVal;
+                } else if (maxVal !== null) {
+                    finalPercentage = maxVal;
+                } else if (descriptorList[parentVal] && descriptorList[parentVal]['positive'] !== 0) {
+                    finalPercentage = (100 * descriptorList[parentVal]['positive'] / (descriptorList[parentVal]['positive'] + descriptorList[parentVal]['negative'])).toFixed(0);
+                }
+
+                if (descriptorText.indexOf('***') !== -1 && finalPercentage !== null) {
+                    descriptorText = descriptorText.replace('***', finalPercentage);
+                }
+
+                if (['CD20', 'CD34', 'CD138'].includes(parentVal)) {
+                    if (finalPercentage !== null) {
+                        if (descriptorText.indexOf('of total cellularity') === -1) {
+                            descriptorText = descriptorText.trim();
+                            
+                            if (descriptorText.endsWith('.')) {
+                                descriptorText = descriptorText.slice(0, -1);
+                            }
+                            
+                            descriptorText += ` (~${finalPercentage}% of total cellularity).`;
+                        }
                     }
                 }
                 
@@ -1596,9 +1630,9 @@ function fillImmunostains() {
 }
 
 function stainTable(array, label) {
-    let stainText = `${label}<br><table class="templateTable" style="width:600px; font-size:11pt; style="border-collapse: collapse">`;
+    let stainText = `${label}<br><table class="templateTable" style="width:600px; font-size:10pt; style="border-collapse: collapse">`;
     for (let i = 0; i < array.length; i++) {
-        stainText += `<tr><td style="width:30%; border: 1px solid black">${array[i][0]}</td><td style="width:70%; border: 1px solid black">${array[i][1]} </td></tr>`;
+        stainText += `<tr><td style="width:30%; border: 1px solid black; padding-left: 5px;">${array[i][0]}</td><td style="width:70%; border: 1px solid black; padding-left: 5px;">${array[i][1]}</td></tr>`;
     }
     stainText += '</table>';
     return stainText;
