@@ -110,7 +110,7 @@
   const isDescriptors = {class: "hidden", descriptors: 'Is', value: 'is '};
   const showsDescriptors = {class: "hidden", descriptors: 'Shows', value: 'shows '};
   const ironDescriptors = {class: "iron", descriptors: {'Storage Iron': {labels: ['Increased', 'Adequate', 'Decreased', 'Inadequate'], value: ['increased', 'adequate', 'decreased', 'inadequate'], id: "storageIron"}, 'Ring Sideroblasts': {labels: ['Present', 'Absent', 'Inadequate'], value: ['present', 'absent', 'inadequate rings'], id: 'ringSideroblasts'}}};
-  const reticulinDescriptors = {class: 'radio', descriptors: ['MF-0', 'MF-1', 'MF-2', 'MF-3'], value: ['MF-0', 'MF-1', 'MF-2', 'MF-3']}
+  const reticulinDescriptors = {class: 'select', descriptors: ['','No increase in fibrosis', 'Focal, mildly increased fibrosis (MF-0 to MF-1)', 'Mildly increased fibrosis (MF-1)', 'Mild to moderately increased fibrosis (MF-1 to MF-2)','Moderately increased fibrosis (MF-2)','Moderate to severely increased fibrosis (MF-2 to MF-3)','Severely increased fibrosis (MF-3)'], value: ['','Shows no increase in marrow fibrosis.', 'Shows focal, mildly increased marrow fibrosis (MF-0 to MF-1).','Shows mildly increased marrow fibrosis (MF-1)','Shows mild to moderately increased marrow fibrosis (MF-1 to MF-2).','Shows moderately increased marrow fibrosis (MF-2).','Shows moderate to severely increased marrow fibrosis (MF-2 to MF-3).','Shows severely increased marrow fibrosis (MF-3).']}
   const cd3Descriptors = {class: 'select', descriptors: ['','Interstitially scattered','Interstitially scattered and focal loose aggregates','Interstitially scattered and focal aggregates','Interstitially scattered and focal clusters','Interstitially scattered and clusters'], value: ['','Highlights interstitially scattered small T cells.','Highlights interstitially scattered and focal loose aggregates of small T cells.','Highlights interstitially scattered and focal aggregates of small T cells.','Highlights interstitially scattered and focal clusters of small T cells.','Highlights interstitially scattered and clusters of small T cells.']}
   const cd20Descriptors = {class: 'selectDualCount', descriptors: ['','Interstitially scattered','Interstitially scattered and focal loose aggregates','Interstitially scattered and focal aggregates','Interstitially scattered and focal clusters','Interstitially scattered and clusters','Diffuse infiltrate of small B cells'], value: ['','Highlights interstitially scattered small B cells.','Highlights interstitially scattered and focal loose aggregates of small B cells.','Highlights interstitially scattered and focal aggregates of small B cells.','Highlights interstitially scattered and focal clusters of small B cells.','Highlights interstitially scattered and clusters of small B cells.','A diffuse infiltrate of small B cells (~***% of total cellularity)']}
   const cd34Descriptors = {class: 'selectDualCount', descriptors: ['','Not increased','Increased'], value: ['','Shows no increase in blasts (~***% of total cellularity).','Highlights increased blasts (~***% of total cellularity).']}
@@ -366,30 +366,40 @@
   };
 
 const comments = [
-{
-        id: "comm_mgus_less_than_10",
-        text: "The bone marrow shows a slightly increased plasma cell population (<10% of marrow cellularity) with clonal restriction. In a patient with a known history of MGUS, these findings are consistent with a plasma cell neoplasm. Clinical correlation is required to exclude multiple myeloma.",
-        rules: [
-            {
+    {
+      id: "comm_pancytopenia_myeloid_negative",
+      text: "The morphologic and immunophenotypic findings show no definitive evidence of a myeloid neoplasm. In the context of the patient's cytopenias, the marrow findings are non-specific. Clinical correlation is recommended to evaluate for non-clonal or secondary etiologies, which may include nutritional deficiencies (e.g., vitamin B12, folate, copper), medication or toxin effects, viral infections, immune-mediated peripheral destruction, or systemic autoimmune disorders. Correlation with concurrent cytogenetic and molecular studies is recommended to further definitively exclude an occult clonal process.",
+      rules: [
+        {
+          logic: "",
+          points: 10,
+
+        }
+      ]
+    },
+    {
+      id: "comm_mgus_less_than_10",
+      text: "The bone marrow shows a slightly increased plasma cell population (<10% of marrow cellularity) with clonal restriction. In a patient with a known history of MGUS, these findings are consistent with a plasma cell neoplasm. Clinical correlation is required to exclude multiple myeloma.",
+      rules: [
+          {
+            logic: "A AND B AND (C or D or E or F)",
+            conditions: {
+                A: { ruleType: "diffCount", targetID: "aspCountTable", targetValue: "Plasma", operator: ">", expectedValue: 2 },
+                B: { ruleType: "diffCount", targetID: "aspCountTable", targetValue: "Plasma", operator: "<", expectedValue: 10},
+                C: { ruleType: "selectGroup", targetID: "coreImmunostainsSelectDiv", targetValue: "Kappa restriction" },
+                D: { ruleType: "selectGroup", targetID: "clotImmunostainsSelectDiv", targetValue: "Lambda restriction" },
+                E: { ruleType: "selectGroup", targetID: "clotImmunostainsSelectDiv", targetValue: "Kappa restriction" },
+                F: { ruleType: "selectGroup", targetID: "clotImmunostainsSelectDiv", targetValue: "Lambda restriction" },
                 points: 10,
-                logic: "A AND B AND (C or D or E or F)",
-                conditions: {
-                    A: { ruleType: "diffCount", targetID: "aspCountTable", targetValue: "Plasma", operator: ">", expectedValue: 2 },
-                    B: { ruleType: "diffCount", targetID: "aspCountTable", targetValue: "Plasma", operator: "<", expectedValue: 10},
-                    C: { ruleType: "selectGroup", targetID: "coreImmunostainsSelectDiv", targetValue: "Kappa restriction" },
-                    D: { ruleType: "selectGroup", targetID: "clotImmunostainsSelectDiv", targetValue: "Lambda restriction" },
-                    E: { ruleType: "selectGroup", targetID: "clotImmunostainsSelectDiv", targetValue: "Kappa restriction" },
-                    F: { ruleType: "selectGroup", targetID: "clotImmunostainsSelectDiv", targetValue: "Lambda restriction" },
-                }
             }
-        ]
+          }
+      ]
     },
     {
         id: "comm_mgus_greater_than_10",
         text: "The bone marrow shows an elevated clonal plasma cell population (≥10% of marrow cellularity). These findings are diagnostic of a plasma cell neoplasm. Depending on the presence or absence of myeloma-defining events or end-organ damage (CRAB features), this may represent smoldering multiple myeloma or overt multiple myeloma.",
         rules: [
             {
-                points: 10,
                 logic: "A AND B AND ((C AND (D or E)) or (F and (G or H)))",
                 conditions: {
                     A: { ruleType: "diffCount", targetID: "aspCountTable", targetValue: "Plasma", operator: ">=", expectedValue: 10 },
@@ -400,6 +410,7 @@ const comments = [
                     F: { ruleType: "selectGroup", targetID: "clotImmunostainsSelectDiv", targetValue: "Lambda restriction" },
                     G: { ruleType: "selectGroup", targetID: "clotImmunostainsSelectDiv", targetValue: "Kappa restriction" },
                     H: { ruleType: "selectGroup", targetID: "clotImmunostainsSelectDiv", targetValue: "Lambda restriction" },
+                    points: 10,
                 }
             }
         ]
