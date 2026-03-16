@@ -343,8 +343,15 @@ function fillSelectHTML(selectType, parentID) {
                 selectDivHTML += '</select>';
                 
                 if (descriptorObject.class === "selectDualCount") {
-                    selectDivHTML += `<div><textarea class='dualCounter extend' id='${parentID}${id}Counter' rows='1' placeholder='Count Here' data-stain="${el.value}">${descriptorList[el.value]['value']}</textarea></div>`;
+                    selectDivHTML += `<div style="margin-bottom: 5px;">
+                        <label style="font-size: 0.9em;">Manual percentage: 
+                            <input type="number" class="manualStainInput" id="${parentID}${id}ManualMin" style="width: 50px;" min="0" max="100" placeholder="Min">
+                            to 
+                            <input type="number" class="manualStainInput" id="${parentID}${id}ManualMax" style="width: 50px;" min="0" max="100" placeholder="Max">
+                        </label>
+                    </div>`;
                     selectDivHTML += `<div id='${parentID}${id}CounterResults'><b>${positiveLabel}. Positive:&nbsp</b>${descriptorList[el.value]['positive']}<b>&nbsp${negativeLabel}. Negative:&nbsp</b>${descriptorList[el.value]['negative']}<b>&nbspTotal:&nbsp</b>${descriptorList[el.value]['count']}</div>`;
+                    selectDivHTML += `<div><textarea class='dualCounter extend' id='${parentID}${id}Counter' rows='1' placeholder='Count here or choose percentage manually above' data-stain="${el.value}">${descriptorList[el.value]['value']}</textarea></div>`;
                 }
                 selectDivHTML += '</div>';
             } else if (descriptorObject.class === "iron") {
@@ -364,7 +371,6 @@ function fillSelectHTML(selectType, parentID) {
                 }
                 selectDivHTML += '</div>';
             } else if (descriptorObject.class === 'hidden') {
-                // Assuming i from a loop is intended to just be index 0 based on original context
                 selectDivHTML += `<label style="display: none"><input type="${descriptorObject.class}" id="${parentID}${id}" class="descriptor" name="${parentID}${id}" value="${descriptorObject.value}" data-parentID="${parentID}${counter}" checked>${descriptorObject.descriptors[0]}</label>`;
             } else if (descriptorObject.class === "stop") {
                 addBlank = false;
@@ -398,12 +404,14 @@ document.querySelectorAll('.selectDiv').forEach(function(div) {
         }
     });
 
-    div.addEventListener('change', function(e) {
+div.addEventListener('change', function(e) {
         if (e.target.matches('.select')) {
             fillSelectHTML(e.target.getAttribute("data-selectType"), e.target.getAttribute("data-parentID"));
             fillReport();
         } else if (e.target.matches('.selectDescriptor')) {
             fillReport();
+        } else if (e.target.matches('.manualStainInput')) { 
+            if (typeof fillReport === 'function') fillReport();
         }
     });
 
@@ -413,10 +421,12 @@ document.querySelectorAll('.selectDiv').forEach(function(div) {
         }
     });
 
-    div.addEventListener('keyup', function(e) {
+div.addEventListener('keyup', function(e) {
         if (e.target.matches('.dualCounter')) {
             window.keypressed[e.which] = false;
             countDual(e.target.getAttribute('data-stain'), e.target.id, e.target.value);
+            if (typeof fillReport === 'function') fillReport();
+        } else if (e.target.matches('.manualStainInput')) {
             if (typeof fillReport === 'function') fillReport();
         }
     });
@@ -1072,18 +1082,48 @@ document.querySelectorAll('.cellularity').forEach(function(el) {
 document.querySelectorAll('.copyButton').forEach(function(el) {
     el.addEventListener('click', async function() {
         const targetId = this.className.split(' ')[1];
-        const element = document.getElementById(targetId);
+        const originalElement = document.getElementById(targetId);
         
         let isVisible = false;
-        if (element) {
-            const style = window.getComputedStyle(element);
-            isVisible = (element.offsetParent !== null && style.display !== 'none');
+        if (originalElement) {
+            const style = window.getComputedStyle(originalElement);
+            isVisible = (originalElement.offsetParent !== null && style.display !== 'none');
         }
 
         if (isVisible) {
             try {
-                const htmlBlob = new Blob([element.outerHTML], { type: 'text/html' });
-                const textBlob = new Blob([element.innerText], { type: 'text/plain' });
+                const clone = originalElement.cloneNode(true);
+
+                // 1. Remove ANY hidden elements (including empty table rows) from the clone
+                const originalEls = originalElement.querySelectorAll('*');
+                const clonedEls = clone.querySelectorAll('*');
+                
+                for (let i = 0; i < originalEls.length; i++) {
+                    const style = window.getComputedStyle(originalEls[i]);
+                    if (style.display === 'none') {
+                        // If it's hidden in the browser, permanently remove it from the clone
+                        if (clonedEls[i]) clonedEls[i].remove();
+                    }
+                }
+
+                // 2. Remove entire tables if no cells were counted
+                const pbCountEl = document.getElementById('pbCCount');
+                const aspCountEl = document.getElementById('aspCCount');
+                const pbCount = pbCountEl ? parseInt(pbCountEl.value) || 0 : 0;
+                const aspCount = aspCountEl ? parseInt(aspCountEl.value) || 0 : 0;
+
+                if (pbCount === 0) {
+                    const pbTable = clone.querySelector('#pbTableDiv'); // Replace with your actual ID
+                    if (pbTable) pbTable.remove();
+                }
+
+                if (aspCount === 0) {
+                    const aspTable = clone.querySelector('#aspTableDiv'); // Replace with your actual ID
+                    if (aspTable) aspTable.remove();
+                }
+
+                const htmlBlob = new Blob([clone.outerHTML], { type: 'text/html' });
+                const textBlob = new Blob([clone.innerText], { type: 'text/plain' });
 
                 const clipboardItem = new ClipboardItem({
                     'text/html': htmlBlob,
