@@ -238,7 +238,8 @@
 
   const aspPlasmaList = [
     "",
-    "Large, atypical forms with prominent nucleoli"
+    "Large, atypical forms with prominent nucleoli",
+    "Multinucleation"
   ];
 
   const coreMegList = [
@@ -369,6 +370,26 @@ const comments = [
     {
       id: "comm_pancytopenia_myeloid_negative",
       text: "The morphologic and immunophenotypic findings show no definitive evidence of a myeloid neoplasm. In the context of the patient's cytopenias, the marrow findings are non-specific. Clinical correlation is recommended to evaluate for non-clonal or secondary etiologies, which may include nutritional deficiencies (e.g., vitamin B12, folate, copper), medication or toxin effects, viral infections, immune-mediated peripheral destruction, or systemic autoimmune disorders. Correlation with concurrent cytogenetic and molecular studies is recommended to further definitively exclude an occult clonal process.",
+      rules: [
+        {
+          logic: "",
+          points: 10,
+
+        }
+      ]
+    },{
+      id: "comm_aml_no_residual",
+      text: "The findings are consistent with residual acute myeloid leukemia.",
+      rules: [
+        {
+          logic: "",
+          points: 10,
+
+        }
+      ]
+    },{    
+      id: "comm_myeloma_no_residual",
+      text: "Overall, there is no morphologic or immunophenotypic evidence of bone marrow involvement by the patient's previously diagnosed plasma cell neoplasm. Correlation with pending cytogenetics/FISH studies is recommended.",
       rules: [
         {
           logic: "",
