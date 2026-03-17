@@ -1118,9 +1118,27 @@ function fillAsp() {
     }
 
     if (document.getElementById('erythroidPredominance')?.checked) {
-        aspText += "There is an erythroid predominance. ";
+        document.getElementById('predominanceSlightMarked').style.display = "block";
+        aspText += "There is ";
+        if (document.getElementById('predominanceSlight')?.checked){
+            aspText += "a slight erythroid predominance. ";
+        } else if (document.getElementById('predominanceMarked')?.checked){
+            aspText += "a marked erythroid predominance. ";
+        } else {
+            aspText += "an erythroid predominance. "
+        }
     } else if (document.getElementById('myeloidPredominance')?.checked) {
-        aspText += "There is a myeloid predominance. ";
+        document.getElementById('predominanceSlightMarked').style.display = "block";
+        aspText += "There is ";
+        if (document.getElementById('predominanceSlight')?.checked){
+            aspText += "a slight myeloid predominance. ";
+        } else if (document.getElementById('predominanceMarked')?.checked){
+            aspText += "a marked myeloid predominance. ";
+        } else {
+            aspText += "a myeloid predominance. "
+        }
+    } else {
+        document.getElementById('predominanceSlightMarked').style.display = "none";
     }
 
     let erythroidUnremarkable = document.getElementById('erythroid_unremarkable')?.checked;
@@ -1144,24 +1162,28 @@ function fillAsp() {
 
     let megakaryocyteUnremarkable = document.getElementById('megakaryocyte_unremarkable')?.checked;
 
-    if (document.getElementById('mega_increased')?.checked) {
-        aspText += "Megakaryocytes appear increased";
-        if (megakaryocyteUnremarkable) {
-            aspText += " but show unremarkable morphology";
-        } else if (megakaryocyteListString !== "") {
-            aspText += " and show " + megakaryocyteListString;
-        }
-        aspText += ". ";
-    } else if (document.getElementById('mega_adequate')?.checked) {
-        aspText += "Megakaryocytes appear adequate ";
+    if (document.getElementById('mega_adequate')?.checked) {
+        document.getElementById('megaMildMarked').style.display = "none";
+        aspText += "Megakaryocytes appear adequate";
         if (megakaryocyteUnremarkable) {
             aspText += " and show unremarkable morphology";
         } else if (megakaryocyteListString !== "") {
-            aspText += "but show " + megakaryocyteListString;
+            aspText += " but show " + megakaryocyteListString;
         }
         aspText += ". " 
-    } else if (document.getElementById('mega_decreased')?.checked) {
-        aspText += "Megakaryocytes appear decreased";
+    } else if (document.getElementById('mega_decreased')?.checked || document.getElementById('mega_increased')?.checked) {
+        document.getElementById('megaMildMarked').style.display = "block";
+        aspText += "Megakaryocytes appear";
+        if (document.getElementById('megaMarked')?.checked) {
+            aspText += " markedly";
+        } else if (document.getElementById('megaMild')?.checked) {
+            aspText += " mildly";
+        }
+        if (document.getElementById('mega_decreased')?.checked){
+            aspText += " decreased";
+        } else {
+            aspText += " increased";
+        }
         if (megakaryocyteUnremarkable) {
             aspText += " but show unremarkable morphology";
         } else if (megakaryocyteListString !== "") {
@@ -1170,29 +1192,48 @@ function fillAsp() {
         aspText += ". ";
     } else if (megakaryocyteUnremarkable) {
         aspText += "Megakaryocytes show unremarkable morphology. ";
-    } else if (megakaryocyteListString !== "") {
+    } else if (megakaryocyteListString) {
         aspText += "Megakaryocytes show " + megakaryocyteListString + ". ";
     }
 
-    let blastAdequate = document.getElementById('blast_adequate')?.checked;
-    let blastIncreased = document.getElementById('blast_increased')?.checked;
+    let blastAdequate = document.getElementById('blastAdequate')?.checked;
+    let blastIncreased = document.getElementById('blastIncreased')?.checked;
     let plasmaAdequate = document.getElementById('plasmaAdequate')?.checked;
     let plasmaIncreased = document.getElementById('plasmaIncreased')?.checked;
 
     if (blastAdequate) {
         if (plasmaAdequate) {
+            document.getElementById('aspPlasmaMildMarked').style.display = "none";
             aspText += "Blasts and plasma cells are not increased. ";
         } else {
             aspText += "Blasts are not increased. ";
         }
     } else if (blastIncreased) {
-        aspText += "Blasts are significantly increased. ";
+        document.getElementById('aspBlastMildMarked').style.display = "block";
+        
+        aspText += "Blasts are";
+        if (document.getElementById('aspBlastMarked')?.checked) {
+            aspText += " markedly";
+        } else if (document.getElementById('aspBlastMild')?.checked) {
+            aspText += " mildly";
+        }
+        aspText += " increased. ";
     }
 
     if (plasmaAdequate && !blastAdequate) {
+        document.getElementById('aspPlasmaMildMarked').style.display = "none";
         aspText += "Plasma cells are not increased. ";
     } else if (plasmaIncreased) {
-        aspText += "Plasma cells are significantly increased";
+        document.getElementById('aspPlasmaMildMarked').style.display = "block";
+        
+        aspText += "Plasma cells are";
+        if (document.getElementById('aspPlasmaMarked')?.checked) {
+            aspText += " markedly";
+        } else if (document.getElementById('aspPlasmaMild')?.checked) {
+            aspText += " mildly";
+        }
+        aspText += " increased";
+        
         if (plasmaListString !== '') {
             aspText += ` and show ${plasmaListString}`;
             let plasmaUnrem = document.getElementById('plasmaUnremarkable');
@@ -1630,7 +1671,8 @@ function fillImmunostains() {
 }
 
 function stainTable(array, label) {
-    let stainText = `${label}<br><table class="templateTable" style="width:600px; font-size:10pt; style="border-collapse: collapse">`;
+    let stainText = `${label}<br><table class="templateTable" style="width:600px; font-size:10pt; border-collapse: collapse;">`;
+
     for (let i = 0; i < array.length; i++) {
         stainText += `<tr><td style="width:30%; border: 1px solid black; padding-left: 5px;">${array[i][0]}</td><td style="width:70%; border: 1px solid black; padding-left: 5px;">${array[i][1]}</td></tr>`;
     }
